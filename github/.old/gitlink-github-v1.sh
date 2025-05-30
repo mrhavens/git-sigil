@@ -5,8 +5,6 @@ IFS=$'\n\t'
 
 GIT_REMOTE_NAME="github"
 REPO_NAME=$(basename "$(pwd)")
-DEFAULT_NAME="Mark Randall Havens"
-DEFAULT_EMAIL="mark.r.havens@gmail.com"
 
 # ────────────────
 # Logging Helpers
@@ -16,17 +14,17 @@ warn()  { echo -e "\e[1;33m[WARN]\e[0m $*"; }
 error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
 
 # ────────────────
-# Ensure Git is Installed
+# Check/install git
 # ────────────────
 if ! command -v git &>/dev/null; then
-  info "Installing Git..."
-  sudo apt update && sudo apt install git -y || error "Failed to install Git"
+  info "Installing git..."
+  sudo apt update && sudo apt install git -y || error "Failed to install git"
 else
   info "Git already installed: $(git --version)"
 fi
 
 # ────────────────
-# Ensure GitHub CLI is Installed
+# Check/install GitHub CLI
 # ────────────────
 if ! command -v gh &>/dev/null; then
   info "Installing GitHub CLI..."
@@ -43,78 +41,54 @@ else
 fi
 
 # ────────────────
-# Ensure GitHub CLI is Authenticated
+# Authenticate GitHub CLI
 # ────────────────
 if ! gh auth status &>/dev/null; then
   info "Authenticating GitHub CLI..."
   gh auth login || error "GitHub authentication failed"
 else
-  info "GitHub CLI authenticated."
+  info "GitHub CLI authenticated as: $(gh auth status | grep 'Logged in as' | cut -d ':' -f2 | xargs)"
 fi
 
 # ────────────────
-# Ensure Git Identity is Set
-# ────────────────
-USER_NAME=$(git config --global user.name || true)
-USER_EMAIL=$(git config --global user.email || true)
-
-if [[ -z "$USER_NAME" || -z "$USER_EMAIL" ]]; then
-  info "Setting global Git identity..."
-  git config --global user.name "$DEFAULT_NAME"
-  git config --global user.email "$DEFAULT_EMAIL"
-  info "Git identity set to: $DEFAULT_NAME <$DEFAULT_EMAIL>"
-else
-  info "Git identity already set to: $USER_NAME <$USER_EMAIL>"
-fi
-
-# ────────────────
-# Initialize Git Repo If Missing
+# Initialize Git Repo
 # ────────────────
 if [ ! -d ".git" ]; then
-  info "Initializing local Git repository..."
-  git init || error "Failed to initialize git"
-  git add . || warn "Nothing to add"
+  info "Initializing local Git repo..."
+  git init || error "Git init failed"
+  git add . || warn "No files to add"
   git commit -m "Initial commit" || warn "Nothing to commit"
 else
-  info "Git repository already initialized."
+  info "Git repo already initialized."
 fi
 
 # ────────────────
-# Ensure at Least One Commit Exists
-# ────────────────
-if ! git rev-parse HEAD &>/dev/null; then
-  info "Creating first commit..."
-  git add . || warn "Nothing to add"
-  git commit -m "Initial commit" || warn "Nothing to commit"
-fi
-
-# ────────────────
-# Create Remote GitHub Repo If Missing
+# Create GitHub remote if missing
 # ────────────────
 if ! git remote get-url "$GIT_REMOTE_NAME" &>/dev/null; then
-  info "Creating GitHub repository '$REPO_NAME'..."
-  gh repo create "$REPO_NAME" --public --source=. --remote="$GIT_REMOTE_NAME" --push || error "Failed to create GitHub repo"
+  info "Creating GitHub repo '$REPO_NAME' via CLI..."
+  gh repo create "$REPO_NAME" --public --source=. --remote="$GIT_REMOTE_NAME" --push || error "GitHub repo creation failed"
 else
   info "Remote '$GIT_REMOTE_NAME' already set to: $(git remote get-url $GIT_REMOTE_NAME)"
 fi
 
 # ────────────────
-# Commit Changes If Needed
+# Commit changes if needed
 # ────────────────
 if ! git diff --quiet || ! git diff --cached --quiet; then
   info "Changes detected — committing..."
-  git add .
+  git add . || warn "Nothing staged"
   git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S')" || warn "Nothing to commit"
 else
-  info "No uncommitted changes found."
+  info "No uncommitted changes."
 fi
 
 # ────────────────
-# Push If Branch Is Ahead
+# Push if branch is ahead
 # ────────────────
 if git status | grep -q "Your branch is ahead"; then
-  info "Pushing to GitHub..."
+  info "Pushing changes to GitHub..."
   git push "$GIT_REMOTE_NAME" "$(git rev-parse --abbrev-ref HEAD)" || error "Push failed"
 else
-  info "No push needed. Everything is up to date."
+  info "No push needed. Local and remote are synced."
 fi
