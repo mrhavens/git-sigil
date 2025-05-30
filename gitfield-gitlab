@@ -5,7 +5,7 @@ IFS=$'\n\t'
 # ────────────────
 # Configuration
 # ────────────────
-GIT_REMOTE_NAME="origin"
+GIT_REMOTE_NAME="gitlab"
 REPO_NAME=$(basename "$(pwd)")
 DEFAULT_NAME="Mark Randall Havens"
 DEFAULT_EMAIL="mark.r.havens@gmail.com"
