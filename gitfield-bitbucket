@@ -2,112 +2,83 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# ╭───────────────────────────────╮
-# │         CONFIG & PATHS        │
-# ╰───────────────────────────────╯
+# ╭────────── Configuration ──────────╮
 REMOTE_NAME="bitbucket"
+WORKSPACE="thefoldwithin"
 REPO_NAME=$(basename "$(pwd)")
-BB_USER="mrhavens"
-DEFAULT_NAME="Mark Randall Havens"
-DEFAULT_EMAIL="mark.r.havens@gmail.com"
-APP_PASS_FILE="$HOME/.bitbucket_app_password"
+USERNAME="mrhavens"
+EMAIL="mark.r.havens@gmail.com"
+BB_API="https://api.bitbucket.org/2.0/repositories/$WORKSPACE/$REPO_NAME"
+CRED_FILE="$HOME/.bitbucket_app_password"
 
-# ╭───────────────────────────────╮
-# │            LOGGING            │
-# ╰───────────────────────────────╯
+# ╭────────── Logging Helpers ──────────╮
 info()  { echo -e "\e[1;34m[INFO]\e[0m $*"; }
 warn()  { echo -e "\e[1;33m[WARN]\e[0m $*"; }
 error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
 
-# ╭───────────────────────────────╮
-# │     GIT + SSH PREREQUISITES   │
-# ╰───────────────────────────────╯
+# ╭────────── Prerequisites ──────────╮
 info "Checking prerequisites..."
 sudo apt update -qq
-sudo apt install -y git openssh-client curl jq || error "Install failed"
+sudo apt install -y git curl openssh-client jq || error "Missing packages"
 
-git config --global user.name "$DEFAULT_NAME"
-git config --global user.email "$DEFAULT_EMAIL"
-info "Git identity: $DEFAULT_NAME <$DEFAULT_EMAIL>"
+# ╭────────── Git Identity ──────────╮
+git config --global user.name "$USERNAME"
+git config --global user.email "$EMAIL"
+info "Git identity: $USERNAME <$EMAIL>"
 
-# ╭───────────────────────────────╮
-# │         SSH KEY SETUP         │
-# ╰───────────────────────────────╯
-if [ ! -f "$HOME/.ssh/id_rsa" ]; then
-  info "Generating new SSH key..."
-  ssh-keygen -t rsa -b 4096 -C "$DEFAULT_EMAIL" -f "$HOME/.ssh/id_rsa" -N ""
+# ╭────────── SSH Key Setup ──────────╮
+if [ ! -f ~/.ssh/id_rsa ]; then
+  info "Generating SSH key..."
+  ssh-keygen -t rsa -b 4096 -C "$EMAIL" -f ~/.ssh/id_rsa -N ""
 fi
 
 eval "$(ssh-agent -s)"
-ssh-add "$HOME/.ssh/id_rsa"
+ssh-add ~/.ssh/id_rsa
 
-info "Testing SSH connection to Bitbucket..."
-if ! ssh -T git@bitbucket.org 2>&1 | grep -q "authenticated"; then
-  PUBKEY=$(<"$HOME/.ssh/id_rsa.pub")
-  info "❗ SSH connection not verified."
-  echo -e "\n🔐 Add this public key to your Bitbucket account:\n"
-  echo "$PUBKEY"
-  echo -e "\n→ https://bitbucket.org/account/settings/ssh-keys/"
-  exit 1
-fi
-
-# ╭───────────────────────────────╮
-# │     APP PASSWORD SETUP        │
-# ╰───────────────────────────────╯
-if [ ! -f "$APP_PASS_FILE" ]; then
-  echo -e "\n🔐 Create a Bitbucket App Password with:"
-  echo "  ✅ permissions: Repositories (Read+Write), SSH, and Webhooks"
-  echo "  🔗 https://bitbucket.org/account/settings/app-passwords/\n"
-  read -rsp "Paste your Bitbucket App Password: " BB_APP_PASS
-  echo "$BB_APP_PASS" > "$APP_PASS_FILE"
-  chmod 600 "$APP_PASS_FILE"
-  echo
-else
-  BB_APP_PASS=$(<"$APP_PASS_FILE")
-fi
-
-# ╭───────────────────────────────╮
-# │       BITBUCKET API CALL      │
-# ╰───────────────────────────────╯
-API_URL="https://api.bitbucket.org/2.0/repositories/$BB_USER/$REPO_NAME"
-
-REPO_EXISTS=$(curl -s -u "$BB_USER:$BB_APP_PASS" "$API_URL" | jq -r .type || echo "none")
-if [[ "$REPO_EXISTS" != "repository" ]]; then
-  info "Creating Bitbucket repository '$REPO_NAME' via API..."
-  curl -s -X POST "$API_URL" \
-    -u "$BB_USER:$BB_APP_PASS" \
-    -H "Content-Type: application/json" \
-    -d "{\"scm\": \"git\", \"is_private\": false, \"project\": {\"key\": \"~$BB_USER\"}}" |
-    grep -q "\"type\": \"repository\"" || warn "⚠️ Repo may already exist or failed to create (HTTP 401)"
-else
-  info "Bitbucket repository already exists."
-fi
-
-REMOTE_URL="git@bitbucket.org:$BB_USER/$REPO_NAME.git"
-if ! git remote get-url "$REMOTE_NAME" &>/dev/null; then
-  git remote add "$REMOTE_NAME" "$REMOTE_URL"
-  info "Remote added: $REMOTE_NAME → $REMOTE_URL"
-else
-  info "Remote already set: $REMOTE_NAME → $(git remote get-url "$REMOTE_NAME")"
-fi
-
-# ╭───────────────────────────────╮
-# │         GIT INITIALIZATION    │
-# ╰───────────────────────────────╯
+# ╭────────── Git Initialization ──────────╮
 if [ ! -d .git ]; then
+  info "Initializing git..."
   git init
   git add . || warn "Nothing to add"
   git commit -m "Initial commit" || warn "Nothing to commit"
-  info "Git repository initialized and committed"
+else
+  info "Git repository already exists."
 fi
 
-if ! git rev-parse HEAD &>/dev/null; then
-  git add . && git commit -m "Initial commit"
+# ╭────────── Bitbucket Credential ──────────╮
+if [ ! -f "$CRED_FILE" ]; then
+  echo
+  echo "🔐 Please paste your Bitbucket App Password (scopes: Repositories + SSH)"
+  echo "→ Create one at: https://bitbucket.org/account/settings/app-passwords/"
+  read -rsp "🔑 App Password: " BB_PASSWORD
+  echo "$BB_PASSWORD" > "$CRED_FILE"
+  chmod 600 "$CRED_FILE"
+  echo
+  info "Stored app password in $CRED_FILE"
 fi
 
-# ╭───────────────────────────────╮
-# │       COMMIT + PUSH LOGIC     │
-# ╰───────────────────────────────╯
+BB_PASSWORD=$(<"$CRED_FILE")
+
+# ╭────────── Create Repo via API ──────────╮
+if ! curl -s -u "$USERNAME:$BB_PASSWORD" "$BB_API" | grep -q '"slug":'; then
+  info "Creating Bitbucket repository '$REPO_NAME'..."
+  curl -s -X POST -u "$USERNAME:$BB_PASSWORD" "$BB_API" \
+    -H "Content-Type: application/json" \
+    -d "{\"scm\": \"git\", \"is_private\": false}" | jq .
+else
+  warn "Repo may already exist or is already accessible"
+fi
+
+# ╭────────── Set Git Remote ──────────╮
+REMOTE_URL="git@bitbucket.org:$WORKSPACE/$REPO_NAME.git"
+if git remote get-url "$REMOTE_NAME" &>/dev/null; then
+  info "Remote '$REMOTE_NAME' already set to: $(git remote get-url "$REMOTE_NAME")"
+else
+  git remote add "$REMOTE_NAME" "$REMOTE_URL"
+  info "Remote added: $REMOTE_URL"
+fi
+
+# ╭────────── Commit + Push Logic ──────────╮
 if ! git diff --quiet || ! git diff --cached --quiet; then
   git add .
   git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S')" || warn "Nothing to commit"
@@ -116,12 +87,7 @@ else
 fi
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if ! git config --get branch."$BRANCH".remote &>/dev/null; then
-  info "Pushing with upstream..."
-  git push -u "$REMOTE_NAME" "$BRANCH" || error "Push failed"
-else
-  info "Pushing to $REMOTE_NAME/$BRANCH..."
-  git push "$REMOTE_NAME" "$BRANCH" || error "Push failed"
-fi
+info "Pushing to '$REMOTE_NAME/$BRANCH'..."
+git push -u "$REMOTE_NAME" "$BRANCH" || error "Push failed"
 
-info "✓ Bitbucket push completed successfully."
+info "✅ Bitbucket push completed successfully."
