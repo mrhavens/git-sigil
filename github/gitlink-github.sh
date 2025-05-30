@@ -110,11 +110,18 @@ else
 fi
 
 # ────────────────
-# Push If Branch Is Ahead
+# Push and Auto-Set Upstream If Needed
 # ────────────────
-if git status | grep -q "Your branch is ahead"; then
-  info "Pushing to GitHub..."
-  git push "$GIT_REMOTE_NAME" "$(git rev-parse --abbrev-ref HEAD)" || error "Push failed"
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+
+if git status 2>&1 | grep -q "no upstream"; then
+  info "Setting upstream for '$BRANCH_NAME' to '$GIT_REMOTE_NAME'..."
+  git push -u "$GIT_REMOTE_NAME" "$BRANCH_NAME" || error "Failed to push and set upstream"
 else
-  info "No push needed. Everything is up to date."
+  if git status | grep -q "Your branch is ahead"; then
+    info "Pushing to GitHub..."
+    git push "$GIT_REMOTE_NAME" "$BRANCH_NAME" || error "Push failed"
+  else
+    info "No push needed. Everything is up to date."
+  fi
 fi
