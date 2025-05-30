@@ -55,12 +55,8 @@ ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts 2>/dev/null || true
 # ╰─────────────────────────────────────╯
 info "Verifying SSH access to Bitbucket..."
 
-if ssh -T git@bitbucket.org 2>/dev/null; then
+if ssh -T git@bitbucket.org 2>&1 | grep -q "authenticated"; then
   info "✓ SSH access to Bitbucket verified."
-elif ssh -T git@bitbucket.org 2>&1 | grep -q "successfully authenticated"; then
-  info "✓ SSH authentication to Bitbucket accepted."
-elif ssh -T git@bitbucket.org; [[ $? == 1 ]]; then
-  info "✓ SSH connected — Bitbucket returned expected code 1."
 else
   warn "❌ SSH key not authorized with Bitbucket."
   echo "→ Visit: https://bitbucket.org/account/settings/ssh-keys/"
@@ -103,24 +99,36 @@ fi
 # │     CREATE REMOTE IF NOT EXISTS     │
 # ╰─────────────────────────────────────╯
 REPO_EXISTS=$(curl -s -u "$BITBUCKET_USER:$APP_PASS" "$API_URL" | jq -r '.name // empty')
+
 if [ -z "$REPO_EXISTS" ]; then
   info "Creating Bitbucket repository '$REPO_NAME'..."
-  curl -s -u "$BITBUCKET_USER:$APP_PASS" -X POST "$API_URL" \
+  CREATE_RESPONSE=$(curl -s -w "%{http_code}" -o /tmp/create_resp.txt -u "$BITBUCKET_USER:$APP_PASS" -X POST "$API_URL" \
     -H "Content-Type: application/json" \
-    -d "{\"scm\": \"git\", \"is_private\": false, \"project\": {\"key\": \"~$BITBUCKET_USER\"}}" \
-    | grep -q '"uuid"' || warn "Repo may already exist or creation failed"
+    -d "{\"scm\": \"git\", \"is_private\": false}")
+  if [[ "$CREATE_RESPONSE" != "200" && "$CREATE_RESPONSE" != "201" ]]; then
+    cat /tmp/create_resp.txt
+    error "Failed to create repository (HTTP $CREATE_RESPONSE)"
+  fi
+  info "✓ Repository created."
 else
-  info "Remote Bitbucket repo already exists."
+  info "✓ Remote Bitbucket repo already exists."
 fi
 
 # ╭─────────────────────────────────────╮
-# │          SET GIT REMOTE             │
+# │      REMOTE VALIDATION + SETUP      │
 # ╰─────────────────────────────────────╯
-if ! git remote get-url "$REMOTE_NAME" &>/dev/null; then
-  git remote add "$REMOTE_NAME" "$SSH_REMOTE"
-  info "Remote set: $SSH_REMOTE"
+EXPECTED_REMOTE="$SSH_REMOTE"
+CURRENT_REMOTE=$(git remote get-url "$REMOTE_NAME" 2>/dev/null || echo "")
+
+if [[ "$CURRENT_REMOTE" != "$EXPECTED_REMOTE" ]]; then
+  if [ -n "$CURRENT_REMOTE" ]; then
+    warn "Removing incorrect remote: $CURRENT_REMOTE"
+    git remote remove "$REMOTE_NAME"
+  fi
+  info "Setting correct Bitbucket remote: $EXPECTED_REMOTE"
+  git remote add "$REMOTE_NAME" "$EXPECTED_REMOTE"
 else
-  info "Remote already set: $(git remote get-url "$REMOTE_NAME")"
+  info "✓ Remote already correctly set to: $EXPECTED_REMOTE"
 fi
 
 # ╭─────────────────────────────────────╮
