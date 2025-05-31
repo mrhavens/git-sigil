@@ -10,25 +10,20 @@ The `git-sigil` project employs a multi-repository strategy across four distinct
 
 The following platforms host the `git-sigil` repository, each chosen for its unique strengths and contributions to the project's goals.
 
-### 1. GitHub
-- **URL**: [https://github.com/mrhavens/git-sigil](https://github.com/mrhavens/git-sigil)
-- **Purpose**: GitHub serves as the primary platform for visibility, collaboration, and community engagement. Its widespread adoption and robust tooling make it ideal for public-facing development, issue tracking, and integration with CI/CD pipelines.
-- **Value**: Provides a centralized hub for open-source contributions, pull requests, and project management, ensuring broad accessibility and developer familiarity.
+### 1. Radicle                                                                                                          - **URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ)                                                                                 - **Purpose**: Radicle is a decentralized, peer-to-peer git platform that ensures sovereignty and censorship resistance. It hosts the repository in a distributed network, independent of centralized servers.
+- **Value**: Protects against deplatforming by eliminating reliance on centralized infrastructure, ensuring the project remains accessible in a decentralized ecosystem.
 
-### 2. GitLab
-- **URL**: [https://gitlab.com/mrhavens/git-sigil](https://gitlab.com/mrhavens/git-sigil)
-- **Purpose**: GitLab offers a comprehensive DevOps platform with advanced CI/CD capabilities, private repository options, and robust access controls. It serves as a reliable backup and a platform for advanced automation workflows.
-- **Value**: Enhances project resilience with its integrated CI/CD pipelines and independent infrastructure, reducing reliance on a single provider.
+### 2. GitLab                                                                                                           - **URL**: [https://gitlab.com/mrhavens/git-sigil](https://gitlab.com/mrhavens/git-sigil)                                                                                   - **Purpose**: GitLab offers a comprehensive DevOps platform with advanced CI/CD capabilities, private repository options, and robust access controls. It serves as a reliable backup and a platform for advanced automation workflows.         - **Value**: Enhances project resilience with its integrated CI/CD pipelines and independent infrastructure, reducing reliance on a single provider.
 
 ### 3. Bitbucket
 - **URL**: [https://bitbucket.org/thefoldwithin/git-sigil](https://bitbucket.org/thefoldwithin/git-sigil)
 - **Purpose**: Bitbucket provides a secure environment for repository hosting with strong integration into Atlassian’s ecosystem (e.g., Jira, Trello). It serves as an additional layer of redundancy and a professional-grade hosting option.
 - **Value**: Offers enterprise-grade security and integration capabilities, ensuring the project remains accessible even if other platforms face disruptions.
 
-### 4. Radicle
-- **URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ)
-- **Purpose**: Radicle is a decentralized, peer-to-peer git platform that ensures sovereignty and censorship resistance. It hosts the repository in a distributed network, independent of centralized servers.
-- **Value**: Protects against deplatforming by eliminating reliance on centralized infrastructure, ensuring the project remains accessible in a decentralized ecosystem.
+### 4. GitHub
+- **URL**: [https://github.com/mrhavens/git-sigil](https://github.com/mrhavens/git-sigil)
+- **Purpose**: GitHub serves as the primary platform for visibility, collaboration, and community engagement. Its widespread adoption and robust tooling make it ideal for public-facing development, issue tracking, and integration with CI/CD pipelines.
+- **Value**: Provides a centralized hub for open-source contributions, pull requests, and project management, ensuring broad accessibility and developer familiarity.
 
 ---
 
@@ -50,7 +45,8 @@ This multi-repository approach reflects a commitment to preserving the integrity
 - **Metadata Files**: Each platform generates a metadata snapshot in the `.gitfield` directory (e.g., `github.sigil.md`, `gitlab.sigil.md`, etc.), capturing commit details, environment information, and hardware fingerprints.
 - **Push Log**: The `.gitfield/pushed.log` file records the date, time, and URL of every push operation across all platforms, providing a transparent audit trail.
 - **Recursive Sync**: The repository is synchronized across all platforms in a recursive loop (three cycles) to ensure interconnected metadata captures the latest state of the project.
+- **Push Order**: The repository is synchronized in the following order: **Radicle → GitLab → Bitbucket → GitHub**. This prioritizes Radicle’s decentralized, censorship-resistant network as the primary anchor, followed by GitLab’s robust DevOps features, Bitbucket’s enterprise redundancy, and GitHub’s broad visibility, ensuring a resilient and accessible metadata chain.
 
 ---
 
-_Auto-generated by `gitfield-sync` at 2025-05-31 08:15:13 (v1.0)._
+_Auto-generated by `gitfield-sync` at 2025-05-31 08:36:40 (v1.0)._
