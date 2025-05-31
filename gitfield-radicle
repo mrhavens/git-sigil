@@ -12,12 +12,11 @@ SCRIPT_VERSION="1.0"
 
 RAD_HOME="$HOME/.radicle"
 RAD_BIN="$RAD_HOME/bin/rad"
-RAD_KEYS="$RAD_HOME/keys.json"
-RAD_BACKUP=".radicle-backup/keys.json"
 RAD_PATH_LINE='export PATH="$HOME/.radicle/bin:$PATH"'
 PROFILE_FILE="$HOME/.bashrc"
-PUSH_STATE_FILE=".radicle-push-state"
-MARKDOWN_FILE="$(git rev-parse --show-toplevel)/.gitfield/radicle.sigil.md" && mkdir -p "$(dirname "$MARKDOWN_FILE")"
+PUSH_STATE_FILE="$(git rev-parse --show-toplevel)/.gitfield/.radicle-push-state"
+MARKDOWN_FILE="$(git rev-parse --show-toplevel)/.gitfield/radicle.sigil.md"
+mkdir -p "$(dirname "$MARKDOWN_FILE")"
 PUBLIC_GATEWAY="https://app.radicle.xyz/nodes/ash.radicle.garden"
 
 # ╭───────────────────────────────╮
@@ -54,31 +53,24 @@ if [ ! -x "$RAD_BIN" ]; then
   sudo apt install -y curl jq unzip || error "Missing dependencies"
   curl -sSf https://radicle.xyz/install | sh || error "Radicle install failed"
 fi
-
 export PATH="$HOME/.radicle/bin:$PATH"
 if ! grep -Fxq "$RAD_PATH_LINE" "$PROFILE_FILE"; then
   echo "$RAD_PATH_LINE" >> "$PROFILE_FILE"
   info "→ Added PATH to $PROFILE_FILE"
-  warn "→ Run 'source $PROFILE_FILE' to make Radicle CLI persistent"
+  warn "→ Run 'source $PROFILE_FILE' for persistent CLI access"
 fi
-
-command -v rad >/dev/null || error "Radicle CLI still unavailable. Try restarting terminal."
-
+command -v rad >/dev/null || error "Radicle CLI unavailable. Restart terminal or check PATH."
 info "Radicle CLI ready: $(rad --version)"
 
-# ╭────────────────────────────────────────────────────╮
-# │     Restore or Create Radicle Identity & Backup    │
-# ╰────────────────────────────────────────────────────╯
-mkdir -p "$(dirname "$RAD_BACKUP")"
-if [ ! -f "$RAD_KEYS" ]; then
-  if [ -f "$RAD_BACKUP" ]; then
-    info "Restoring Radicle identity from backup..."
-    cp "$RAD_BACKUP" "$RAD_KEYS" || error "Failed to restore identity"
-  else
-    info "Creating new Radicle identity..."
-    rad auth || error "Identity creation failed"
-    cp "$RAD_KEYS" "$RAD_BACKUP" || warn "Backup of identity failed"
-  fi
+# ╭───────────────────────────────╮
+# │     Radicle Identity Check    │
+# ╰───────────────────────────────╯
+info "Checking Radicle identity..."
+RAD_SELF_OUTPUT=$(rad self 2>&1 || true)
+if ! echo "$RAD_SELF_OUTPUT" | grep -q "DID"; then
+  info "Creating new Radicle identity..."
+  AUTH_OUTPUT=$(rad auth 2>&1) || error "Identity creation failed"
+  info "$AUTH_OUTPUT"
 else
   info "Radicle identity already exists."
 fi
@@ -86,28 +78,27 @@ fi
 # ╭───────────────────────────────╮
 # │        Start Rad Node         │
 # ╰───────────────────────────────╯
-pgrep -f "rad node start" >/dev/null || {
+if ! pgrep -f "rad node" >/dev/null; then
   info "Starting Radicle node..."
-  nohup rad node start > /dev/null 2>&1 &
-  sleep 10  # Increased delay to ensure node is fully started
-}
-
-# Wait for node to be ready
+  rad node start || error "Failed to start Radicle node"
+else
+  info "✓ Node is already running."
+fi
 info "Waiting for Radicle node to be ready..."
-for i in {1..5}; do
+for i in {1..30}; do
   if rad node status >/dev/null 2>&1; then
     info "Radicle node is ready."
     break
   fi
-  warn "Radicle node not ready yet, waiting... ($i/5)"
-  sleep 2
+  sleep 1
 done
-rad node status >/dev/null 2>&1 || warn "Radicle node may not be fully started, proceeding anyway."
+rad node status >/dev/null 2>&1 || error "Radicle node failed to start after 30s."
 
 # ╭───────────────────────────────╮
 # │     Git Repo Initialization   │
 # ╰───────────────────────────────╯
 if [ ! -d .git ]; then
+  info "Initializing Git repository..."
   git init
   git add . || warn "Nothing to add"
   git commit -m "Initial commit" || warn "Nothing to commit"
@@ -118,12 +109,65 @@ fi
 # ╭───────────────────────────────╮
 # │   Radicle Project Registration│
 # ╰───────────────────────────────╯
-if ! rad projects | grep -q "$PROJECT_NAME"; then
+if ! git remote | grep -q rad; then
   info "Registering Radicle project '$PROJECT_NAME'..."
-  rad init --name "$PROJECT_NAME" --description "Radicle sovereign repo for $PROJECT_NAME" || warn "Repo may already exist"
+  rad init --name "$PROJECT_NAME" --description "Radicle sovereign repo for $PROJECT_NAME" || error "Failed to initialize Radicle project"
 else
-  info "Project '$PROJECT_NAME' already registered."
+  info "Project '$PROJECT_NAME' already registered with Radicle."
 fi
+
+# ╭───────────────────────────────╮
+# │    Extract Metadata           │
+# ╰───────────────────────────────╯
+info "Extracting Radicle metadata..."
+# Extract Project ID
+PROJECT_ID=$(rad inspect | grep -o 'rad:[a-zA-Z0-9]\+' | cut -d':' -f2)
+info "→ Project ID from rad inspect: $PROJECT_ID"
+
+# Extract Peer ID
+PEER_ID=""
+# Try rad self first
+if [[ -n "$RAD_SELF_OUTPUT" ]]; then
+  PEER_ID=$(echo "$RAD_SELF_OUTPUT" | grep -o 'z6M[a-zA-Z0-9]\+' || true)
+  info "→ Peer ID from rad self: $PEER_ID"
+fi
+# If rad self didn't provide it, try AUTH_OUTPUT if it exists
+if [[ -z "$PEER_ID" && -n "${AUTH_OUTPUT:-}" ]]; then
+  PEER_ID=$(echo "$AUTH_OUTPUT" | grep -o 'z6M[a-zA-Z0-9]\+' || true)
+  info "→ Peer ID from rad auth: $PEER_ID"
+fi
+# If still empty, try rad node status as a last resort
+if [[ -z "$PEER_ID" ]]; then
+  NODE_STATUS=$(rad node status 2>&1)
+  PEER_ID=$(echo "$NODE_STATUS" | grep -o 'z6M[a-zA-Z0-9]\+' || true)
+  info "→ Peer ID from rad node status: $PEER_ID"
+fi
+
+# Cross-check with Git remote
+RAD_REMOTE=$(git remote -v | grep rad | head -n1 | awk '{print $2}' || true)
+if [[ -n "$RAD_REMOTE" ]]; then
+  REMOTE_PROJECT_ID=$(echo "$RAD_REMOTE" | cut -d'/' -f3)
+  REMOTE_PEER_ID=$(echo "$RAD_REMOTE" | cut -d'/' -f4)
+  info "→ Project ID from Git remote: $REMOTE_PROJECT_ID"
+  info "→ Peer ID from Git remote: $REMOTE_PEER_ID"
+  [[ "$PROJECT_ID" != "$REMOTE_PROJECT_ID" ]] && warn "Project ID mismatch: rad inspect ($PROJECT_ID) vs remote ($REMOTE_PROJECT_ID)"
+  if [[ -z "$PEER_ID" && -n "$REMOTE_PEER_ID" ]]; then
+    PEER_ID="$REMOTE_PEER_ID"
+    info "→ Using Peer ID from Git remote as fallback: $PEER_ID"
+  elif [[ -n "$REMOTE_PEER_ID" && "$PEER_ID" != "$REMOTE_PEER_ID" ]]; then
+    warn "Peer ID mismatch: rad self ($PEER_ID) vs remote ($REMOTE_PEER_ID)"
+    PEER_ID="$REMOTE_PEER_ID"  # Prefer the remote Peer ID as it's part of the actual repo URL
+    info "→ Using Peer ID from Git remote: $PEER_ID"
+  fi
+  PROJECT_ID="$REMOTE_PROJECT_ID"  # Prefer the remote Project ID as it's the actual repo identifier
+fi
+
+# Final validation
+if [[ -z "$PROJECT_ID" || -z "$PEER_ID" ]]; then
+  error "Failed to determine Project ID ($PROJECT_ID) or Peer ID ($PEER_ID). Please check Radicle configuration."
+fi
+REPO_URN="rad://$PROJECT_ID"
+info "✓ Metadata extracted successfully: Project ID: $PROJECT_ID, Peer ID: $PEER_ID"
 
 # ╭───────────────────────────────╮
 # │    Push Current Commit Logic  │
@@ -132,100 +176,57 @@ CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 CURRENT_COMMIT=$(git rev-parse HEAD)
 LAST_PUSHED_COMMIT=$(cat "$PUSH_STATE_FILE" 2>/dev/null || echo "none")
 
-# Initialize variables for Radicle metadata
-PROJECT_ID=""
-PEER_ID=""
-PUBLIC_GATEWAY_URL=""
-
 if [[ "$CURRENT_COMMIT" == "$LAST_PUSHED_COMMIT" ]]; then
   info "✓ Already pushed commit: $CURRENT_COMMIT"
-  # Use rad self to get PROJECT_ID and PEER_ID
-  RAD_SELF_OUTPUT=$(rad self 2>&1)
-  if [[ $? -eq 0 ]]; then
-    PROJECT_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Project ID' | awk '{print $NF}' || echo "Unknown")
-    PEER_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Peer ID' | awk '{print $NF}' || echo "Unknown")
-  else
-    warn "Failed to get Radicle metadata with rad self: $RAD_SELF_OUTPUT"
-    error "Cannot proceed without Radicle metadata."
-  fi
-  REPO_URN="rad://$PROJECT_ID"
-  PUBLIC_GATEWAY_URL="$PUBLIC_GATEWAY/$REPO_URN/tree/$CURRENT_COMMIT"
 else
   info "Pushing commit '$CURRENT_COMMIT' on branch '$CURRENT_BRANCH'..."
-  # Capture the output of git push rad
-  PUSH_OUTPUT=$(git push rad "$CURRENT_BRANCH" 2>&1)
-  if [[ $? -eq 0 ]]; then
+  if git push rad "$CURRENT_BRANCH"; then
     echo "$CURRENT_COMMIT" > "$PUSH_STATE_FILE"
     info "✓ Pushed to Radicle successfully"
-    # Extract PROJECT_ID and PEER_ID from the push output
-    PROJECT_ID=$(echo "$PUSH_OUTPUT" | grep -o 'rad://[a-zA-Z0-9]\+' | head -1 | cut -d'/' -f3 || echo "Unknown")
-    PEER_ID=$(echo "$PUSH_OUTPUT" | grep -o 'rad://[a-zA-Z0-9]\+/[a-zA-Z0-9]\+' | head -1 | cut -d'/' -f4 || echo "Unknown")
-    # Extract the public gateway URL from the push output
-    PUBLIC_GATEWAY_URL=$(echo "$PUSH_OUTPUT" | grep -o 'https://app.radicle.xyz/nodes/ash.radicle.garden/rad:[a-zA-Z0-9]\+/tree/[a-f0-9]\+' | head -1 || echo "")
-    if [[ -z "$PUBLIC_GATEWAY_URL" || "$PROJECT_ID" == "Unknown" || "$PEER_ID" == "Unknown" ]]; then
-      warn "Failed to extract Radicle metadata from push output, falling back to rad self"
-      RAD_SELF_OUTPUT=$(rad self 2>&1)
-      if [[ $? -eq 0 ]]; then
-        PROJECT_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Project ID' | awk '{print $NF}' || echo "Unknown")
-        PEER_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Peer ID' | awk '{print $NF}' || echo "Unknown")
-        REPO_URN="rad://$PROJECT_ID"
-        PUBLIC_GATEWAY_URL="$PUBLIC_GATEWAY/$REPO_URN/tree/$CURRENT_COMMIT"
-      else
-        warn "Failed to get Radicle metadata with rad self: $RAD_SELF_OUTPUT"
-        error "Cannot proceed without Radicle metadata."
-      fi
-    fi
   else
-    warn "Push may have failed — check 'rad sync status'"
-    warn "Push output: $PUSH_OUTPUT"
+    warn "Push failed — check 'rad sync status'"
     error "Push failed, cannot proceed."
   fi
 fi
 
-# Verify that PROJECT_ID and PEER_ID are valid
-if [[ "$PROJECT_ID" == "Unknown" || "$PEER_ID" == "Unknown" ]]; then
-  error "Failed to retrieve valid Radicle metadata (Project ID: $PROJECT_ID, Peer ID: $PEER_ID)."
-fi
-
-REPO_URN="rad://$PROJECT_ID"
-
 # ╭─────────────────────────────────────╮
-# │       GIT METADATA SNAPSHOT         │
+# │       Git Metadata Snapshot         │
 # ╰─────────────────────────────────────╯
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
-DEFAULT_BRANCH="$(git symbolic-ref --short HEAD)"
+DEFAULT_BRANCH="$CURRENT_BRANCH"
 REPO_PATH="$(git rev-parse --show-toplevel)"
-LATEST_SHA=$(git rev-parse HEAD)
+LATEST_SHA="$CURRENT_COMMIT"
 LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
 LAST_COMMIT_DATE=$(git log -1 --pretty=format:"%ad")
 LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>")
 TOTAL_COMMITS=$(git rev-list --count HEAD)
 TRACKED_FILES=$(git ls-files | wc -l)
-UNCOMMITTED=$(if ! git diff --quiet || ! git diff --cached --quiet; then echo "Yes"; else echo "No"; fi)
+UNCOMMITTED=$(git diff --quiet && git diff --cached --quiet && echo "No" || echo "Yes")
 LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "None")
 HOSTNAME=$(hostname)
 CURRENT_USER=$(whoami)
 TIMEZONE=$(date +%Z)
 
 # ╭─────────────────────────────────────╮
-# │   HARDWARE + OS FINGERPRINT BLOCK   │
+# │   Hardware + OS Fingerprint Block   │
 # ╰─────────────────────────────────────╯
 OS_NAME=$(uname -s)
 KERNEL_VERSION=$(uname -r)
 ARCHITECTURE=$(uname -m)
-OS_PRETTY_NAME=$(grep PRETTY_NAME /etc/os-release 2>/dev/null | cut -d= -f2 | tr -d '"') || OS_PRETTY_NAME="Unknown"
+OS_PRETTY_NAME=$(grep PRETTY_NAME /etc/os-release 2>/dev/null | cut -d= -f2 | tr -d '"' || echo "Unknown")
 DOCKER_CHECK=$(grep -qE '/docker|/lxc' /proc/1/cgroup 2>/dev/null && echo "Yes" || echo "No")
 WSL_CHECK=$(grep -qi microsoft /proc/version 2>/dev/null && echo "Yes" || echo "No")
 VM_CHECK=$(systemd-detect-virt 2>/dev/null || echo "Unknown")
 UPTIME=$(uptime -p 2>/dev/null || echo "Unknown")
-MAC_ADDR=$(ip link | awk '/ether/ {print $2}' | head -n 1)
-LOCAL_IP=$(hostname -I | awk '{print $1}')
-CPU_MODEL=$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | sed 's/^ //')
-RAM_GB=$(awk '/MemTotal/ {printf "%.2f", $2/1024/1024}' /proc/meminfo)
+MAC_ADDR=$(ip link | awk '/ether/ {print $2}' | head -n 1 || echo "Unknown")
+LOCAL_IP=$(hostname -I | awk '{print $1}' || echo "Unknown")
+CPU_MODEL=$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | sed 's/^ //' || echo "Unknown")
+RAM_GB=$(awk '/MemTotal/ {printf "%.2f", $2/1024/1024}' /proc/meminfo || echo "Unknown")
 
 # ╭─────────────────────────────────────╮
-# │    WRITE RICH MARKDOWN ARTIFACT     │
+# │    Write Rich Markdown Artifact     │
 # ╰─────────────────────────────────────╯
+PUBLIC_GATEWAY_URL="$PUBLIC_GATEWAY/rad:$PROJECT_ID/tree/$LATEST_SHA"
 cat > "$MARKDOWN_FILE" <<EOF
 # 🔗 Radicle Repository Link
 
@@ -302,17 +303,16 @@ info "✓ Project ID: $PROJECT_ID"
 info "→ Peer ID: $PEER_ID (Share to connect)"
 info "🔗 View in browser: $PUBLIC_GATEWAY_URL"
 
-# Commit the markdown file
-git add "$MARKDOWN_FILE"
-git commit -m "Radicle metadata link commit at $TIMESTAMP" || warn "No changes to commit for $MARKDOWN_FILE"
-
-# Push the updated commit
-if [[ "$CURRENT_COMMIT" != "$LAST_PUSHED_COMMIT" ]]; then
-  info "Pushing updated commit with metadata..."
+# Commit the Markdown file if changed
+if ! git diff --quiet "$MARKDOWN_FILE" 2>/dev/null || ! git ls-files "$MARKDOWN_FILE" --error-unmatch >/dev/null 2>&1; then
+  git add "$MARKDOWN_FILE"
+  git commit -m "Update Radicle metadata at $TIMESTAMP" || warn "No changes to commit for $MARKDOWN_FILE"
   if git push rad "$CURRENT_BRANCH"; then
     echo "$CURRENT_COMMIT" > "$PUSH_STATE_FILE"
-    info "✓ Pushed updated commit to Radicle successfully"
+    info "✓ Pushed metadata update to Radicle"
   else
-    warn "Push may have failed — check 'rad sync status'"
+    warn "Metadata push failed — check 'rad sync status'"
   fi
+else
+  info "No changes to $MARKDOWN_FILE; skipping commit."
 fi
