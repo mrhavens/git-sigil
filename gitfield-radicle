@@ -2,12 +2,11 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# ╭──────────────────────────────╮
-# │       Config & Identity      │
-# ╰──────────────────────────────╯
 PROJECT_NAME=$(basename "$(pwd)")
 DEFAULT_NAME="Mark Randall Havens"
 DEFAULT_EMAIL="mark.r.havens@gmail.com"
+SCRIPT_VERSION="1.0"
+
 RAD_HOME="$HOME/.radicle"
 RAD_BIN="$RAD_HOME/bin/rad"
 RAD_KEYS="$RAD_HOME/keys.json"
@@ -16,179 +15,154 @@ RAD_PATH_LINE='export PATH="$HOME/.radicle/bin:$PATH"'
 PROFILE_FILE="$HOME/.bashrc"
 PUSH_STATE_FILE=".radicle-push-state"
 MARKDOWN_FILE=".radicle-link.md"
-SCRIPT_VERSION="1.0"
-
-SEED_GARDEN="seed.radicle.garden"
-SEED_KAIROS="kairos-seed.thefoldwithin.earth"
-SEED_RAW="app.radicle.network"
 
 info()  { echo -e "\e[1;34m[INFO]\e[0m $*"; }
 warn()  { echo -e "\e[1;33m[WARN]\e[0m $*"; }
 error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
 
-# ╭──────────────────────────────╮
-# │     Ensure Git is Ready      │
-# ╰──────────────────────────────╯
-command -v git >/dev/null || {
-  sudo apt update && sudo apt install -y git
-}
+# Ensure tools
+sudo apt update -qq
+sudo apt install -y git curl jq unzip || error "Missing deps"
+
+if [ ! -x "$RAD_BIN" ]; then
+  curl -sSf https://radicle.xyz/install | sh || error "Radicle install failed"
+fi
+export PATH="$HOME/.radicle/bin:$PATH"
+grep -qxF "$RAD_PATH_LINE" "$PROFILE_FILE" || echo "$RAD_PATH_LINE" >> "$PROFILE_FILE"
+
+command -v rad >/dev/null || error "Radicle CLI unavailable"
+
+# Git config
 git config --global user.name "$DEFAULT_NAME"
 git config --global user.email "$DEFAULT_EMAIL"
 
-# ╭──────────────────────────────╮
-# │    Radicle CLI Installation  │
-# ╰──────────────────────────────╯
-if [ ! -x "$RAD_BIN" ]; then
-  sudo apt install -y curl jq unzip
-  curl -sSf https://radicle.xyz/install | sh
-fi
+[ -d .git ] || git init
+git add . || true
+git commit -m "Initial commit" || true
 
-export PATH="$HOME/.radicle/bin:$PATH"
-if ! grep -Fxq "$RAD_PATH_LINE" "$PROFILE_FILE"; then
-  echo "$RAD_PATH_LINE" >> "$PROFILE_FILE"
-  warn "→ Run 'source $PROFILE_FILE' to make Radicle persistent"
-fi
-
-command -v rad >/dev/null || error "Radicle CLI not available."
-
-# ╭──────────────────────────────╮
-# │   Identity Restore/Create    │
-# ╰──────────────────────────────╯
+# Identity setup
 mkdir -p "$(dirname "$RAD_BACKUP")"
-if [ ! -f "$RAD_KEYS" ]; then
-  if [ -f "$RAD_BACKUP" ]; then
-    cp "$RAD_BACKUP" "$RAD_KEYS"
-  else
-    rad auth
+[ -f "$RAD_KEYS" ] || {
+  [ -f "$RAD_BACKUP" ] && cp "$RAD_BACKUP" "$RAD_KEYS" || {
+    rad auth || error "Failed to create identity"
     cp "$RAD_KEYS" "$RAD_BACKUP"
-  fi
-fi
-
-# ╭──────────────────────────────╮
-# │      Start Radicle Node      │
-# ╰──────────────────────────────╯
-pgrep -f "rad node start" >/dev/null || {
-  nohup rad node start > /dev/null 2>&1 &
-  sleep 3
+  }
 }
 
-# ╭──────────────────────────────╮
-# │     Git Repo Initialization  │
-# ╰──────────────────────────────╯
-if [ ! -d .git ]; then
-  git init
-  git add .
-  git commit -m "Initial commit"
-fi
+# Start node
+pgrep -f "rad node start" >/dev/null || nohup rad node start >/dev/null 2>&1 &
 
-# ╭──────────────────────────────╮
-# │    Project Registration      │
-# ╰──────────────────────────────╯
-if ! rad projects | grep -q "$PROJECT_NAME"; then
-  rad init --name "$PROJECT_NAME" --description "Radicle sovereign repo for $PROJECT_NAME"
-fi
+# Register project
+rad projects | grep -q "$PROJECT_NAME" || \
+rad init --name "$PROJECT_NAME" --description "Radicle sovereign repo for $PROJECT_NAME"
 
-# ╭──────────────────────────────╮
-# │       Push to Radicle        │
-# ╰──────────────────────────────╯
-CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
-CURRENT_COMMIT=$(git rev-parse HEAD)
-LAST_PUSHED_COMMIT=$(cat "$PUSH_STATE_FILE" 2>/dev/null || echo "none")
+# Push commit
+BRANCH=$(git symbolic-ref --short HEAD)
+COMMIT=$(git rev-parse HEAD)
+LAST_PUSHED=$(cat "$PUSH_STATE_FILE" 2>/dev/null || echo "none")
+[ "$COMMIT" = "$LAST_PUSHED" ] || {
+  git push rad "$BRANCH" && echo "$COMMIT" > "$PUSH_STATE_FILE"
+}
 
-if [[ "$CURRENT_COMMIT" != "$LAST_PUSHED_COMMIT" ]]; then
-  git push rad "$CURRENT_BRANCH" && echo "$CURRENT_COMMIT" > "$PUSH_STATE_FILE"
-else
-  echo "✓ Already pushed: $CURRENT_COMMIT"
-fi
+# Metadata
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+REPO_PATH=$(pwd)
+LATEST_SHA=$COMMIT
+LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+LAST_COMMIT_DATE=$(git log -1 --pretty=format:"%ad")
+LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>")
+TOTAL_COMMITS=$(git rev-list --count HEAD)
+TRACKED_FILES=$(git ls-files | wc -l)
+UNCOMMITTED=$(if ! git diff --quiet || ! git diff --cached --quiet; then echo "Yes"; else echo "No"; fi)
+LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "None")
 
-# ╭──────────────────────────────╮
-# │     Extract IDs + Metadata   │
-# ╰──────────────────────────────╯
-PROJECT_ID=$(rad self | grep 'Project ID' | awk '{print $NF}')
-PEER_ID=$(rad self | grep 'Peer ID' | awk '{print $NF}')
-URL_GARDEN="https://app.radicle.xyz/nodes/$SEED_GARDEN/rad:$PROJECT_ID"
-URL_KAIROS="https://app.radicle.xyz/nodes/$SEED_KAIROS/rad:$PROJECT_ID"
-URL_RAW="https://$SEED_RAW/rad:$PROJECT_ID"
+HOSTNAME=$(hostname)
+CURRENT_USER=$(whoami)
+TIMEZONE=$(date +%Z)
 
 OS_NAME=$(uname -s)
 KERNEL_VERSION=$(uname -r)
-ARCH=$(uname -m)
+ARCHITECTURE=$(uname -m)
+OS_PRETTY_NAME=$(grep PRETTY_NAME /etc/os-release | cut -d= -f2 | tr -d '"')
+DOCKER_CHECK=$(grep -qE '/docker|/lxc' /proc/1/cgroup && echo "Yes" || echo "No")
 WSL_CHECK=$(grep -qi microsoft /proc/version && echo "Yes" || echo "No")
-DOCKER_CHECK=$(grep -qE '/docker|/lxc/' /proc/1/cgroup && echo "Yes" || echo "No")
-HOSTNAME=$(hostname)
-USER_NAME=$(whoami)
-TIMEZONE=$(date +%Z)
-UPTIME=$(uptime -p || echo "Unknown")
-MAC_ADDR=$(ip link | awk '/ether/ {print $2}' | head -n1)
+VM_CHECK=$(systemd-detect-virt 2>/dev/null || echo "Unknown")
+UPTIME=$(uptime -p)
+MAC_ADDR=$(ip link | awk '/ether/ {print $2}' | head -n 1)
 LOCAL_IP=$(hostname -I | awk '{print $1}')
-CPU_MODEL=$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)
+CPU_MODEL=$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | sed 's/^ //')
 RAM_GB=$(awk '/MemTotal/ {printf "%.2f", $2/1024/1024}' /proc/meminfo)
-TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
-# ╭──────────────────────────────╮
-# │     Write Metadata File      │
-# ╰──────────────────────────────╯
+PROJECT_ID=$(rad self | grep 'Project ID' | awk '{print $NF}')
+PEER_ID=$(rad self | grep 'Peer ID' | awk '{print $NF}')
+RAD_LINK="rad:$PROJECT_ID"
+
 cat > "$MARKDOWN_FILE" <<EOF
-# 🔗 Radicle Project Link Metadata
+# 🕸️ Radicle Repository Link
 
-**Project Name**: \`$PROJECT_NAME\`  
-**Peer ID**: \`$PEER_ID\`  
-**Project ID**: \`$PROJECT_ID\`
-
----
-
-## 🌐 Gateway Access URLs
-
-- **Radicle Garden**: [$URL_GARDEN]($URL_GARDEN)
-- **Kairos Seed**: [$URL_KAIROS]($URL_KAIROS)
-- **Raw Gateway**: [$URL_RAW]($URL_RAW)
+- **Repo Name**: \`$PROJECT_NAME\`
+- **Radicle Project ID**: \`$PROJECT_ID\`
+- **Radicle Peer ID**: \`$PEER_ID\`
+- **Radicle URL**: \`$RAD_LINK\`
+- **Local Repo Path**: \`$REPO_PATH\`
+- **Remote Label**: \`rad\`
+- **Default Branch**: \`$BRANCH\`
+- **Repo Synced**: \`$TIMESTAMP\`
 
 ---
 
-## 📦 Commit Metadata
+## 📦 Commit Info
 
-- **Branch**: \`$CURRENT_BRANCH\`
-- **Commit SHA**: \`$CURRENT_COMMIT\`
-- **Timestamp**: \`$TIMESTAMP\`
+- **Commit Timestamp**: \`$TIMESTAMP\`
+- **Last Commit SHA**: \`$LATEST_SHA\`
+- **Commit Message**: \`$LAST_COMMIT_MSG\`
+- **Commit Author**: \`$LAST_COMMIT_AUTHOR\`
+- **Commit Date**: \`$LAST_COMMIT_DATE\`
+
+---
+
+## 📊 Repo Status
+
+- **Total Commits**: \`$TOTAL_COMMITS\`
+- **Tracked Files**: \`$TRACKED_FILES\`
+- **Uncommitted Changes**: \`$UNCOMMITTED\`
+- **Latest Tag**: \`$LATEST_TAG\`
+
+---
+
+## 🧭 Environment
+
+- **Host Machine**: \`$HOSTNAME\`
+- **Current User**: \`$CURRENT_USER\`
+- **Time Zone**: \`$TIMEZONE\`
 - **Script Version**: \`v$SCRIPT_VERSION\`
 
 ---
 
-## 🧬 Host & OS Fingerprint
+## 🧬 Hardware & OS Fingerprint
 
-- **Host Machine**: \`$HOSTNAME\`
-- **User**: \`$USER_NAME\`
-- **Time Zone**: \`$TIMEZONE\`
-- **WSL**: \`$WSL_CHECK\`
-- **Docker**: \`$DOCKER_CHECK\`
 - **OS Name**: \`$OS_NAME\`
-- **Kernel**: \`$KERNEL_VERSION\`
-- **Architecture**: \`$ARCH\`
-- **CPU**: \`$CPU_MODEL\`
-- **RAM (GB)**: \`$RAM_GB\`
-- **Uptime**: \`$UPTIME\`
-- **MAC**: \`$MAC_ADDR\`
+- **OS Version**: \`$OS_PRETTY_NAME\`
+- **Kernel Version**: \`$KERNEL_VERSION\`
+- **Architecture**: \`$ARCHITECTURE\`
+- **Running in Docker**: \`$DOCKER_CHECK\`
+- **Running in WSL**: \`$WSL_CHECK\`
+- **Virtual Machine**: \`$VM_CHECK\`
+- **System Uptime**: \`$UPTIME\`
+- **MAC Address**: \`$MAC_ADDR\`
 - **Local IP**: \`$LOCAL_IP\`
+- **CPU Model**: \`$CPU_MODEL\`
+- **Total RAM (GB)**: \`$RAM_GB\`
 
 ---
 
-_Auto-generated by \`gitfield-radicle\` v$SCRIPT_VERSION_
+_Auto-generated by \`gitfield-radicle\` push script._
 EOF
 
-# ╭──────────────────────────────╮
-# │     Manual Config Reminder   │
-# ╰──────────────────────────────╯
-echo -e "\n🛠️  If you want to use the Kairos seed node persistently:"
-echo "[network]"
-echo "seeds = [\"/dns4/$SEED_KAIROS/tcp/8776\"]"
-echo "→ Add above block to: \`~/.radicle/node/config.toml\`"
+git add "$MARKDOWN_FILE"
+git commit -m "Radicle metadata link commit at $TIMESTAMP" || warn "No changes to commit"
+git push rad "$BRANCH"
 
-# ╭──────────────────────────────╮
-# │       Final Output Block     │
-# ╰──────────────────────────────╯
-echo -e "\n✅ Radicle push completed."
-echo "🌐 Access URLs:"
-echo "  • Garden: $URL_GARDEN"
-echo "  • Kairos: $URL_KAIROS"
-echo "  • Raw:    $URL_RAW"
-echo "📝 Metadata written to: $MARKDOWN_FILE"
+echo -e "\n🌱 Project ID: $PROJECT_ID"
+echo -e "🌐 Peer ID: $PEER_ID"
+echo -e "🔗 Link: $RAD_LINK"
