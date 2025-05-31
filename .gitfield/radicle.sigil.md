@@ -2,28 +2,28 @@
 
 - **Project Name**: `git-sigil`
 - **Radicle URN**: `rad://z45QC21eWL1F43VSbnV9AZbCZrHQJ`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/e7c667c73af952a483b4f0fc97d6673d89519e4d](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/e7c667c73af952a483b4f0fc97d6673d89519e4d)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 07:35:26`
+- **Repo Created**: `2025-05-31 08:04:04`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 07:35:26`
-- **Last Commit SHA**: `e7c667c73af952a483b4f0fc97d6673d89519e4d`
-- **Last Commit Message**: `Bitbucket metadata link commit at 2025-05-31 07:35:04 — https://bitbucket.org/thefoldwithin/git-sigil/commits/90bb23d16aa8dafdc08bb20022ec536519477b80`
+- **This Commit Timestamp**: `2025-05-31 08:04:04`
+- **Last Commit SHA**: `65063790dc3e0c8041be3adb48a62dbd8a8516b6`
+- **Last Commit Message**: `Post-Bitbucket sync at 2025-05-31 08:03:42`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Sat May 31 07:35:04 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/e7c667c73af952a483b4f0fc97d6673d89519e4d](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/e7c667c73af952a483b4f0fc97d6673d89519e4d)
+- **Commit Date**: `Sat May 31 08:04:02 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `124`
-- **Tracked Files**: `34`
+- **Total Commits**: `131`
+- **Tracked Files**: `36`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
@@ -47,7 +47,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 12 hours, 56 minutes`
+- **System Uptime**: `up 2 days, 13 hours, 25 minutes`
 - **MAC Address**: `00:15:5d:57:40:f0`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
