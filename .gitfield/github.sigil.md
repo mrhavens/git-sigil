@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `github`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 06:54:25`
+- **This Commit Date**: `2025-05-31 07:14:57`
 
 ---
 
 ## 📦 Commit Info
 
-- **Commit Timestamp**: `2025-05-31 06:54:25`
-- **Last Commit SHA**: `d0d207fb9df5a848e464f6a3aa91ef40e5ae520d`
-- **Commit Message**: `Bitbucket metadata link commit at 2025-05-31 06:54:14 — [https://bitbucket.org/thefoldwithin/git-sigil/commits/4ebdc3a02db49bef8b94dff81c9498f7377651f7](https://bitbucket.org/thefoldwithin/git-sigil/commits/4ebdc3a02db49bef8b94dff81c9498f7377651f7)`
-- **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Sat May 31 06:54:14 2025 -0500`
-- **Commit URL**: [https://github.com/mrhavens/git-sigil/commit/d0d207fb9df5a848e464f6a3aa91ef40e5ae520d](https://github.com/mrhavens/git-sigil/commit/d0d207fb9df5a848e464f6a3aa91ef40e5ae520d)
+- **This Commit Timestamp**: `2025-05-31 07:14:57`
+- **Last Commit SHA**: `0ec0982aad8a5ffb9f6805e5da0c5a40a7a70153`
+- **Last Commit Message**: `Bitbucket metadata link commit at 2025-05-31 07:14:45 — https://bitbucket.org/thefoldwithin/git-sigil/commits/16d323f8e4bef697df3bce087292c59a7f52b107`
+- **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
+- **Last Commit Date**: `Sat May 31 07:14:45 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/0ec0982aad8a5ffb9f6805e5da0c5a40a7a70153](https://github.com/mrhavens/git-sigil/commit/0ec0982aad8a5ffb9f6805e5da0c5a40a7a70153)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `109`
-- **Tracked Files**: `35`
+- **Total Commits**: `114`
+- **Tracked Files**: `36`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 12 hours, 15 minutes`
+- **System Uptime**: `up 2 days, 12 hours, 36 minutes`
 - **MAC Address**: `00:15:5d:57:40:f0`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
