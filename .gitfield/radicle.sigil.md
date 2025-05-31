@@ -2,28 +2,28 @@
 
 - **Project Name**: `git-sigil`
 - **Radicle URN**: `rad://z45QC21eWL1F43VSbnV9AZbCZrHQJ`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/00528a68ebe717bb9abeaf113b6d888002766ea6](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/00528a68ebe717bb9abeaf113b6d888002766ea6)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 08:04:04`
+- **Repo Created**: `2025-05-31 08:04:23`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 08:04:04`
-- **Last Commit SHA**: `65063790dc3e0c8041be3adb48a62dbd8a8516b6`
+- **This Commit Timestamp**: `2025-05-31 08:04:23`
+- **Last Commit SHA**: `00528a68ebe717bb9abeaf113b6d888002766ea6`
 - **Last Commit Message**: `Post-Bitbucket sync at 2025-05-31 08:03:42`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Sat May 31 08:04:02 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/65063790dc3e0c8041be3adb48a62dbd8a8516b6)
+- **Commit Date**: `Sat May 31 08:04:22 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/00528a68ebe717bb9abeaf113b6d888002766ea6](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/00528a68ebe717bb9abeaf113b6d888002766ea6)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `131`
-- **Tracked Files**: `36`
+- **Total Commits**: `140`
+- **Tracked Files**: `37`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
