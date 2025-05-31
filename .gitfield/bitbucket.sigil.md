@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-05-31 09:27:01`
+- **This Commit Date**: `2025-05-31 16:00:02`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 09:27:01`
-- **Last Commit SHA**: `7e9a69c932122e8fa11df356e3130e11fc86151b`
-- **Last Commit Message**: `Post-GitLab sync at 2025-05-31 09:26:02`
+- **This Commit Timestamp**: `2025-05-31 16:00:02`
+- **Last Commit SHA**: `b646f061571f74c9ba3018431a08d6765cec3893`
+- **Last Commit Message**: `Post-GitLab sync at 2025-05-31 15:56:34`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 09:26:57 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/7e9a69c932122e8fa11df356e3130e11fc86151b](https://bitbucket.org/thefoldwithin/git-sigil/commits/7e9a69c932122e8fa11df356e3130e11fc86151b)
+- **Last Commit Date**: `Sat May 31 15:56:48 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/b646f061571f74c9ba3018431a08d6765cec3893](https://bitbucket.org/thefoldwithin/git-sigil/commits/b646f061571f74c9ba3018431a08d6765cec3893)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `396`
-- **Tracked Files**: `38`
+- **Total Commits**: `434`
+- **Tracked Files**: `39`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `samson`
+- **Host Machine**: `DESKTOP-E5SGI58`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 22.04.5 LTS`
-- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 24.04.2 LTS`
+- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
-- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-- **Total RAM (GB)**: `23.44`
-- **MAC Address**: `00:15:5d:57:40:f0`
-- **Local IP**: `172.28.107.95`
+- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
+- **Total RAM (GB)**: `3.63`
+- **MAC Address**: `00:15:5d:6a:4c:9a`
+- **Local IP**: `172.18.207.124`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 14 hours, 48 minutes`
+- **System Uptime**: `up 3 hours, 37 minutes`
 
 ---
 
