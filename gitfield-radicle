@@ -1,100 +1,130 @@
 #!/bin/bash
 
+# ────────────────────────────────────────────────────────────────
+# gitfield-radicle — v1.2.0
+# Pushes local Git repo to Radicle and generates access metadata
+# Author: Mark Randall Havens — The Empathic Technologist
+# ────────────────────────────────────────────────────────────────
+
 set -euo pipefail
+IFS=$'\n\t'
 
-# ── Configuration ────────────────────────────────────────────────
-REPO_NAME="git-sigil"
-REMOTE_LABEL="radicle"
-WORKING_DIR="$(pwd)"
+PROJECT_NAME="git-sigil"
+LOCAL_REPO_PATH=$(pwd)
 METADATA_FILE=".radicle-link.md"
-SCRIPT_VERSION="v1.0"
+DEFAULT_BRANCH="master"
+SEED_URL="kairos-seed.thefoldwithin.earth"
+PUBLIC_GATEWAY_GARDEN="https://app.radicle.xyz/nodes/seed.radicle.garden"
+PUBLIC_GATEWAY_KAIROS="https://app.radicle.xyz/nodes/kairos-seed.thefoldwithin.earth"
+PUBLIC_GATEWAY_RAW="https://app.radicle.network"
 
-# ── Step 1: Detect Environment ───────────────────────────────────
-USER_NAME="$(whoami)"
-HOST_NAME="$(hostname)"
-OS_INFO="$(uname -a)"
-IS_WSL=$(grep -i microsoft /proc/version &>/dev/null && echo "Yes" || echo "No")
-IS_DOCKER=$(grep -qa 'docker' /proc/1/cgroup && echo "Yes" || echo "No")
-ARCHITECTURE="$(uname -m)"
-IP_ADDR=$(hostname -I | awk '{print $1}')
-MAC_ADDR=$(ip link | awk '/ether/ {print $2}' | head -n 1)
-UPTIME="$(uptime -p | sed 's/up //')"
-CPU_MODEL=$(lscpu | grep 'Model name' | sed 's/Model name:[ \t]*//')
-TOTAL_RAM=$(free -g | awk '/^Mem:/ {print $2}')
+echo "🌱 Initializing Radicle push..."
 
-# ── Step 2: Initialize & Push ────────────────────────────────────
-rad init --name "$REPO_NAME" --description "Radicle link for $REPO_NAME"
-rad push
+# ── Ensure we're in a git repo
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+  echo "❌ Not a valid Git repository"
+  exit 1
+fi
 
-PROJECT_ID=$(rad self | grep "Project ID" | awk '{print $NF}')
+# ── Add Kairos seed node explicitly
+rad node config set seeds "/dns4/${SEED_URL}/tcp/8776"
+
+# ── Create & push to Radicle
+PROJECT_ID=$(rad init --name "$PROJECT_NAME" --default-branch "$DEFAULT_BRANCH" --no-confirm | grep "rad:" | awk '{print $NF}')
+rad push "$PROJECT_ID"
+
+# ── Retrieve peer ID
 PEER_ID=$(rad self | grep "Peer ID" | awk '{print $NF}')
-COMMIT_SHA=$(git rev-parse HEAD)
-TREE_SHA=$(git rev-parse HEAD^{tree})
-TIMESTAMP=$(date -Is)
 
-# ── Step 3: Add Custom Seed Node ─────────────────────────────────
-rad node config set seeds "[\"kairos-seed.thefoldwithin.earth:8776\"]"
+# ── Commit metadata
+COMMIT_HASH=$(git rev-parse HEAD)
+COMMIT_MSG=$(git log -1 --pretty=%B)
+COMMIT_DATE=$(git log -1 --date=iso-local --pretty=format:'%cd')
+COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an <%ae>')
+TREE_HASH=$(git rev-parse HEAD^{tree})
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%:z")
 
-# ── Step 4: Form Gateway URLs ────────────────────────────────────
-GARDEN_URL="https://app.radicle.xyz/nodes/seed.radicle.garden/rad:${PROJECT_ID}"
-KAIROS_URL="https://app.radicle.xyz/nodes/kairos-seed.thefoldwithin.earth/rad:${PROJECT_ID}"
-RAW_URL="https://app.radicle.network/rad:${PROJECT_ID}"
+# ── System Info
+OS_NAME=$(uname -s)
+OS_VERSION=$(lsb_release -d | cut -f2)
+KERNEL_VERSION=$(uname -r)
+ARCHITECTURE=$(uname -m)
+HOSTNAME=$(hostname)
+CURRENT_USER=$(whoami)
+MAC_ADDR=$(ip link show eth0 | grep ether | awk '{print $2}')
+LOCAL_IP=$(hostname -I | awk '{print $1}')
+CPU_MODEL=$(grep "model name" /proc/cpuinfo | head -1 | cut -d ':' -f2 | xargs)
+TOTAL_RAM=$(free -g | awk '/^Mem:/{print $2}')
 
-# ── Step 5: Write Metadata ───────────────────────────────────────
-cat > "$METADATA_FILE" <<EOF
+# ── Generate Metadata Output
+cat <<EOF > "$METADATA_FILE"
 # 🔗 Radicle Project Link Metadata
 
-- **Repo Name**: \`$REPO_NAME\`
+## 🏷️ Project Identity
+
+- **Project Name**: \`$PROJECT_NAME\`
+- **Local Path**: \`$LOCAL_REPO_PATH\`
 - **Peer ID**: \`$PEER_ID\`
 - **Project ID**: \`$PROJECT_ID\`
-- **Local Path**: \`$WORKING_DIR\`
-- **Remote Label**: \`$REMOTE_LABEL\`
-- **Default Branch**: \`master\`
-- **Script Version**: \`$SCRIPT_VERSION\`
 
 ---
 
-## 🌐 Gateway Access URLs
+## 🌐 Public Gateway Access
 
-- Garden 🌱: [$GARDEN_URL]($GARDEN_URL)
-- Kairos 🌀: [$KAIROS_URL]($KAIROS_URL)
-- Raw 🔧: [$RAW_URL]($RAW_URL)
+- **Radicle Garden Gateway**  
+  [$PUBLIC_GATEWAY_GARDEN/$PROJECT_ID]($PUBLIC_GATEWAY_GARDEN/$PROJECT_ID)
+
+- **Kairos Seed Gateway**  
+  [$PUBLIC_GATEWAY_KAIROS/$PROJECT_ID]($PUBLIC_GATEWAY_KAIROS/$PROJECT_ID)
+
+- **Raw Network Gateway**  
+  [$PUBLIC_GATEWAY_RAW/$PROJECT_ID]($PUBLIC_GATEWAY_RAW/$PROJECT_ID)
 
 ---
 
 ## 📦 Commit Metadata
 
-- **Commit SHA**: \`$COMMIT_SHA\`
-- **Tree SHA**: \`$TREE_SHA\`
+- **Latest Commit SHA**: \`$COMMIT_HASH\`
+- **Commit Message**: \`$COMMIT_MSG\`
+- **Branch**: \`$DEFAULT_BRANCH\`
 - **Timestamp**: \`$TIMESTAMP\`
+- **Tree SHA256**: \`$TREE_HASH\`
+- **Author**: \`$COMMIT_AUTHOR\`
 
 ---
 
-## 💻 Platform Metadata
+## 🧬 System & Execution Fingerprint
 
-- **User**: \`$USER_NAME\`
-- **Hostname**: \`$HOST_NAME\`
-- **Architecture**: \`$ARCHITECTURE\`
-- **IP Address**: \`$IP_ADDR\`
+- **Host Machine**: \`$HOSTNAME\`
+- **Username**: \`$CURRENT_USER\`
+- **Script Version**: \`gitfield-radicle v1.2.0\`
+- **Run Context**: \`$(grep -q microsoft /proc/version && echo "WSL2" || echo "Native")\`
+- **Dockerized**: \`$(grep -q docker /proc/1/cgroup && echo "Yes" || echo "No")\`
+- **Local IP**: \`$LOCAL_IP\`
 - **MAC Address**: \`$MAC_ADDR\`
-- **Uptime**: \`$UPTIME\`
-- **CPU**: \`$CPU_MODEL\`
-- **RAM (GB)**: \`$TOTAL_RAM\`
-- **Running in Docker**: \`$IS_DOCKER\`
-- **Running in WSL**: \`$IS_WSL\`
-- **OS Info**: \`$OS_INFO\`
 
 ---
 
-_Auto-generated by \`gitfield-radicle\` on $TIMESTAMP._
+## 🧭 Environment Metadata
+
+- **Operating System**: \`$OS_NAME $OS_VERSION\`
+- **Kernel**: \`$KERNEL_VERSION\`
+- **Architecture**: \`$ARCHITECTURE\`
+- **CPU Model**: \`$CPU_MODEL\`
+- **Total RAM (GB)**: \`$TOTAL_RAM\`
+- **System Uptime**: \`$(uptime -p)\`
+
+---
+
+> _Auto-generated on $TIMESTAMP via \`gitfield-radicle\` push script._
 EOF
 
-# ── Step 6: Output for Human Use ─────────────────────────────────
-echo -e "\n✅ Radicle push complete for \033[1m$REPO_NAME\033[0m"
-echo -e "🌱 Garden URL: \033[4m$GARDEN_URL\033[0m"
-echo -e "🌀 Kairos URL: \033[4m$KAIROS_URL\033[0m"
-echo -e "🔧 Raw Gateway: \033[4m$RAW_URL\033[0m"
-echo -e "\n🧬 Metadata stored in: $METADATA_FILE"
-echo -e "📁 Project ID: $PROJECT_ID"
-echo -e "👤 Peer ID: $PEER_ID"
-echo -e "🕒 Timestamp: $TIMESTAMP\n"
+touch .radicle-push-done
+echo "$PROJECT_ID" > .radicle-push-state
+
+echo ""
+echo "✅ Radicle push completed."
+echo "🌐 Access URLs:"
+echo "• Garden: $PUBLIC_GATEWAY_GARDEN/$PROJECT_ID"
+echo "• Kairos: $PUBLIC_GATEWAY_KAIROS/$PROJECT_ID"
+echo "• Raw:    $PUBLIC_GATEWAY_RAW/$PROJECT_ID"
