@@ -2,27 +2,27 @@
 
 - **Project Name**: `git-sigil`
 - **Radicle URN**: `rad://z45QC21eWL1F43VSbnV9AZbCZrHQJ`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/bbb6aa60a2488b64d6e6d1ab626354cdcdae9a3e](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/bbb6aa60a2488b64d6e6d1ab626354cdcdae9a3e)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 09:20:29`
+- **Repo Created**: `2025-05-31 09:26:03`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 09:20:29`
-- **Last Commit SHA**: `bbb6aa60a2488b64d6e6d1ab626354cdcdae9a3e`
+- **This Commit Timestamp**: `2025-05-31 09:26:03`
+- **Last Commit SHA**: `d8faa09e563daecf2a9b8481fcae2db028d06b03`
 - **Last Commit Message**: `Post-GitHub sync at 2025-05-31 09:19:46`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Sat May 31 09:20:28 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/bbb6aa60a2488b64d6e6d1ab626354cdcdae9a3e](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/bbb6aa60a2488b64d6e6d1ab626354cdcdae9a3e)
+- **Commit Date**: `Sat May 31 09:20:50 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `367`
+- **Total Commits**: `375`
 - **Tracked Files**: `38`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
@@ -47,7 +47,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 14 hours, 41 minutes`
+- **System Uptime**: `up 2 days, 14 hours, 47 minutes`
 - **MAC Address**: `00:15:5d:57:40:f0`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
