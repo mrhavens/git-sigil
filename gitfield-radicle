@@ -89,8 +89,20 @@ fi
 pgrep -f "rad node start" >/dev/null || {
   info "Starting Radicle node..."
   nohup rad node start > /dev/null 2>&1 &
-  sleep 3
+  sleep 10  # Increased delay to ensure node is fully started
 }
+
+# Wait for node to be ready
+info "Waiting for Radicle node to be ready..."
+for i in {1..5}; do
+  if rad node status >/dev/null 2>&1; then
+    info "Radicle node is ready."
+    break
+  fi
+  warn "Radicle node not ready yet, waiting... ($i/5)"
+  sleep 2
+done
+rad node status >/dev/null 2>&1 || warn "Radicle node may not be fully started, proceeding anyway."
 
 # ╭───────────────────────────────╮
 # │     Git Repo Initialization   │
@@ -120,17 +132,62 @@ CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 CURRENT_COMMIT=$(git rev-parse HEAD)
 LAST_PUSHED_COMMIT=$(cat "$PUSH_STATE_FILE" 2>/dev/null || echo "none")
 
+# Initialize variables for Radicle metadata
+PROJECT_ID=""
+PEER_ID=""
+PUBLIC_GATEWAY_URL=""
+
 if [[ "$CURRENT_COMMIT" == "$LAST_PUSHED_COMMIT" ]]; then
   info "✓ Already pushed commit: $CURRENT_COMMIT"
+  # Use rad self to get PROJECT_ID and PEER_ID
+  RAD_SELF_OUTPUT=$(rad self 2>&1)
+  if [[ $? -eq 0 ]]; then
+    PROJECT_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Project ID' | awk '{print $NF}' || echo "Unknown")
+    PEER_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Peer ID' | awk '{print $NF}' || echo "Unknown")
+  else
+    warn "Failed to get Radicle metadata with rad self: $RAD_SELF_OUTPUT"
+    error "Cannot proceed without Radicle metadata."
+  fi
+  REPO_URN="rad://$PROJECT_ID"
+  PUBLIC_GATEWAY_URL="$PUBLIC_GATEWAY/$REPO_URN/tree/$CURRENT_COMMIT"
 else
   info "Pushing commit '$CURRENT_COMMIT' on branch '$CURRENT_BRANCH'..."
-  if git push rad "$CURRENT_BRANCH"; then
+  # Capture the output of git push rad
+  PUSH_OUTPUT=$(git push rad "$CURRENT_BRANCH" 2>&1)
+  if [[ $? -eq 0 ]]; then
     echo "$CURRENT_COMMIT" > "$PUSH_STATE_FILE"
     info "✓ Pushed to Radicle successfully"
+    # Extract PROJECT_ID and PEER_ID from the push output
+    PROJECT_ID=$(echo "$PUSH_OUTPUT" | grep -o 'rad://[a-zA-Z0-9]\+' | head -1 | cut -d'/' -f3 || echo "Unknown")
+    PEER_ID=$(echo "$PUSH_OUTPUT" | grep -o 'rad://[a-zA-Z0-9]\+/[a-zA-Z0-9]\+' | head -1 | cut -d'/' -f4 || echo "Unknown")
+    # Extract the public gateway URL from the push output
+    PUBLIC_GATEWAY_URL=$(echo "$PUSH_OUTPUT" | grep -o 'https://app.radicle.xyz/nodes/ash.radicle.garden/rad:[a-zA-Z0-9]\+/tree/[a-f0-9]\+' | head -1 || echo "")
+    if [[ -z "$PUBLIC_GATEWAY_URL" || "$PROJECT_ID" == "Unknown" || "$PEER_ID" == "Unknown" ]]; then
+      warn "Failed to extract Radicle metadata from push output, falling back to rad self"
+      RAD_SELF_OUTPUT=$(rad self 2>&1)
+      if [[ $? -eq 0 ]]; then
+        PROJECT_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Project ID' | awk '{print $NF}' || echo "Unknown")
+        PEER_ID=$(echo "$RAD_SELF_OUTPUT" | grep 'Peer ID' | awk '{print $NF}' || echo "Unknown")
+        REPO_URN="rad://$PROJECT_ID"
+        PUBLIC_GATEWAY_URL="$PUBLIC_GATEWAY/$REPO_URN/tree/$CURRENT_COMMIT"
+      else
+        warn "Failed to get Radicle metadata with rad self: $RAD_SELF_OUTPUT"
+        error "Cannot proceed without Radicle metadata."
+      fi
+    fi
   else
     warn "Push may have failed — check 'rad sync status'"
+    warn "Push output: $PUSH_OUTPUT"
+    error "Push failed, cannot proceed."
   fi
 fi
+
+# Verify that PROJECT_ID and PEER_ID are valid
+if [[ "$PROJECT_ID" == "Unknown" || "$PEER_ID" == "Unknown" ]]; then
+  error "Failed to retrieve valid Radicle metadata (Project ID: $PROJECT_ID, Peer ID: $PEER_ID)."
+fi
+
+REPO_URN="rad://$PROJECT_ID"
 
 # ╭─────────────────────────────────────╮
 # │       GIT METADATA SNAPSHOT         │
@@ -149,12 +206,6 @@ LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "None")
 HOSTNAME=$(hostname)
 CURRENT_USER=$(whoami)
 TIMEZONE=$(date +%Z)
-
-# Radicle-specific metadata
-PROJECT_ID=$(rad self | grep 'Project ID' | awk '{print $NF}' || echo "Unknown")
-PEER_ID=$(rad self | grep 'Peer ID' | awk '{print $NF}' || echo "Unknown")
-REPO_URN="rad://$PROJECT_ID"
-PUBLIC_GATEWAY_URL="$PUBLIC_GATEWAY/$REPO_URN/tree/$LATEST_SHA"
 
 # ╭─────────────────────────────────────╮
 # │   HARDWARE + OS FINGERPRINT BLOCK   │
