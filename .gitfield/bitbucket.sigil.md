@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-05-31 08:05:06`
+- **This Commit Date**: `2025-05-31 08:09:06`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 08:05:06`
-- **Last Commit SHA**: `5fd26c8e41239e08b044b04729d0232d6d446d30`
-- **Last Commit Message**: `Post-GitLab sync at 2025-05-31 08:03:42`
+- **This Commit Timestamp**: `2025-05-31 08:09:06`
+- **Last Commit SHA**: `2cb54b3d5c9027895bffa8ff10f5c0dc631f6272`
+- **Last Commit Message**: `Post-GitLab sync at 2025-05-31 08:08:53`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 08:04:56 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/5fd26c8e41239e08b044b04729d0232d6d446d30](https://bitbucket.org/thefoldwithin/git-sigil/commits/5fd26c8e41239e08b044b04729d0232d6d446d30)
+- **Last Commit Date**: `Sat May 31 08:09:02 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/2cb54b3d5c9027895bffa8ff10f5c0dc631f6272](https://bitbucket.org/thefoldwithin/git-sigil/commits/2cb54b3d5c9027895bffa8ff10f5c0dc631f6272)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `146`
+- **Total Commits**: `154`
 - **Tracked Files**: `37`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
@@ -52,7 +52,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 26 minutes`
+- **System Uptime**: `up 2 days, 13 hours, 30 minutes`
 
 ---
 
