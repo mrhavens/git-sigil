@@ -37,7 +37,7 @@ if [ -f "$TOKEN_FILE" ] && [ "$RESET_TOKEN" = false ]; then
 else
   echo
   echo "🔐 Paste your GitLab Personal Access Token (scopes: api, read_user, write_repository, write_ssh_key)"
-  echo "→ Generate at: $GITLAB_WEB/-/profile/personal_access_tokens"
+  echo "→ Generate at: $GITLAB_WEB/-/user_settings/personal_access_tokens"
   read -rp "🔑 Token: " TOKEN
   echo "$TOKEN" > "$TOKEN_FILE"
   chmod 600 "$TOKEN_FILE"
