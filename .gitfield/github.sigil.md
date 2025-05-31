@@ -6,26 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `github`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-05-31 08:09:35`
+- **This Commit Date**: `2025-05-31 08:15:16`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 08:09:35`
-- **Last Commit SHA**: `d4dab20c411edd46899f319b2a64ffe7820901d1`
+- **This Commit Timestamp**: `2025-05-31 08:15:16`
+- **Last Commit SHA**: `d6911bdc650eeaebdf83256fda9709bd310e5ced`
 - **Last Commit Message**: `Post-Radicle sync at 2025-05-31 08:08:53`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 08:09:32 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/d4dab20c411edd46899f319b2a64ffe7820901d1](https://github.com/mrhavens/git-sigil/commit/d4dab20c411edd46899f319b2a64ffe7820901d1)
+- **Last Commit Date**: `Sat May 31 08:09:50 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/d6911bdc650eeaebdf83256fda9709bd310e5ced](https://github.com/mrhavens/git-sigil/commit/d6911bdc650eeaebdf83256fda9709bd310e5ced)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `167`
+- **Total Commits**: `175`
 - **Tracked Files**: `37`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 30 minutes`
+- **System Uptime**: `up 2 days, 13 hours, 36 minutes`
 - **MAC Address**: `00:15:5d:57:40:f0`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
