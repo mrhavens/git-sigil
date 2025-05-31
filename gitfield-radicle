@@ -2,11 +2,14 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# ╭───────────────────────────────╮
+# │         Config & Paths        │
+# ╰───────────────────────────────╯
 PROJECT_NAME=$(basename "$(pwd)")
 DEFAULT_NAME="Mark Randall Havens"
 DEFAULT_EMAIL="mark.r.havens@gmail.com"
 MARKDOWN_FILE=".radicle-link.md"
-SCRIPT_VERSION="1.0"
+SCRIPT_VERSION="1.2"
 
 RAD_HOME="$HOME/.radicle"
 RAD_BIN="$RAD_HOME/bin/rad"
@@ -15,6 +18,8 @@ RAD_BACKUP=".radicle-backup/keys.json"
 RAD_PATH_LINE='export PATH="$HOME/.radicle/bin:$PATH"'
 PROFILE_FILE="$HOME/.bashrc"
 PUSH_STATE_FILE=".radicle-push-state"
+RAD_CONFIG="$RAD_HOME/config.json"
+SEED_DOMAIN="kairos-seed.thefoldwithin.earth"
 
 info()  { echo -e "\e[1;34m[INFO]\e[0m $*"; }
 warn()  { echo -e "\e[1;33m[WARN]\e[0m $*"; }
@@ -37,7 +42,10 @@ if [ ! -x "$RAD_BIN" ]; then
 fi
 
 export PATH="$HOME/.radicle/bin:$PATH"
-grep -Fxq "$RAD_PATH_LINE" "$PROFILE_FILE" || echo "$RAD_PATH_LINE" >> "$PROFILE_FILE"
+if ! grep -Fxq "$RAD_PATH_LINE" "$PROFILE_FILE"; then
+  echo "$RAD_PATH_LINE" >> "$PROFILE_FILE"
+fi
+
 command -v rad >/dev/null || error "Radicle CLI unavailable"
 
 mkdir -p "$(dirname "$RAD_BACKUP")"
@@ -50,14 +58,46 @@ if [ ! -f "$RAD_KEYS" ]; then
   fi
 fi
 
+# Start node if not running
 pgrep -f "rad node start" >/dev/null || {
   nohup rad node start > /dev/null 2>&1 &
   sleep 3
 }
 
-[ -d .git ] || { git init && git add . && git commit -m "Initial commit"; }
+# ╭───────────────────────────────╮
+# │  Ensure Public Seed is Added │
+# ╰───────────────────────────────╯
+if [ -f "$RAD_CONFIG" ]; then
+  if ! grep -q "$SEED_DOMAIN" "$RAD_CONFIG"; then
+    info "Adding public seed node '$SEED_DOMAIN' to config..."
+    TMP=$(mktemp)
+    jq --arg seed "$SEED_DOMAIN" '
+      .seeds = (.seeds // []) + [$seed] |
+      .seeds |= unique
+    ' "$RAD_CONFIG" > "$TMP" && mv "$TMP" "$RAD_CONFIG"
+    info "✓ Seed added. Restarting Radicle node..."
+    pkill -f "rad node" || true
+    nohup rad node start > /dev/null 2>&1 &
+    sleep 3
+  else
+    info "✓ Public seed '$SEED_DOMAIN' already configured."
+  fi
+else
+  warn "⚠️ Radicle config not found. Skipping seed injection."
+fi
 
-rad projects | grep -q "$PROJECT_NAME" || rad init --name "$PROJECT_NAME" --description "Radicle sovereign repo for $PROJECT_NAME" || warn "Repo may already exist"
+# ╭───────────────────────────────╮
+# │   Init & Push Radicle Repo   │
+# ╰───────────────────────────────╯
+if [ ! -d .git ]; then
+  git init
+  git add .
+  git commit -m "Initial commit"
+fi
+
+if ! rad projects | grep -q "$PROJECT_NAME"; then
+  rad init --name "$PROJECT_NAME" --description "Radicle sovereign repo for $PROJECT_NAME" || warn "Repo may already exist"
+fi
 
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 CURRENT_COMMIT=$(git rev-parse HEAD)
@@ -71,23 +111,17 @@ if [[ "$CURRENT_COMMIT" != "$LAST_PUSHED_COMMIT" ]]; then
   fi
 fi
 
-# 🛡 Safe JSON fallback
-RAD_SELF=$(rad self --json 2>/dev/null || echo '{}')
-if echo "$RAD_SELF" | jq empty >/dev/null 2>&1; then
-  PROJECT_ID=$(echo "$RAD_SELF" | jq -r '.projectId // empty')
-  PEER_ID=$(echo "$RAD_SELF" | jq -r '.peerId // empty')
-else
-  warn "rad self output is not valid JSON"
-  PROJECT_ID=""
-  PEER_ID=""
-fi
+PROJECT_ID=$(rad self | awk -F': ' '/Project ID/ {print $2}')
+PEER_ID=$(rad self | awk -F': ' '/Peer ID/ {print $2}')
+REMOTE_SERVERS=$(rad node status | grep 'connected to' || echo "Unavailable")
+PROJECT_SLUG="${PROJECT_ID#rad:}"
+RAD_GATEWAY_URL="https://app.radicle.network/$PROJECT_SLUG"
 
-REMOTE_SERVERS=$(rad node status 2>/dev/null | grep 'connected to' || echo "Unavailable")
-RAD_GATEWAY_URL=""
-[[ -n "$PROJECT_ID" ]] && RAD_GATEWAY_URL="https://app.radicle.network/${PROJECT_ID#rad:}"
-
-# 📦 Metadata
+# ╭───────────────────────────────╮
+# │     Generate Metadata File    │
+# ╰───────────────────────────────╯
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+DEFAULT_BRANCH=$(git symbolic-ref --short HEAD)
 REPO_PATH=$(pwd)
 LATEST_SHA=$(git rev-parse HEAD)
 LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
@@ -113,7 +147,6 @@ LOCAL_IP=$(hostname -I | awk '{print $1}')
 CPU_MODEL=$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | sed 's/^ //')
 RAM_GB=$(awk '/MemTotal/ {printf "%.2f", $2/1024/1024}' /proc/meminfo)
 
-# 🧾 Markdown output
 cat > "$MARKDOWN_FILE" <<EOF
 # 🔗 Radicle Repository Link
 
@@ -121,9 +154,10 @@ cat > "$MARKDOWN_FILE" <<EOF
 - **Project ID**: \`$PROJECT_ID\`
 - **Peer ID**: \`$PEER_ID\`
 - **Local Repo Path**: \`$REPO_PATH\`
-- **Default Branch**: \`$CURRENT_BRANCH\`
+- **Default Branch**: \`$DEFAULT_BRANCH\`
 - **Timestamp**: \`$TIMESTAMP\`
-- **Public Gateway URL**: [${RAD_GATEWAY_URL:-Unavailable}](${RAD_GATEWAY_URL:-#})
+- **Public Gateway URL**: [$RAD_GATEWAY_URL]($RAD_GATEWAY_URL)
+- **Public Seed Node**: \`$SEED_DOMAIN\`
 
 ---
 
@@ -177,7 +211,7 @@ cat > "$MARKDOWN_FILE" <<EOF
 \`\`\`
 $REMOTE_SERVERS
 \`\`\`
-- **Public Gateway URL**: [${RAD_GATEWAY_URL:-Unavailable}](${RAD_GATEWAY_URL:-#})
+- **Public Gateway URL**: [$RAD_GATEWAY_URL]($RAD_GATEWAY_URL)
 
 ---
 
@@ -187,8 +221,7 @@ EOF
 git add "$MARKDOWN_FILE"
 git commit -m "Radicle metadata link commit at $TIMESTAMP" || warn "No changes to commit"
 
-# ✅ Output Summary
 echo -e "\n✅ Radicle metadata written."
-echo -e "→ Project ID: ${PROJECT_ID:-Unavailable}"
-echo -e "→ Peer ID: ${PEER_ID:-Unavailable}"
-[[ -n "$RAD_GATEWAY_URL" ]] && echo -e "🔗 View in Radicle Gateway: $RAD_GATEWAY_URL"
+echo -e "→ Project ID: $PROJECT_ID"
+echo -e "→ Peer ID: $PEER_ID"
+echo -e "🔗 View in Radicle Gateway: $RAD_GATEWAY_URL"
