@@ -6,26 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 06:42:46`
+- **Repo Created**: `2025-05-31 06:53:24`
 
 ---
 
 ## 📦 Commit Info
 
-- **Commit Timestamp**: `2025-05-31 06:42:46`
-- **Last Commit SHA**: `32316420e13dd1b1f6d069e4583744f9cfa5c0c6`
-- **Commit Message**: `GitLab metadata link commit at 2025-05-31 06:42:35`
+- **Commit Timestamp**: `2025-05-31 06:53:24`
+- **Last Commit SHA**: `5bf8105fe0fe0d0361150d449fbffa6d16e0a798`
+- **Commit Message**: `Update Radicle metadata at 2025-05-31 06:42:56`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Sat May 31 06:42:35 2025 -0500`
-- **Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/32316420e13dd1b1f6d069e4583744f9cfa5c0c6](https://bitbucket.org/thefoldwithin/git-sigil/commits/32316420e13dd1b1f6d069e4583744f9cfa5c0c6)
+- **Commit Date**: `Sat May 31 06:42:57 2025 -0500`
+- **Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/5bf8105fe0fe0d0361150d449fbffa6d16e0a798](https://bitbucket.org/thefoldwithin/git-sigil/commits/5bf8105fe0fe0d0361150d449fbffa6d16e0a798)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `104`
+- **Total Commits**: `106`
 - **Tracked Files**: `34`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -52,7 +52,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 12 hours, 3 minutes`
+- **System Uptime**: `up 2 days, 12 hours, 14 minutes`
 
 ---
 
