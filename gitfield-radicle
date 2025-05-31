@@ -194,7 +194,7 @@ REPO_URN="rad://$PROJECT_ID"
 # ╰─────────────────────────────────────╯
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
 DEFAULT_BRANCH="$(git symbolic-ref --short HEAD)"
-REPO_PATH="$(pwd)"
+REPO_PATH="$(git rev-parse --show-toplevel)"
 LATEST_SHA=$(git rev-parse HEAD)
 LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
 LAST_COMMIT_DATE=$(git log -1 --pretty=format:"%ad")
