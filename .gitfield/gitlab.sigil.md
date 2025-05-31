@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `gitlab`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 07:29:33`
+- **Repo Created**: `2025-05-31 07:34:30`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 07:29:33`
-- **This Commit SHA**: `5640239ba680586d601199e2345fb3c0d4dd63ae`
-- **Last Commit Message**: `GitHub metadata link commit at 2025-05-31 07:28:58 — https://github.com/mrhavens/git-sigil/commit/6b879afebfb97c148cf2b0e12642d8acd704dfdb`
+- **This Commit Timestamp**: `2025-05-31 07:34:30`
+- **This Commit SHA**: `615710791e187565286ba409aa6546c870d9fca5`
+- **Last Commit Message**: `GitHub metadata link commit at 2025-05-31 07:33:13 — https://github.com/mrhavens/git-sigil/commit/d2729b8a2c54ef29ca1ed167bc74ea4311763d05`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 07:28:58 2025 -0500`
-- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/5640239ba680586d601199e2345fb3c0d4dd63ae](https://gitlab.com/mrhavens/git-sigil/-/commit/5640239ba680586d601199e2345fb3c0d4dd63ae)
+- **Last Commit Date**: `Sat May 31 07:33:13 2025 -0500`
+- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/615710791e187565286ba409aa6546c870d9fca5](https://gitlab.com/mrhavens/git-sigil/-/commit/615710791e187565286ba409aa6546c870d9fca5)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `119`
-- **Tracked Files**: `36`
+- **Total Commits**: `122`
+- **Tracked Files**: `34`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 12 hours, 50 minutes`
+- **System Uptime**: `up 2 days, 12 hours, 55 minutes`
 - **MAC Address**: `00:15:5d:57:40:f0`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
