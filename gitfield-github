@@ -124,18 +124,18 @@ cat > "$MARKDOWN_FILE" <<EOF
 - **Local Repo Path**: \`$REPO_PATH\`
 - **Remote Label**: \`$GIT_REMOTE_NAME\`
 - **Default Branch**: \`$DEFAULT_BRANCH\`
-- **Repo Created**: \`$TIMESTAMP\`
+- **This Commit Date**: \`$TIMESTAMP\`
 
 ---
 
 ## 📦 Commit Info
 
-- **Commit Timestamp**: \`$TIMESTAMP\`
+- **This Commit Timestamp**: \`$TIMESTAMP\`
 - **Last Commit SHA**: \`$LATEST_SHA\`
-- **Commit Message**: \`$LAST_COMMIT_MSG\`
-- **Commit Author**: \`$LAST_COMMIT_AUTHOR\`
-- **Commit Date**: \`$LAST_COMMIT_DATE\`
-- **Commit URL**: [$WEB_LINK/commit/$LATEST_SHA]($WEB_LINK/commit/$LATEST_SHA)
+- **Last Commit Message**: \`$LAST_COMMIT_MSG\`
+- **Last Commit Author**: \`$LAST_COMMIT_AUTHOR\`
+- **Last Commit Date**: \`$LAST_COMMIT_DATE\`
+- **This Commit URL**: [$WEB_LINK/commit/$LATEST_SHA]($WEB_LINK/commit/$LATEST_SHA)
 
 ---
 
@@ -181,7 +181,7 @@ EOF
 # │     COMMIT & PUSH MARKDOWN FILE     │
 # ╰─────────────────────────────────────╯
 git add "$MARKDOWN_FILE"
-git commit -m "GitHub metadata link commit at $TIMESTAMP — [$WEB_LINK/commit/$LATEST_SHA]($WEB_LINK/commit/$LATEST_SHA)" || warn "No changes to commit for $MARKDOWN_FILE"
+git commit -m "GitHub metadata link commit at $TIMESTAMP — $WEB_LINK/commit/$LATEST_SHA" || warn "No changes to commit for $MARKDOWN_FILE"
 
 if ! git config --get branch."$DEFAULT_BRANCH".remote &>/dev/null; then
   git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH"

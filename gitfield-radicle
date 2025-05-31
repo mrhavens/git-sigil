@@ -241,12 +241,12 @@ cat > "$MARKDOWN_FILE" <<EOF
 
 ## 📦 Commit Info
 
-- **Commit Timestamp**: \`$TIMESTAMP\`
+- **This Commit Timestamp**: \`$TIMESTAMP\`
 - **Last Commit SHA**: \`$LATEST_SHA\`
-- **Commit Message**: \`$LAST_COMMIT_MSG\`
+- **Last Commit Message**: \`$LAST_COMMIT_MSG\`
 - **Commit Author**: \`$LAST_COMMIT_AUTHOR\`
 - **Commit Date**: \`$LAST_COMMIT_DATE\`
-- **Commit URL**: [$PUBLIC_GATEWAY_URL]($PUBLIC_GATEWAY_URL)
+- **This Commit URL**: [$PUBLIC_GATEWAY_URL]($PUBLIC_GATEWAY_URL)
 
 ---
 
@@ -306,7 +306,7 @@ info "🔗 View in browser: $PUBLIC_GATEWAY_URL"
 # Commit the Markdown file if changed
 if ! git diff --quiet "$MARKDOWN_FILE" 2>/dev/null || ! git ls-files "$MARKDOWN_FILE" --error-unmatch >/dev/null 2>&1; then
   git add "$MARKDOWN_FILE"
-  git commit -m "Update Radicle metadata at $TIMESTAMP — [$PUBLIC_GATEWAY_URL]($PUBLIC_GATEWAY_URL)" || warn "No changes to commit for $MARKDOWN_FILE"
+  git commit -m "Update Radicle metadata at $TIMESTAMP — $PUBLIC_GATEWAY_URL" || warn "No changes to commit for $MARKDOWN_FILE"
   if git push rad "$CURRENT_BRANCH"; then
     echo "$CURRENT_COMMIT" > "$PUSH_STATE_FILE"
     info "✓ Pushed metadata update to Radicle"
