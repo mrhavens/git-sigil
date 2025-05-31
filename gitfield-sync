@@ -46,7 +46,7 @@ fi
 generate_gitfield_md() {
     info "Generating $GITFIELD_MD..."
     cat > "$GITFIELD_MD" <<EOF
-# 🌐 GitField Multi-Repository Strategy
+# 🌐 GitField Recursive Multi-Repository Strategy
 
 ## Overview
 
