@@ -181,7 +181,7 @@ EOF
 # │     COMMIT & PUSH MARKDOWN FILE     │
 # ╰─────────────────────────────────────╯
 git add "$MARKDOWN_FILE"
-git commit -m "GitHub metadata link commit at $TIMESTAMP" || warn "No changes to commit for $MARKDOWN_FILE"
+git commit -m "GitHub metadata link commit at $TIMESTAMP — [$WEB_LINK/commit/$LATEST_SHA]($WEB_LINK/commit/$LATEST_SHA)" || warn "No changes to commit for $MARKDOWN_FILE"
 
 if ! git config --get branch."$DEFAULT_BRANCH".remote &>/dev/null; then
   git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH"

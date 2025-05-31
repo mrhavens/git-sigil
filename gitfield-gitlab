@@ -234,7 +234,7 @@ generate_markdown
 set +e
 info "Committing markdown file..."
 git add "$MARKDOWN_FILE" 2>/dev/null || warn "Failed to add markdown file"
-git commit -m "GitLab metadata link commit at $TIMESTAMP" 2>/dev/null || warn "No changes to commit"
+git commit -m "GitLab metadata link commit at $TIMESTAMP — [$WEB_LINK/-/commit/$LATEST_SHA]($WEB_LINK/-/commit/$LATEST_SHA)" 2>/dev/null || warn "No changes to commit"
 
 info "Pushing to GitLab..."
 git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" 2>/dev/null || warn "Push to GitLab failed"
