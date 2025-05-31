@@ -2,27 +2,27 @@
 
 - **Project Name**: `git-sigil`
 - **Radicle URN**: `rad://z45QC21eWL1F43VSbnV9AZbCZrHQJ`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d6556760b778259c66c3495999d7c12c5913035c](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d6556760b778259c66c3495999d7c12c5913035c)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 09:26:03`
+- **Repo Created**: `2025-05-31 09:26:23`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 09:26:03`
-- **Last Commit SHA**: `d8faa09e563daecf2a9b8481fcae2db028d06b03`
-- **Last Commit Message**: `Post-GitHub sync at 2025-05-31 09:19:46`
+- **This Commit Timestamp**: `2025-05-31 09:26:23`
+- **Last Commit SHA**: `d6556760b778259c66c3495999d7c12c5913035c`
+- **Last Commit Message**: `Generated GITFIELD.md at 2025-05-31 09:26:02`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Sat May 31 09:20:50 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d8faa09e563daecf2a9b8481fcae2db028d06b03)
+- **Commit Date**: `Sat May 31 09:26:22 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d6556760b778259c66c3495999d7c12c5913035c](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z45QC21eWL1F43VSbnV9AZbCZrHQJ/tree/d6556760b778259c66c3495999d7c12c5913035c)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `375`
+- **Total Commits**: `384`
 - **Tracked Files**: `38`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
