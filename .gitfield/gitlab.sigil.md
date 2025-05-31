@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `gitlab`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 09:26:56`
+- **Repo Created**: `2025-05-31 14:34:43`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 09:26:56`
-- **This Commit SHA**: `037a6808c27be73e6f00454fe13b0c72ac06b5fd`
-- **Last Commit Message**: `Post-Radicle sync at 2025-05-31 09:26:02`
-- **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 09:26:47 2025 -0500`
-- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/037a6808c27be73e6f00454fe13b0c72ac06b5fd](https://gitlab.com/mrhavens/git-sigil/-/commit/037a6808c27be73e6f00454fe13b0c72ac06b5fd)
+- **This Commit Timestamp**: `2025-05-31 14:34:43`
+- **This Commit SHA**: `f4451041b1639977f8244a11500c97891ee96aee`
+- **Last Commit Message**: `Post-Radicle sync at 2025-05-31 14:28:56`
+- **Last Commit Author**: `Mark Randall Havens <mark@thefoldwithin.earth>`
+- **Last Commit Date**: `Sat May 31 14:29:17 2025 -0500`
+- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/f4451041b1639977f8244a11500c97891ee96aee](https://gitlab.com/mrhavens/git-sigil/-/commit/f4451041b1639977f8244a11500c97891ee96aee)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `394`
-- **Tracked Files**: `38`
+- **Total Commits**: `400`
+- **Tracked Files**: `39`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧽 Environment
 
-- **Host Machine**: `samson`
+- **Host Machine**: `DESKTOP-E5SGI58`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 22.04.5 LTS`
-- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 24.04.1 LTS`
+- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 14 hours, 48 minutes`
-- **MAC Address**: `00:15:5d:57:40:f0`
-- **Local IP**: `172.28.107.95`
-- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-- **Total RAM (GB)**: `23.44`
+- **System Uptime**: `up 2 hours, 15 minutes`
+- **MAC Address**: `00:15:5d:6a:4c:9a`
+- **Local IP**: `172.18.207.124`
+- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
+- **Total RAM (GB)**: `3.63`
 
 ---
 
