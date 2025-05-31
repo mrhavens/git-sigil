@@ -80,7 +80,7 @@ fi
 # ╭─────────────────────────────────────╮
 # │       GIT METADATA SNAPSHOT         │
 # ╰─────────────────────────────────────╯
-MARKDOWN_FILE=".github-link.md"
+MARKDOWN_FILE=".gitfield.github.sigil.md"
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
 DEFAULT_BRANCH="$(git symbolic-ref --short HEAD)"
 REPO_PATH="$(pwd)"

@@ -119,7 +119,7 @@ git remote add "$REMOTE_NAME" "$SSH_REMOTE"
 # ╭─────────────────────────────────────╮
 # │       WRITE METADATA MARKDOWN       │
 # ╰─────────────────────────────────────╯
-MARKDOWN_FILE=".bitbucket-link.md"
+MARKDOWN_FILE=".gitfield.bitbucket.sigil.md"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DEFAULT_BRANCH=$(git symbolic-ref --short HEAD)
 REPO_PATH=$(pwd)

@@ -17,7 +17,7 @@ RAD_BACKUP=".radicle-backup/keys.json"
 RAD_PATH_LINE='export PATH="$HOME/.radicle/bin:$PATH"'
 PROFILE_FILE="$HOME/.bashrc"
 PUSH_STATE_FILE=".radicle-push-state"
-MARKDOWN_FILE=".radicle-link.md"
+MARKDOWN_FILE=".gitfield.radicle.sigil.md"
 PUBLIC_GATEWAY="https://app.radicle.xyz/nodes/ash.radicle.garden"
 
 # ╭───────────────────────────────╮

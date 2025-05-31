@@ -93,7 +93,7 @@ else
 fi
 
 # Metadata Block
-MARKDOWN_FILE=".gitlab-link.md"
+MARKDOWN_FILE=".gitfield.gitlab.sigil.md"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DEFAULT_BRANCH=$(git symbolic-ref --short HEAD)
 REPO_PATH=$(pwd)
