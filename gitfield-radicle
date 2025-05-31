@@ -13,10 +13,10 @@ RAD_HOME="$HOME/.radicle"
 RAD_BIN="$RAD_HOME/bin/rad"
 RAD_KEYS="$RAD_HOME/keys.json"
 RAD_BACKUP=".radicle-backup/keys.json"
-RAD_CONFIG="$RAD_HOME/config.json"
+RAD_PATH_LINE='export PATH="$HOME/.radicle/bin:$PATH"'
 PROFILE_FILE="$HOME/.bashrc"
 PUSH_STATE_FILE=".radicle-push-state"
-SEED_DOMAIN="kairos-seed.thefoldwithin.earth"
+RAD_SEED="kairos-seed.thefoldwithin.earth"
 
 # ╭───────────────────────────────╮
 # │         Logging Utils         │
@@ -54,13 +54,14 @@ if [ ! -x "$RAD_BIN" ]; then
 fi
 
 export PATH="$HOME/.radicle/bin:$PATH"
-if ! grep -Fxq "export PATH=\"$HOME/.radicle/bin:\$PATH\"" "$PROFILE_FILE"; then
-  echo "export PATH=\"$HOME/.radicle/bin:\$PATH\"" >> "$PROFILE_FILE"
+if ! grep -Fxq "$RAD_PATH_LINE" "$PROFILE_FILE"; then
+  echo "$RAD_PATH_LINE" >> "$PROFILE_FILE"
   info "→ Added PATH to $PROFILE_FILE"
   warn "→ Run 'source $PROFILE_FILE' to make Radicle CLI persistent"
 fi
 
 command -v rad >/dev/null || error "Radicle CLI still unavailable. Try restarting terminal."
+
 info "Radicle CLI ready: $(rad --version)"
 
 # ╭────────────────────────────────────────────────────╮
@@ -81,6 +82,12 @@ else
 fi
 
 # ╭───────────────────────────────╮
+# │   Add Custom Seed Node Config │
+# ╰───────────────────────────────╯
+rad node config set seeds ["$RAD_SEED"] || warn "Failed to set seed node"
+info "Added seed node to config: $RAD_SEED"
+
+# ╭───────────────────────────────╮
 # │        Start Rad Node         │
 # ╰───────────────────────────────╯
 pgrep -f "rad node start" >/dev/null || {
@@ -88,28 +95,6 @@ pgrep -f "rad node start" >/dev/null || {
   nohup rad node start > /dev/null 2>&1 &
   sleep 3
 }
-
-# ╭───────────────────────────────╮
-# │  Ensure Public Seed is Added │
-# ╰───────────────────────────────╯
-if [ -f "$RAD_CONFIG" ]; then
-  if ! grep -q "$SEED_DOMAIN" "$RAD_CONFIG"; then
-    info "Adding public seed node '$SEED_DOMAIN' to config..."
-    TMP=$(mktemp)
-    jq --arg seed "$SEED_DOMAIN" '
-      .seeds = (.seeds // []) + [$seed] |
-      .seeds |= unique
-    ' "$RAD_CONFIG" > "$TMP" && mv "$TMP" "$RAD_CONFIG"
-    info "✓ Seed added. Restarting Radicle node..."
-    pkill -f "rad node" || true
-    nohup rad node start > /dev/null 2>&1 &
-    sleep 3
-  else
-    info "✓ Public seed '$SEED_DOMAIN' already configured."
-  fi
-else
-  warn "⚠️ Radicle config not found. Skipping seed injection."
-fi
 
 # ╭───────────────────────────────╮
 # │     Git Repo Initialization   │
@@ -154,35 +139,41 @@ fi
 # ╭───────────────────────────────╮
 # │         Final Output Block    │
 # ╰───────────────────────────────╯
-RAD_SELF=$(rad self --json 2>/dev/null || echo '{}')
-if echo "$RAD_SELF" | jq empty >/dev/null 2>&1; then
-  PROJECT_ID=$(echo "$RAD_SELF" | jq -r '.projectId // empty')
-  PEER_ID=$(echo "$RAD_SELF" | jq -r '.peerId // empty')
-else
-  warn "rad self returned non-JSON output."
-  PROJECT_ID=""
-  PEER_ID=""
-fi
+PROJECT_ID=$(rad self | grep 'Project ID' | awk '{print $NF}' || true)
+PEER_ID=$(rad self | grep 'Peer ID' | awk '{print $NF}' || true)
 
-[[ -n "$PROJECT_ID" ]] && {
-  info "✓ Project ID: $PROJECT_ID"
-  info "→ Peer ID: $PEER_ID"
+[[ -n "$PROJECT_ID" ]] && info "✓ Project ID: $PROJECT_ID"
+[[ -n "$PEER_ID" ]] && info "→ Peer ID: $PEER_ID (Share to connect)"
 
-  echo "" > .radicle-link.md
-  echo "# 🌱 Sovereign Radicle Project Metadata" >> .radicle-link.md
-  echo "**Project Name:** $PROJECT_NAME" >> .radicle-link.md
-  echo "**Commit:** $CURRENT_COMMIT" >> .radicle-link.md
-  echo "**Branch:** $CURRENT_BRANCH" >> .radicle-link.md
-  echo "**Project ID:** \\`rad:$PROJECT_ID\\`" >> .radicle-link.md
-  echo "**Peer ID:** \\`$PEER_ID\\`" >> .radicle-link.md
-  echo "**Generated:** $(date --iso-8601=seconds)" >> .radicle-link.md
-  echo "**Platform:** $(uname -a)" >> .radicle-link.md
-  echo "**User:** $(whoami)@$(hostname)" >> .radicle-link.md
+info "🌐 Gateway Access URLs:"
+echo "→ Garden Gateway: https://app.radicle.xyz/nodes/seed.radicle.garden/rad:$PROJECT_ID"
+echo "→ Kairos Gateway: https://app.radicle.xyz/nodes/$RAD_SEED/rad:$PROJECT_ID"
+echo "→ Raw Gateway: https://app.radicle.network/$PROJECT_ID"
 
-  echo -e "\n## 🌐 Public Gateway URLs" >> .radicle-link.md
-  echo "- [Radicle Garden](https://app.radicle.xyz/nodes/seed.radicle.garden/rad:$PROJECT_ID)" >> .radicle-link.md
-  echo "- [Kairos Seed](https://app.radicle.xyz/nodes/kairos-seed.thefoldwithin.earth/rad:$PROJECT_ID)" >> .radicle-link.md
-  echo "- [Direct Access](https://app.radicle.network/rad:$PROJECT_ID)" >> .radicle-link.md
+# ╭───────────────────────────────╮
+# │       Metadata Markdown       │
+# ╰───────────────────────────────╯
+cat <<EOF > .radicle-link.md
+# 🔗 Radicle Project Link Metadata
 
-  info "→ Metadata written to .radicle-link.md"
-}
+**Project:** $PROJECT_NAME
+**Peer ID:** $PEER_ID
+**Project ID:** $PROJECT_ID
+
+## 🌐 Gateway Access URLs
+- Garden: https://app.radicle.xyz/nodes/seed.radicle.garden/rad:$PROJECT_ID
+- Kairos: https://app.radicle.xyz/nodes/$RAD_SEED/rad:$PROJECT_ID
+- Raw: https://app.radicle.network/$PROJECT_ID
+
+## 🔍 Commit Metadata
+- Commit: $CURRENT_COMMIT
+- Branch: $CURRENT_BRANCH
+- Timestamp: $(date -Iseconds)
+- SHA256 (tree): $(git rev-parse HEAD^{tree})
+
+## 💻 Platform Metadata
+- User: $(whoami)
+- Hostname: $(hostname)
+- OS: $(uname -a)
+- Working Dir: $(pwd)
+EOF
