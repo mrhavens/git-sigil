@@ -119,10 +119,10 @@ git remote add "$REMOTE_NAME" "$SSH_REMOTE"
 # ╭─────────────────────────────────────╮
 # │       WRITE METADATA MARKDOWN       │
 # ╰─────────────────────────────────────╯
-MARKDOWN_FILE=".gitfield.bitbucket.sigil.md"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DEFAULT_BRANCH=$(git symbolic-ref --short HEAD)
 REPO_PATH=$(git rev-parse --show-toplevel)
+mkdir -p "$REPO_PATH/.gitfield" && MARKDOWN_FILE="$REPO_PATH/.gitfield/bitbucket.sigil.md"
 LATEST_SHA=$(git rev-parse HEAD)
 LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
 LAST_COMMIT_DATE=$(git log -1 --pretty=format:"%ad")

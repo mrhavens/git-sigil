@@ -17,7 +17,7 @@ RAD_BACKUP=".radicle-backup/keys.json"
 RAD_PATH_LINE='export PATH="$HOME/.radicle/bin:$PATH"'
 PROFILE_FILE="$HOME/.bashrc"
 PUSH_STATE_FILE=".radicle-push-state"
-MARKDOWN_FILE=".gitfield.radicle.sigil.md"
+MARKDOWN_FILE="$(git rev-parse --show-toplevel)/.gitfield/radicle.sigil.md" && mkdir -p "$(dirname "$MARKDOWN_FILE")"
 PUBLIC_GATEWAY="https://app.radicle.xyz/nodes/ash.radicle.garden"
 
 # ╭───────────────────────────────╮
