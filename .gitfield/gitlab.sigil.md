@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `gitlab`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-05-31 09:19:53`
+- **Repo Created**: `2025-05-31 09:20:13`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 09:19:53`
-- **This Commit SHA**: `95807a25cc12f7c4a1310625ca9fe1c9475a93b7`
+- **This Commit Timestamp**: `2025-05-31 09:20:13`
+- **This Commit SHA**: `fbecf777b2d9612993e7ed84fa895eb5d6eb1373`
 - **Last Commit Message**: `Post-Radicle sync at 2025-05-31 09:19:46`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 09:19:49 2025 -0500`
-- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/95807a25cc12f7c4a1310625ca9fe1c9475a93b7](https://gitlab.com/mrhavens/git-sigil/-/commit/95807a25cc12f7c4a1310625ca9fe1c9475a93b7)
+- **Last Commit Date**: `Sat May 31 09:20:09 2025 -0500`
+- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/fbecf777b2d9612993e7ed84fa895eb5d6eb1373](https://gitlab.com/mrhavens/git-sigil/-/commit/fbecf777b2d9612993e7ed84fa895eb5d6eb1373)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `352`
+- **Total Commits**: `361`
 - **Tracked Files**: `38`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
