@@ -3,29 +3,29 @@
 - **Repo Name**: `git-sigil`
 - **GitHub User**: `mrhavens`
 - **Remote URL**: [https://github.com/mrhavens/git-sigil](https://github.com/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `github`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-05-31 19:13:27`
+- **This Commit Date**: `2025-06-04 22:53:44`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 19:13:27`
-- **Last Commit SHA**: `22ca4ccb64f70693118e82b783e8a70f1bea43e2`
-- **Last Commit Message**: `Post-Bitbucket sync at 2025-05-31 18:56:52`
+- **This Commit Timestamp**: `2025-06-04 22:53:44`
+- **Last Commit SHA**: `74ce4dc8ba6afa2f15e33692405510e05c0df92d`
+- **Last Commit Message**: `GitLab metadata link commit at 2025-06-04 22:53:09 — https://gitlab.com/mrhavens/git-sigil/-/commit/6dad23edfc7fb0b3d42ae60106ba4d6697c83acf`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 19:13:18 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/22ca4ccb64f70693118e82b783e8a70f1bea43e2](https://github.com/mrhavens/git-sigil/commit/22ca4ccb64f70693118e82b783e8a70f1bea43e2)
+- **Last Commit Date**: `Wed Jun 4 22:53:09 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/74ce4dc8ba6afa2f15e33692405510e05c0df92d](https://github.com/mrhavens/git-sigil/commit/74ce4dc8ba6afa2f15e33692405510e05c0df92d)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `471`
+- **Total Commits**: `473`
 - **Tracked Files**: `39`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -48,8 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 20 minutes`
-- **MAC Address**: `00:15:5d:b4:97:07`
+- **System Uptime**: `up 12 minutes`
+- **MAC Address**: `00:15:5d:e3:32:3b`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
