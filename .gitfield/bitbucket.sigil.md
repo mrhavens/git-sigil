@@ -3,29 +3,29 @@
 - **Repo Name**: `git-sigil`
 - **Bitbucket Workspace**: `thefoldwithin`
 - **Remote URL**: [https://bitbucket.org/thefoldwithin/git-sigil](https://bitbucket.org/thefoldwithin/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-05-31 19:13:13`
+- **This Commit Date**: `2025-06-04 22:54:20`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-05-31 19:13:13`
-- **Last Commit SHA**: `62d59301de7b4b99ccbe13554d507ec5245fef29`
-- **Last Commit Message**: `Post-GitLab sync at 2025-05-31 18:56:52`
+- **This Commit Timestamp**: `2025-06-04 22:54:20`
+- **Last Commit SHA**: `e2f6e43aaf52f55f896a5879e165b237c51d0477`
+- **Last Commit Message**: `GitHub metadata link commit at 2025-06-04 22:53:44 — https://github.com/mrhavens/git-sigil/commit/74ce4dc8ba6afa2f15e33692405510e05c0df92d`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat May 31 19:13:04 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/62d59301de7b4b99ccbe13554d507ec5245fef29](https://bitbucket.org/thefoldwithin/git-sigil/commits/62d59301de7b4b99ccbe13554d507ec5245fef29)
+- **Last Commit Date**: `Wed Jun 4 22:53:44 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/e2f6e43aaf52f55f896a5879e165b237c51d0477](https://bitbucket.org/thefoldwithin/git-sigil/commits/e2f6e43aaf52f55f896a5879e165b237c51d0477)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `469`
+- **Total Commits**: `474`
 - **Tracked Files**: `39`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -47,12 +47,12 @@
 - **Architecture**: `x86_64`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
-- **MAC Address**: `00:15:5d:b4:97:07`
+- **MAC Address**: `00:15:5d:e3:32:3b`
 - **Local IP**: `172.18.207.124`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 20 minutes`
+- **System Uptime**: `up 12 minutes`
 
 ---
 
