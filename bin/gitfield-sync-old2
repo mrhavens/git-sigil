@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 # ╭─────────────────────────────────────╮
 # │          CONFIGURATION              │
-# ╰─────────────────────────────────────╮
+# ╰─────────────────────────────────────╯
 REPO_PATH=$(git rev-parse --show-toplevel 2>/dev/null) || error "Not inside a Git repository"
 REPO_NAME=$(basename "$REPO_PATH")
 GITFIELD_DIR="$REPO_PATH/.gitfield"
@@ -23,8 +23,8 @@ RADICLE_URL="https://app.radicle.xyz/nodes/ash.radicle.garden/rad:$RADICLE_PROJE
 # ╭─────────────────────────────────────╮
 # │           LOGGING UTILS             │
 # ╰─────────────────────────────────────╮
-info()  { echo -e "\e[1;34m[INFO]\e[0m $*" >&2; }
-warn()  { echo -e "\e[1;33m[WARN]\e[0m $*" >&2; }
+info()  { echo -e "\e[1;34m[INFO]\e[0m $*"; }
+warn()  { echo -e "\e[1;33m[WARN]\e[0m $*"; }
 error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
 
 # ╭─────────────────────────────────────╮
@@ -33,27 +33,21 @@ error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
 find_script() {
     local script_name=$1
     local search_paths=(
-        "$HOME/.local/gitfieldbin"
+        "."
+        "$REPO_PATH/bin"
+        "$REPO_PATH/gitfield"
+        "$REPO_PATH/gitfieldbin"
         "$HOME/.local/bin"
         "$HOME/.local/gitfield"
+        "$HOME/.local/gitfieldbin"
         "$HOME/.local/bin/gitfield"
         "$HOME/.local/bin/gitfieldbin"
     )
 
     for path in "${search_paths[@]}"; do
-        if [ -f "$path/$script_name" ]; then
-            if [ -x "$path/$script_name" ]; then
-                # Log to stderr to avoid capturing in command substitution
-                if [[ "$path" != "$HOME"* ]]; then
-                    info "Using script: \e[1;31m$path/$script_name\e[0m (outside home directory)"
-                else
-                    info "Using script: $path/$script_name"
-                fi
-                echo "$path/$script_name"
-                return 0
-            else
-                warn "Found $path/$script_name but it is not executable"
-            fi
+        if [ -x "$path/$script_name" ]; then
+            echo "$path/$script_name"
+            return 0
         fi
     done
     error "Script $script_name not found in any search path"
@@ -163,7 +157,7 @@ execute_push() {
     local url=$3
     local script_path
     script_path=$(find_script "$script_name") || error "Failed to find $script_name"
-    info "Executing $platform push with script: $script_path"
+    info "Running $script_path for $platform..."
     if [ -x "$script_path" ]; then
         # Change to repo root to ensure consistent execution context
         pushd "$REPO_PATH" >/dev/null
