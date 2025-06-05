@@ -55,7 +55,7 @@ update_path() {
         info "Removed any existing $INSTALL_DIR entries from $config_file"
     fi
 
-    # Check if PATH already contains INSTALL_DIR in the current session
+    # Check if PATH already contains $INSTALL_DIR in the current session
     if [[ ":$PATH:" == *":$INSTALL_DIR:"* ]]; then
         info "$INSTALL_DIR is already in PATH for the current session"
     else
