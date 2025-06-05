@@ -2,28 +2,28 @@
 
 - **Project Name**: `git-sigil`
 - **Radicle URN**: `rad://z3FEj7rF8gZw9eFksCuiN43qjzrex`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/a5758991d67b10e72bb9b8da4131e59461a3bb4b](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/a5758991d67b10e72bb9b8da4131e59461a3bb4b)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/bf03d19403f5aaf55acb482715ef2dbeed0bf94a](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/bf03d19403f5aaf55acb482715ef2dbeed0bf94a)
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-05 01:07:56`
+- **Repo Created**: `2025-06-05 01:08:32`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-05 01:07:56`
-- **Last Commit SHA**: `a5758991d67b10e72bb9b8da4131e59461a3bb4b`
-- **Last Commit Message**: `Update Radicle metadata at 2025-06-04 22:55:05 — https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/ef1c9cc94c92a3755f450924e5fae88f0974c598`
+- **This Commit Timestamp**: `2025-06-05 01:08:32`
+- **Last Commit SHA**: `bf03d19403f5aaf55acb482715ef2dbeed0bf94a`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-05 01:07:56`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Wed Jun 4 22:55:06 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/a5758991d67b10e72bb9b8da4131e59461a3bb4b](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/a5758991d67b10e72bb9b8da4131e59461a3bb4b)
+- **Commit Date**: `Thu Jun 5 01:07:57 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/bf03d19403f5aaf55acb482715ef2dbeed0bf94a](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/bf03d19403f5aaf55acb482715ef2dbeed0bf94a)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `476`
-- **Tracked Files**: `39`
+- **Total Commits**: `478`
+- **Tracked Files**: `42`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
@@ -47,7 +47,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 hours, 27 minutes`
+- **System Uptime**: `up 2 hours, 28 minutes`
 - **MAC Address**: `00:15:5d:e3:32:3b`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
