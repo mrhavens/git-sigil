@@ -6,26 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 05:37:39`
+- **Repo Created**: `2025-06-06 05:49:34`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 05:37:39`
-- **Last Commit SHA**: `3222c337b0ae430c302f9e9ee2580c2778331b75`
-- **Last Commit Message**: `Post-GitHub sync at 2025-06-06 05:35:23`
+- **This Commit Timestamp**: `2025-06-06 05:49:34`
+- **Last Commit SHA**: `93f0452706d5798d3277ceb258853dc055cb0536`
+- **Last Commit Message**: `Forgejo metadata link commit at 2025-06-06 05:49:12 — https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/a35070b118e6087edabaa546859dc89eec3044c7`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 05:37:39 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 05:49:12 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `637`
+- **Total Commits**: `649`
 - **Tracked Files**: `64`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 4 hours, 35 minutes`
+- **System Uptime**: `up 4 hours, 47 minutes`
 - **MAC Address**: `00:15:5d:86:d8:cc`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
