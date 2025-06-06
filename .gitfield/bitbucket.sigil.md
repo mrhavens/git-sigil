@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-06-06 01:31:30`
+- **This Commit Date**: `2025-06-06 01:32:08`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 01:31:30`
-- **Last Commit SHA**: `4c9d27187f04eb958b91489ebdeb88f2204ea3c3`
+- **This Commit Timestamp**: `2025-06-06 01:32:08`
+- **Last Commit SHA**: `580a0e81f79904e4cb3914dcf66130485a550bcd`
 - **Last Commit Message**: `Post-GitLab sync at 2025-06-06 01:30:02`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 01:31:18 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/4c9d27187f04eb958b91489ebdeb88f2204ea3c3](https://bitbucket.org/thefoldwithin/git-sigil/commits/4c9d27187f04eb958b91489ebdeb88f2204ea3c3)
+- **Last Commit Date**: `Fri Jun 6 01:31:58 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/580a0e81f79904e4cb3914dcf66130485a550bcd](https://bitbucket.org/thefoldwithin/git-sigil/commits/580a0e81f79904e4cb3914dcf66130485a550bcd)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `590`
-- **Tracked Files**: `59`
+- **Total Commits**: `601`
+- **Tracked Files**: `61`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
