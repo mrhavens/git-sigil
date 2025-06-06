@@ -26,6 +26,12 @@
       "branch": "master",
       "commit": "9a975dcc7f49200424c4847075cabaa92a65a993",
       "message": "Post-GitHub sync at 2025-06-06 01:30:02"
+    },
+    {
+      "timestamp": "2025-06-06 05:35:23",
+      "branch": "master",
+      "commit": "95dd851cc1cc196ad5321cac58d72cc653930f0c",
+      "message": "Forgejo metadata link commit at 2025-06-06 05:16:42 — https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/7a4771a614a1a71f861b0fbf92fece357a7c10f3"
     }
   ]
 }
