@@ -106,3 +106,11 @@ GitField's recursive, multi-platform approach is a novel solution to deplatformi
 ## 📧 Contact
 
 For questions or contributions, contact **Mark Randall Havens** (mark.r.havens@gmail.com) or open an issue on any platform.
+
+---
+
+## 🔍 External Access
+
+- 🔗 **Google Drive Folder**: [git-sigil](https://drive.google.com/open?id=10HjliV4uxolquyRnJg_3BLLlOIEb5eyb)
+- 🌐 **Published View**: [https://drv.tw/view/open?id=10HjliV4uxolquyRnJg_3BLLlOIEb5eyb](https://drv.tw/view/open?id=10HjliV4uxolquyRnJg_3BLLlOIEb5eyb)
+

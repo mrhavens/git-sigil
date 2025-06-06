@@ -50,8 +50,8 @@ update_path() {
 
     # Check for duplicate PATH entries in the config file
     if [[ -f "$config_file" ]]; then
-        # Remove any existing entries for INSTALL_DIR using a different delimiter
-        sed -i.bak "\|export PATH=.*$INSTALL_DIR|d" "$config_file" && rm -f "$config_file.bak"
+        # Remove any existing entries for INSTALL_DIR
+        sed -i.bak "/export PATH=.*$INSTALL_DIR/d" "$config_file" && rm -f "$config_file.bak"
         info "Removed any existing $INSTALL_DIR entries from $config_file"
     fi
 
