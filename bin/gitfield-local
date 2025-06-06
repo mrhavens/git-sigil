@@ -1,0 +1,229 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# ╭─────────────────────────────────────╮
+# │          gitfield-local             │
+# ╰─────────────────────────────────────╮
+# Manages a local bare Git repository as a sacred push target for redundancy.
+# Commands: configure, status, push
+# Creates and maintains a bare repository in ~/git-local-repos/git-sigil.git
+# Generates metadata in .gitfield/local.sigil.md and updates .gitfield/push_log.json
+
+# ╭─────────────────────────────────────╮
+# │          CONFIGURATION              │
+# ╰─────────────────────────────────────╮
+REPO_PATH=$(git rev-parse --show-toplevel 2>/dev/null) || { echo -e "\e[1;31m[ERROR]\e[0m Not inside a Git repository" >&2; exit 1; }
+LOCAL_REPO="$HOME/git-local-repos/git-sigil.git"
+METADATA_DIR="$REPO_PATH/.gitfield"
+METADATA_FILE="$METADATA_DIR/local.sigil.md"
+PUSH_LOG="$METADATA_DIR/push_log.json"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+SCRIPT_VERSION="1.0"
+
+# ╭─────────────────────────────────────╮
+# │           LOGGING UTILS             │
+# ╰─────────────────────────────────────╮
+info()  { echo -e "\e[1;34m[INFO]\e[0m $*" >&2; }
+warn()  { echo -e "\e[1;33m[WARN]\e[0m $*" >&2; }
+error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
+
+# ╭─────────────────────────────────────╮
+# │         SELF-HEALING CHECKS         │
+# ╰─────────────────────────────────────╮
+self_heal() {
+    info "Running self-healing checks..."
+
+    # Check if Git is installed
+    if ! command -v git >/dev/null 2>&1; then
+        error "Git is not installed. Please install Git and try again."
+    fi
+
+    # Ensure working repository is valid
+    if ! git -C "$REPO_PATH" rev-parse --git-dir >/dev/null 2>&1; then
+        error "Invalid Git repository at $REPO_PATH"
+    fi
+
+    # Create metadata directory if missing
+    if [[ ! -d "$METADATA_DIR" ]]; then
+        info "Creating metadata directory: $METADATA_DIR"
+        mkdir -p "$METADATA_DIR" || error "Failed to create $METADATA_DIR"
+    fi
+
+    # Create push log if missing
+    if [[ ! -f "$PUSH_LOG" ]]; then
+        info "Creating push log: $PUSH_LOG"
+        echo "{}" > "$PUSH_LOG" || error "Failed to create $PUSH_LOG"
+    fi
+
+    # Ensure local bare repository exists
+    if [[ ! -d "$LOCAL_REPO" ]]; then
+        info "Creating local bare repository: $LOCAL_REPO"
+        mkdir -p "$LOCAL_REPO" || error "Failed to create $LOCAL_REPO"
+        git init --bare "$LOCAL_REPO" || error "Failed to initialize bare repository"
+    fi
+
+    # Verify local repository is a valid bare repo
+    if ! git -C "$LOCAL_REPO" rev-parse --is-bare-repository >/dev/null 2>&1; then
+        warn "Local repository $LOCAL_REPO is not a valid bare repository. Reinitializing..."
+        rm -rf "$LOCAL_REPO" || error "Failed to remove invalid $LOCAL_REPO"
+        mkdir -p "$LOCAL_REPO" || error "Failed to create $LOCAL_REPO"
+        git init --bare "$LOCAL_REPO" || error "Failed to reinitialize bare repository"
+    fi
+
+    # Ensure permissions are correct
+    chmod -R u+rwX "$LOCAL_REPO" || warn "Failed to set permissions on $LOCAL_REPO"
+}
+
+# ╭─────────────────────────────────────╮
+# │         CONFIGURE REMOTE            │
+# ╰─────────────────────────────────────╮
+configure() {
+    info "Configuring local remote..."
+
+    # Check if 'local' remote exists
+    if git -C "$REPO_PATH" remote | grep -q '^local$'; then
+        info "Local remote already exists. Verifying URL..."
+        current_url=$(git -C "$REPO_PATH" remote get-url local)
+        if [[ "$current_url" != "file://$LOCAL_REPO" ]]; then
+            warn "Local remote URL is incorrect ($current_url). Updating to file://$LOCAL_REPO"
+            git -C "$REPO_PATH" remote set-url local "file://$LOCAL_REPO" || error "Failed to update local remote URL"
+        fi
+    else
+        info "Adding local remote: file://$LOCAL_REPO"
+        git -C "$REPO_PATH" remote add local "file://$LOCAL_REPO" || error "Failed to add local remote"
+    fi
+
+    # Set upstream for current branch if not set
+    current_branch=$(git -C "$REPO_PATH" rev-parse --abbrev-ref HEAD)
+    if ! git -C "$REPO_PATH" rev-parse --abbrev-ref --symbolic-full-name "@{u}" >/dev/null 2>&1; then
+        info "Setting upstream for $current_branch to local/$current_branch"
+        git -C "$REPO_PATH" push --set-upstream local "$current_branch" || error "Failed to set upstream"
+    fi
+
+    info "Local remote configured successfully."
+}
+
+# ╭─────────────────────────────────────╮
+# │         STATUS CHECK                │
+# ╰─────────────────────────────────────╮
+status() {
+    info "Checking local repository status..."
+
+    # Verify local bare repository
+    if [[ -d "$LOCAL_REPO" && $(git -C "$LOCAL_REPO" rev-parse --is-bare-repository) == "true" ]]; then
+        info "Local bare repository: $LOCAL_REPO"
+        latest_commit=$(git -C "$LOCAL_REPO" log -1 --format="%h %s (%cr)" 2>/dev/null || echo "No commits")
+        info "Latest commit: $latest_commit"
+    else
+        warn "Local bare repository not found or invalid: $LOCAL_REPO"
+    fi
+
+    # Check remote configuration
+    if git -C "$REPO_PATH" remote | grep -q '^local$'; then
+        remote_url=$(git -C "$REPO_PATH" remote get-url local)
+        info "Local remote URL: $remote_url"
+    else
+        warn "Local remote not configured."
+    fi
+
+    # Check working repository status
+    info "Working repository: $REPO_PATH"
+    git -C "$REPO_PATH" status --short
+}
+
+# ╭─────────────────────────────────────╮
+# │         PUSH TO LOCAL               │
+# ╰─────────────────────────────────────╮
+push() {
+    info "Pushing to local bare repository..."
+
+    # Ensure remote is configured
+    if ! git -C "$REPO_PATH" remote | grep -q '^local$'; then
+        warn "Local remote not configured. Running configure..."
+        configure
+    fi
+
+    # Get current branch
+    current_branch=$(git -C "$REPO_PATH" rev-parse --abbrev-ref HEAD)
+
+    # Push to local remote
+    if git -C "$REPO_PATH" push local "$current_branch"; then
+        info "Successfully pushed to local/$current_branch"
+    else
+        warn "Push failed. Attempting to recover..."
+        configure
+        git -C "$REPO_PATH" push local "$current_branch" || error "Failed to push to local/$current_branch after recovery"
+    fi
+
+    # Update metadata
+    update_metadata
+}
+
+# ╭─────────────────────────────────────╮
+# │         UPDATE METADATA             │
+# ╰─────────────────────────────────────╮
+update_metadata() {
+    info "Updating metadata in $METADATA_FILE and $PUSH_LOG..."
+
+    # Get repository details
+    current_branch=$(git -C "$REPO_PATH" rev-parse --abbrev-ref HEAD)
+    latest_commit=$(git -C "$REPO_PATH" log -1 --format="%h" 2>/dev/null || echo "Unknown")
+    commit_message=$(git -C "$REPO_PATH" log -1 --format="%s" 2>/dev/null || echo "Unknown")
+    repo_name=$(basename "$REPO_PATH")
+
+    # Generate .gitfield/local.sigil.md
+    cat << EOF > "$METADATA_FILE"
+# Local Repository Metadata
+- **Repository**: $repo_name
+- **Local Remote Path**: file://$LOCAL_REPO
+- **Branch**: $current_branch
+- **Latest Commit**: $latest_commit
+- **Commit Message**: $commit_message
+- **Last Updated**: $TIMESTAMP
+- **Script Version**: $SCRIPT_VERSION
+EOF
+
+    if [[ -f "$METADATA_FILE" ]]; then
+        info "Generated metadata: $METADATA_FILE"
+    else
+        warn "Failed to generate $METADATA_FILE"
+    fi
+
+    # Update push_log.json
+    if command -v jq >/dev/null 2>&1; then
+        jq --arg ts "$TIMESTAMP" \
+           --arg branch "$current_branch" \
+           --arg commit "$latest_commit" \
+           --arg msg "$commit_message" \
+           '.local += [{"timestamp": $ts, "branch": $branch, "commit": $commit, "message": $msg}]' \
+           "$PUSH_LOG" > "$PUSH_LOG.tmp" && mv "$PUSH_LOG.tmp" "$PUSH_LOG" || warn "Failed to update $PUSH_LOG"
+        info "Updated push log: $PUSH_LOG"
+    else
+        warn "jq not installed. Skipping $PUSH_LOG update."
+    fi
+}
+
+# ╭─────────────────────────────────────╮
+# │            MAIN EXECUTION           │
+# ╰─────────────────────────────────────╮
+main() {
+    self_heal
+
+    case "${1:-status}" in
+        configure)
+            configure
+            ;;
+        status)
+            status
+            ;;
+        push)
+            push
+            ;;
+        *)
+            error "Usage: $0 {configure|status|push}"
+            ;;
+    esac
+}
+
+main "$@"
