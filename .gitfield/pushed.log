@@ -42,3 +42,4 @@
   CLI: git ls-tree -r --name-only HEAD # View file structure
 [2025-06-06 05:37:57] GitLab: https://gitlab.com/mrhavens/git-sigil
 [2025-06-06 05:38:16] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+[2025-06-06 05:38:31] GitHub: https://github.com/mrhavens/git-sigil
