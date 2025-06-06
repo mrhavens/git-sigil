@@ -109,11 +109,11 @@ The following platforms host the \`$REPO_NAME\` repository, each chosen for its 
 
 ### 2. Forgejo
 - **URL**: [$FORGEJO_URL]($FORGEJO_URL)
-- **Purpose**: Forgejo is a self-hosted, open-source git platform running on \`remember.thefoldwithin.earth\` (user: \`mrhavens\`, SSH port: 222). It provides full control over the repository, ensuring sovereignty and independence from third-party providers.
+- **Purpose**: Forgejo is a self-hosted, open-source git platform running on \`remember.thefoldwithin.earth\`. It provides full control over the repository, ensuring sovereignty and independence from third-party providers.
 - **Value**: Enhances resilience by hosting the repository on a sovereign, redundant system with automated backups and deployment strategies, reducing risks of external interference or service disruptions.
 - **Access Details**: SSH access uses port 222:
   \`\`\`bash
-  ssh -T -p 222 git@remember.thefoldwithin.earth
+  ssh -T -p 222 username@remember.thefoldwithin.earth
   \`\`\`
 
 ### 3. GitLab
