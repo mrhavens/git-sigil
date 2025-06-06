@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 00:23:58`
+- **Repo Created**: `2025-06-06 01:30:02`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 00:23:58`
-- **Last Commit SHA**: `071fef2a8ae2c20b24c72fe1be612a4634127471`
-- **Last Commit Message**: `added gitfield-local`
+- **This Commit Timestamp**: `2025-06-06 01:30:02`
+- **Last Commit SHA**: `89a9dd190508c30148e2625505016ff9c8ee0321`
+- **Last Commit Message**: `Local metadata link commit at 2025-06-06 00:23:58 — file:///home/mrhavens/git-local-repos/git-sigil.git`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 00:19:35 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 00:23:59 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `583`
-- **Tracked Files**: `55`
+- **Total Commits**: `584`
+- **Tracked Files**: `56`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
@@ -48,8 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 4 hours, 29 minutes`
-- **MAC Address**: `00:15:5d:36:1e:af`
+- **System Uptime**: `up 33 minutes`
+- **MAC Address**: `00:15:5d:86:d8:cc`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
