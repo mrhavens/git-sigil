@@ -6,26 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `remember`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 05:49:12`
+- **Repo Created**: `2025-06-06 05:49:40`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 05:49:12`
-- **Last Commit SHA**: `a35070b118e6087edabaa546859dc89eec3044c7`
-- **Last Commit Message**: `Forgejo metadata link commit at 2025-06-06 05:49:01 — https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/912b0dc53bc137bd6582a074f68d8ba2ff5046ca`
+- **This Commit Timestamp**: `2025-06-06 05:49:40`
+- **Last Commit SHA**: `20fd49c67960bdd4a783868a9f19121670672468`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-06 05:49:34`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 05:49:02 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/a35070b118e6087edabaa546859dc89eec3044c7](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/a35070b118e6087edabaa546859dc89eec3044c7)
+- **Last Commit Date**: `Fri Jun 6 05:49:39 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/20fd49c67960bdd4a783868a9f19121670672468](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/20fd49c67960bdd4a783868a9f19121670672468)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `648`
+- **Total Commits**: `653`
 - **Tracked Files**: `64`
-- **Uncommitted Changes**: `Yes`
+- **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
 ---
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 4 hours, 46 minutes`
+- **System Uptime**: `up 4 hours, 47 minutes`
 - **MAC Address**: `00:15:5d:86:d8:cc`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
