@@ -203,6 +203,7 @@ run_push_cycle() {
     local cycle_number=$1
     info "Starting push cycle $cycle_number..."
 
+    execute_push "gitfield-local" "Local" "" "" ""
     execute_push "gitfield-radicle" "Radicle" "" "$RADICLE_RID" "$RADICLE_PEER_ID"
     execute_push "gitfield-gitlab" "GitLab" "$GITLAB_URL" "" ""
     execute_push "gitfield-bitbucket" "Bitbucket" "$BITBUCKET_URL" "" ""

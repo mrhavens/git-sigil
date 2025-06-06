@@ -1,5 +1,19 @@
 {
   "project_id": "uvzx7",
   "project_title": "git-sigil",
-  "pushed_at": "2025-06-05T23:05:43-05:00"
+  "pushed_at": "2025-06-05T23:05:43-05:00",
+  "local": [
+    {
+      "timestamp": "2025-06-06 00:23:58",
+      "branch": "master",
+      "commit": "071fef2a8ae2c20b24c72fe1be612a4634127471",
+      "message": "added gitfield-local"
+    },
+    {
+      "timestamp": "2025-06-06 01:30:02",
+      "branch": "master",
+      "commit": "89a9dd190508c30148e2625505016ff9c8ee0321",
+      "message": "Local metadata link commit at 2025-06-06 00:23:58 — file:///home/mrhavens/git-local-repos/git-sigil.git"
+    }
+  ]
 }
