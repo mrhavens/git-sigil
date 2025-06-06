@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Remote Label**: `remember`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 05:49:01`
+- **Repo Created**: `2025-06-06 05:49:12`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 05:49:01`
-- **Last Commit SHA**: `912b0dc53bc137bd6582a074f68d8ba2ff5046ca`
-- **Last Commit Message**: `Post-GitHub sync at 2025-06-06 05:35:23`
+- **This Commit Timestamp**: `2025-06-06 05:49:12`
+- **Last Commit SHA**: `a35070b118e6087edabaa546859dc89eec3044c7`
+- **Last Commit Message**: `Forgejo metadata link commit at 2025-06-06 05:49:01 — https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/912b0dc53bc137bd6582a074f68d8ba2ff5046ca`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 05:38:31 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/912b0dc53bc137bd6582a074f68d8ba2ff5046ca](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/912b0dc53bc137bd6582a074f68d8ba2ff5046ca)
+- **Last Commit Date**: `Fri Jun 6 05:49:02 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/a35070b118e6087edabaa546859dc89eec3044c7](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/a35070b118e6087edabaa546859dc89eec3044c7)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `647`
+- **Total Commits**: `648`
 - **Tracked Files**: `64`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
