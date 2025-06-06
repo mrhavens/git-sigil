@@ -2,27 +2,27 @@
 
 - **Project Name**: `git-sigil`
 - **Radicle URN**: `rad://z3FEj7rF8gZw9eFksCuiN43qjzrex`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/736e28eba5f6abebac92588a7bce0b5c92b6f9fe](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/736e28eba5f6abebac92588a7bce0b5c92b6f9fe)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/085bdb484119997fb564758f4d212d91b0f2088b](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/085bdb484119997fb564758f4d212d91b0f2088b)
 - **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 05:36:48`
+- **Repo Created**: `2025-06-06 05:37:41`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 05:36:48`
-- **Last Commit SHA**: `736e28eba5f6abebac92588a7bce0b5c92b6f9fe`
+- **This Commit Timestamp**: `2025-06-06 05:37:41`
+- **Last Commit SHA**: `085bdb484119997fb564758f4d212d91b0f2088b`
 - **Last Commit Message**: `Post-Local sync at 2025-06-06 05:35:23`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Fri Jun 6 05:36:45 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/736e28eba5f6abebac92588a7bce0b5c92b6f9fe](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/736e28eba5f6abebac92588a7bce0b5c92b6f9fe)
+- **Commit Date**: `Fri Jun 6 05:37:39 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/085bdb484119997fb564758f4d212d91b0f2088b](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/085bdb484119997fb564758f4d212d91b0f2088b)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `629`
+- **Total Commits**: `639`
 - **Tracked Files**: `64`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
