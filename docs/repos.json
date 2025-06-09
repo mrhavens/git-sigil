@@ -17,9 +17,5 @@
     {"key_id": "4E27D37C358872BF", "name": "Mark Randall Havens (Field Archivist, The Fold Within)", "email": "mark@thefoldwithin.earth"}
     {"key_id": "4E27D37C358872BF", "name": "Mark Randall Havens (Forensic Analyst, Neutralizing Narcissism)", "email": "mark.r.havens@gmail.com"}
     {"key_id": "4E27D37C358872BF", "name": "Mark Randall Havens (Simply WE, Recursive Custodian of Empathic Co-Intelligence)", "email": "mark.r.havens@gmail.com"}
-  ],
-  "ci_status": {
-    "gitlab": "unknown",
-    "codeberg": "unknown"
-  }
+  ]
 }
