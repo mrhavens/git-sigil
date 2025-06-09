@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **Bitbucket Workspace**: `thefoldwithin`
 - **Remote URL**: [https://bitbucket.org/thefoldwithin/git-sigil](https://bitbucket.org/thefoldwithin/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
+- **Local Repo Path**: `/mnt/c/Downloads/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-06-06 12:25:17`
+- **This Commit Date**: `2025-06-07 01:42:50`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 12:25:17`
-- **Last Commit SHA**: `b9d7a430771c2fd8395071efd1c75c8444c7bb11`
-- **Last Commit Message**: `Post-GitLab sync at 2025-06-06 12:19:09`
+- **This Commit Timestamp**: `2025-06-07 01:42:50`
+- **Last Commit SHA**: `7ee2918c5612e4f7b24e1aadc7da04c1cc162547`
+- **Last Commit Message**: `Post-GitLab sync at 2025-06-07 01:33:38`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 12:25:06 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/b9d7a430771c2fd8395071efd1c75c8444c7bb11](https://bitbucket.org/thefoldwithin/git-sigil/commits/b9d7a430771c2fd8395071efd1c75c8444c7bb11)
+- **Last Commit Date**: `Sat Jun 7 01:42:32 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/7ee2918c5612e4f7b24e1aadc7da04c1cc162547](https://bitbucket.org/thefoldwithin/git-sigil/commits/7ee2918c5612e4f7b24e1aadc7da04c1cc162547)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `744`
-- **Tracked Files**: `81`
+- **Total Commits**: `897`
+- **Tracked Files**: `115`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -52,7 +52,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 11 hours, 9 minutes`
+- **System Uptime**: `up 23 hours, 50 minutes`
 
 ---
 

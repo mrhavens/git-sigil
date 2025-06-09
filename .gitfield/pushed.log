@@ -108,3 +108,73 @@
 [2025-06-06 12:25:22] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
 [2025-06-06 12:25:32] GitHub: https://github.com/mrhavens/git-sigil
 [2025-06-06 12:25:33] Local: 
+[2025-06-06 12:25:38] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+<<<<<<< HEAD
+[2025-06-07 00:07:30] Local: 
+[2025-06-07 00:07:39] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+[2025-06-07 00:07:56] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-07 00:08:46] GitLab: https://gitlab.com/mrhavens/git-sigil
+[2025-06-07 00:09:17] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+[2025-06-07 00:09:46] GitHub: https://github.com/mrhavens/git-sigil
+[2025-06-07 00:10:04] Local: 
+[2025-06-07 00:12:40] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+[2025-06-07 00:12:55] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-07 00:13:16] GitLab: https://gitlab.com/mrhavens/git-sigil
+[2025-06-07 00:13:38] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+[2025-06-07 00:14:00] GitHub: https://github.com/mrhavens/git-sigil
+[2025-06-07 00:14:11] Local: 
+[2025-06-07 00:14:20] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+[2025-06-07 00:14:35] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-07 00:14:56] GitLab: https://gitlab.com/mrhavens/git-sigil
+[2025-06-07 00:15:19] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+[2025-06-07 00:15:41] GitHub: https://github.com/mrhavens/git-sigil
+=======
+[2025-06-06 12:25:42] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-06 12:25:55] GitLab: https://gitlab.com/mrhavens/git-sigil
+>>>>>>> be7726405b6412ae5af5144f9e2cf4d13bd32aeb
+[2025-06-07 01:33:59] Local: 
+[2025-06-07 01:34:19] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+[2025-06-07 01:34:47] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-07 01:35:36] GitLab: https://gitlab.com/mrhavens/git-sigil
+[2025-06-07 01:36:20] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+[2025-06-07 01:37:22] GitHub: https://github.com/mrhavens/git-sigil
+[2025-06-07 01:37:44] Local: 
+[2025-06-07 01:38:11] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+[2025-06-07 01:38:41] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-07 01:39:12] GitLab: https://gitlab.com/mrhavens/git-sigil
+[2025-06-07 01:39:52] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+[2025-06-07 01:40:29] GitHub: https://github.com/mrhavens/git-sigil
+[2025-06-07 01:40:51] Local: 
+[2025-06-07 01:41:15] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+<<<<<<< HEAD
+[2025-06-07 01:41:43] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
+[2025-06-07 01:42:29] GitLab: https://gitlab.com/mrhavens/git-sigil
+[2025-06-07 01:43:14] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil
+=======
+[2025-06-09 07:38:33] Local: 
+<<<<<<< HEAD
+>>>>>>> e4aa1cd (Post-Local sync at 2025-06-09 07:38:32)
+=======
+[2025-06-09 07:38:41] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+<<<<<<< HEAD
+>>>>>>> 9565283 (Post-Radicle sync at 2025-06-09 07:38:32)
+=======
+[2025-06-09 09:01:12] Local: 
+>>>>>>> 56df476 (Post-Local sync at 2025-06-09 09:01:11)
+[2025-06-09 14:43:29] Local: 

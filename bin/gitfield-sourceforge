@@ -1,0 +1,224 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# Configuration
+GIT_REMOTE_NAME="sourceforge"
+SOURCEFORGE_DOMAIN="git.code.sf.net"
+SOURCEFORGE_SSH="ssh://USERNAME@$SOURCEFORGE_DOMAIN"
+PROJECT_NAME="mrhavens"  # SourceForge UNIX group name (project name)
+USERNAME="mrhavens"      # SourceForge username
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "[ERROR] Not inside a git repository. Please run this script from within a git repository." >&2; exit 1; }
+REPO_NAME=$(basename "$REPO_ROOT") || { echo "[ERROR] Failed to get repository name" >&2; exit 1; }
+MARKDOWN_FILE="$REPO_ROOT/.gitfield/sourceforge.sigil.md"
+DEFAULT_NAME="Mark Randall Havens"
+DEFAULT_EMAIL="mark.r.havens@gmail.com"
+SSH_KEY_FILE="$HOME/.ssh/id_ed25519"
+SSH_CONFIG_FILE="$HOME/.ssh/config"
+SCRIPT_VERSION="1.0"
+
+# Logging functions
+info()  { echo -e "\e[1;34m[INFO]\e[0m $*"; }
+warn()  { echo -e "\e[1;33m[WARN]\e[0m $*"; }
+error() { echo -e "\e[1;31m[ERROR]\e[0m $*" >&2; exit 1; }
+
+# Check for required tools
+info "Checking for required tools..."
+for cmd in git curl jq ssh lsb_release; do
+  command -v "$cmd" >/dev/null || {
+    sudo apt update -qq || warn "Failed to update package lists, continuing..."
+    sudo apt install -y git curl jq openssh-client lsb-release || error "Failed to install $cmd"
+  }
+done
+
+# Set git user info
+git config --global user.name "$DEFAULT_NAME" || warn "Failed to set git user name"
+git config --global user.email "$DEFAULT_EMAIL" || warn "Failed to set git user email"
+info "Git identity set to: $DEFAULT_NAME <$DEFAULT_EMAIL>"
+
+# Ensure at least one commit exists
+if ! git rev-parse HEAD &>/dev/null; then
+  error "No commits found in the repository. Please add and commit files before running this script."
+fi
+
+# SSH setup
+if [[ ! -f "$SSH_KEY_FILE" ]]; then
+  info "Generating SSH key..."
+  ssh-keygen -t ed25519 -C "$DEFAULT_EMAIL" -f "$SSH_KEY_FILE" -N "" || error "Failed to generate SSH key"
+fi
+
+eval "$(ssh-agent -s)" >/dev/null 2>&1 || error "Failed to start ssh-agent"
+ssh-add "$SSH_KEY_FILE" >/dev/null 2>&1 || warn "SSH key already added or could not be added"
+
+# Configure SSH for SourceForge
+if ! grep -q "Host $SOURCEFORGE_DOMAIN" "$SSH_CONFIG_FILE" 2>/dev/null; then
+  mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+  cat >> "$SSH_CONFIG_FILE" <<EOF
+Host $SOURCEFORGE_DOMAIN
+  HostName $SOURCEFORGE_DOMAIN
+  User $USERNAME
+  Port 22
+  IdentityFile $SSH_KEY_FILE
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+EOF
+  chmod 600 "$SSH_CONFIG_FILE" || warn "Failed to set permissions on SSH config file"
+  info "Added SSH config for $SOURCEFORGE_DOMAIN"
+fi
+
+# Verify SSH access to SourceForge
+set +e
+info "Testing SSH connection..."
+SSH_TEST_OUTPUT=$(ssh -T "$USERNAME@$SOURCEFORGE_DOMAIN" 2>&1)
+if ! echo "$SSH_TEST_OUTPUT" | grep -q "successfully authenticated"; then
+  warn "SSH test failed. Please upload your SSH public key to SourceForge."
+  echo "→ Visit: https://sourceforge.net/account/ssh"
+  echo "Your public key:"
+  cat "$SSH_KEY_FILE.pub"
+  error "SSH key not authorized. Upload the key and try again."
+else
+  info "SSH test passed: $SSH_TEST_OUTPUT"
+fi
+set -e
+
+# SourceForge repository setup
+# Note: SourceForge requires manual repository creation via the web interface.
+# Check if the repository exists by attempting to fetch its GitWeb page.
+info "Checking if repository exists..."
+REPO_URL="https://sourceforge.net/p/$PROJECT_NAME/$REPO_NAME"
+CURL_OUTPUT=$(curl -s -o /dev/null -w "%{http_code}" "$REPO_URL")
+if [[ "$CURL_OUTPUT" != "200" ]]; then
+  warn "Repository $REPO_NAME does not exist on SourceForge."
+  echo "→ Please create the repository manually at: https://sourceforge.net/projects/$PROJECT_NAME/admin"
+  echo "→ Instructions: Go to 'Admin' -> 'Tools' -> 'Git' -> Select label and mountpoint (e.g., '$REPO_NAME')"
+  error "Repository not found. Create it manually and try again."
+fi
+info "Repository $REPO_NAME exists at $REPO_URL"
+
+# Set up git remote
+REMOTE_URL="ssh://$USERNAME@$SOURCEFORGE_DOMAIN/p/$PROJECT_NAME/$REPO_NAME"
+if ! git remote get-url "$GIT_REMOTE_NAME" &>/dev/null; then
+  info "Adding remote $GIT_REMOTE_NAME..."
+  git remote add "$GIT_REMOTE_NAME" "$REMOTE_URL" || error "Failed to add remote $GIT_REMOTE_NAME"
+else
+  info "Updating remote $GIT_REMOTE_NAME..."
+  git remote set-url "$GIT_REMOTE_NAME" "$REMOTE_URL" || error "Failed to set remote URL for $GIT_REMOTE_NAME"
+fi
+
+# Generate metadata file
+mkdir -p "$(dirname "$MARKDOWN_FILE")" || error "Failed to create directory for $MARKDOWN_FILE"
+
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S') || error "Failed to get timestamp"
+DEFAULT_BRANCH=$(git symbolic-ref --short HEAD) || error "Failed to get default branch"
+REPO_PATH="$REPO_ROOT"
+LATEST_SHA=$(git rev-parse HEAD) || error "Failed to get latest commit SHA"
+LAST_COMMIT_MSG=$(git log -1 --pretty=format:"%s" 2>/dev/null || echo "Unknown")
+LAST_COMMIT_DATE=$(git log -1 --pretty=format:"%ad" 2>/dev/null || echo "Unknown")
+LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>" 2>/dev/null || echo "Unknown")
+TOTAL_COMMITS=$(git rev-list --count HEAD 2>/dev/null || echo "Unknown")
+TRACKED_FILES=$(git ls-files 2>/dev/null | wc -l 2>/dev/null || echo "Unknown")
+UNCOMMITTED=$(if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then echo "Yes"; else echo "No"; fi)
+LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "None")
+HOSTNAME=$(hostname 2>/dev/null || echo "Unknown")
+CURRENT_USER=$(whoami 2>/dev/null || echo "Unknown")
+TIMEZONE=$(date +%Z 2>/dev/null || echo "Unknown")
+OS_NAME=$(uname -s 2>/dev/null || echo "Unknown")
+KERNEL_VERSION=$(uname -r 2>/dev/null || echo "Unknown")
+ARCHITECTURE=$(uname -m 2>/dev/null || echo "Unknown")
+OS_PRETTY_NAME=$(grep PRETTY_NAME /etc/os-release 2>/dev/null | cut -d= -f2 | tr -d '"' || echo "Unknown")
+DOCKER_CHECK=$(grep -qE '/docker|/lxc' /proc/1/cgroup 2>/dev/null && echo "Yes" || echo "No")
+WSL_CHECK=$(grep -qi microsoft /proc/version 2>/dev/null && echo "Yes" || echo "No")
+VM_CHECK=$(systemd-detect-virt 2>/dev/null || echo "Unknown")
+UPTIME=$(uptime -p 2>/dev/null || echo "Unknown")
+MAC_ADDR=$(ip link 2>/dev/null | awk '/ether/ {print $2}' | head -n 1 2>/dev/null || echo "Unknown")
+LOCAL_IP=$(hostname -I 2>/dev/null | awk '{print $1}' 2>/dev/null || echo "Unknown")
+CPU_MODEL=$(grep -m1 'model name' /proc/cpuinfo 2>/dev/null | cut -d: -f2 | sed 's/^ //' 2>/dev/null || echo "Unknown")
+RAM_GB=$(awk '/MemTotal/ {printf "%.2f", $2/1024/1024}' /proc/meminfo 2>/dev/null || echo "Unknown")
+WEB_LINK="https://sourceforge.net/p/$PROJECT_NAME/$REPO_NAME"
+
+cat > "$MARKDOWN_FILE" <<EOF
+# 🔗 SourceForge Repository Link
+
+- **Repo Name**: \`$REPO_NAME\`
+- **SourceForge Project**: \`$PROJECT_NAME\`
+- **SourceForge User**: \`$USERNAME\`
+- **Remote URL**: [$WEB_LINK]($WEB_LINK)
+- **Local Repo Path**: \`$REPO_PATH\`
+- **Remote Label**: \`$GIT_REMOTE_NAME\`
+- **Default Branch**: \`$DEFAULT_BRANCH\`
+- **Repo Created**: \`$TIMESTAMP\`
+
+---
+
+## 📦 Commit Info
+
+- **This Commit Timestamp**: \`$TIMESTAMP\`
+- **Last Commit SHA**: \`$LATEST_SHA\`
+- **Last Commit Message**: \`$LAST_COMMIT_MSG\`
+- **Last Commit Author**: \`$LAST_COMMIT_AUTHOR\`
+- **Last Commit Date**: \`$LAST_COMMIT_DATE\`
+- **This Commit URL**: [$WEB_LINK/ci/$LATEST_SHA]($WEB_LINK/ci/$LATEST_SHA)
+
+---
+
+## 📊 Repo Status
+
+- **Total Commits**: \`$TOTAL_COMMITS\`
+- **Tracked Files**: \`$TRACKED_FILES\`
+- **Uncommitted Changes**: \`$UNCOMMITTED\`
+- **Latest Tag**: \`$LATEST_TAG\`
+
+---
+
+## 🧭 Environment
+
+- **Host Machine**: \`$HOSTNAME\`
+- **Current User**: \`$CURRENT_USER\`
+- **Time Zone**: \`$TIMEZONE\`
+- **Script Version**: \`$SCRIPT_VERSION\`
+
+---
+
+## 🧬 Hardware & OS Fingerprint
+
+- **OS Name**: \`$OS_NAME\`
+- **OS Version**: \`$OS_PRETTY_NAME\`
+- **Kernel Version**: \`$KERNEL_VERSION\`
+- **Architecture**: \`$ARCHITECTURE\`
+- **Running in Docker**: \`$DOCKER_CHECK\`
+- **Running in WSL**: \`$WSL_CHECK\`
+- **Virtual Machine**: \`$VM_CHECK\`
+- **System Uptime**: \`$UPTIME\`
+- **MAC Address**: \`$MAC_ADDR\`
+- **Local IP**: \`$LOCAL_IP\`
+- **CPU Model**: \`$CPU_MODEL\`
+- **Total RAM (GB)**: \`$RAM_GB\`
+
+---
+
+_Auto-generated by \`gitfield-sourceforge\` push script._
+EOF
+[[ $? -eq 0 ]] || error "Failed to write metadata to $MARKDOWN_FILE"
+
+# Commit and push
+set +e
+info "Committing markdown file..."
+git add "$MARKDOWN_FILE" || warn "Failed to add markdown file"
+git commit -m "SourceForge metadata link commit at $TIMESTAMP — $WEB_LINK/ci/$LATEST_SHA" || warn "No changes to commit"
+
+info "Pushing to SourceForge..."
+if ! git config --get branch."$DEFAULT_BRANCH".remote &>/dev/null; then
+  git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" || {
+    warn "Push to SourceForge failed. Check SSH setup or network."
+    warn "Run 'ssh -T $USERNAME@$SOURCEFORGE_DOMAIN' to debug."
+  }
+else
+  git push "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" || {
+    warn "Push to SourceForge failed. Check SSH setup or network."
+    warn "Run 'ssh -T $USERNAME@$SOURCEFORGE_DOMAIN' to debug."
+  }
+fi
+set -e
+
+info "✅ SourceForge push complete."
+echo -e "\n🔗 View in browser: $WEB_LINK\n"
