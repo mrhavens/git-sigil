@@ -2,110 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://remember.thefoldwithin.earth/mrhavens/git-sigil</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/index.html</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://gitlab.com/mrhavens/git-sigil/-/jobs/artifacts/main/raw/public/index.html?job=pages</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://mrhavens.codeberg.page/git-sigil/index.html</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/canonical.meta</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/canonical.md</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/index.json</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/gitfield.json</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/.well-known/repo.git-sigil.json</loc>
         <url>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/repos.json</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil/docs/pushed.log</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <url>https://github.com/mrhavens/git-sigil/docs/gitfieldtown.README.txt</loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://github.com/mrhavens/git-sigil</loc></loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://gitlab.com/mrhavens/git-sigil</loc></loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://bitbucket.org/thefoldwithin/git-sigil</loc></loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://remember.thefoldwithin.earth/mrhavens/git-sigil</loc></loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://codeberg.org/mrhavens/git-sigil</loc></loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://gitea.com/mrhavens/git-sigil</loc></loc>
-        <lastmod>2025-06-09T23:14:38Z</lastmod>
+        <lastmod>2025-06-09T23:15:42Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
