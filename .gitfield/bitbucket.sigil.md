@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **Bitbucket Workspace**: `thefoldwithin`
 - **Remote URL**: [https://bitbucket.org/thefoldwithin/git-sigil](https://bitbucket.org/thefoldwithin/git-sigil)
-- **Local Repo Path**: `/mnt/c/Downloads/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-06-07 01:42:50`
+- **This Commit Date**: `2025-06-09 14:44:26`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-07 01:42:50`
-- **Last Commit SHA**: `7ee2918c5612e4f7b24e1aadc7da04c1cc162547`
-- **Last Commit Message**: `Post-GitLab sync at 2025-06-07 01:33:38`
+- **This Commit Timestamp**: `2025-06-09 14:44:26`
+- **Last Commit SHA**: `618831945e9cf1f8c840a436d4947370f7d9a8de`
+- **Last Commit Message**: `Post-GitLab sync at 2025-06-09 14:43:29`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat Jun 7 01:42:32 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/7ee2918c5612e4f7b24e1aadc7da04c1cc162547](https://bitbucket.org/thefoldwithin/git-sigil/commits/7ee2918c5612e4f7b24e1aadc7da04c1cc162547)
+- **Last Commit Date**: `Mon Jun 9 14:44:15 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/git-sigil/commits/618831945e9cf1f8c840a436d4947370f7d9a8de](https://bitbucket.org/thefoldwithin/git-sigil/commits/618831945e9cf1f8c840a436d4947370f7d9a8de)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `897`
-- **Tracked Files**: `115`
+- **Total Commits**: `763`
+- **Tracked Files**: `121`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -47,12 +47,12 @@
 - **Architecture**: `x86_64`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
-- **MAC Address**: `00:15:5d:86:d8:cc`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 23 hours, 50 minutes`
+- **System Uptime**: `up 25 minutes`
 
 ---
 
