@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "git-sigil",
+  "url": "https://remember.thefoldwithin.earth/mrhavens/git-sigil",
+  "codeRepository": "https://remember.thefoldwithin.earth/mrhavens/git-sigil",
+  "sameAs": [
+    "https://github.com/mrhavens/git-sigil",
+    "https://gitlab.com/mrhavens/git-sigil",
+    "https://bitbucket.org/thefoldwithin/git-sigil",
+    "https://remember.thefoldwithin.earth/mrhavens/git-sigil",
+    "https://codeberg.org/mrhavens/git-sigil",
+    "https://gitea.com/mrhavens/git-sigil",
+    "rad:rad:z3FEj7rF8gZw9eFksCuiN43qjzrex"
+  ],
+  "dateModified": "2025-06-09T20:30:45Z",
+  "publisher": {
+    "@type": "Person",
+    "name": "Mark Randall Havens"
+  }
+}
