@@ -13,7 +13,7 @@
     "https://gitea.com/mrhavens/git-sigil",
     "rad:z3FEj7rF8gZw9eFksCuiN43qjzrex"
   ],
-  "dateModified": "2025-06-09T23:16:06Z",
+  "dateModified": "2025-06-09T23:36:20Z",
   "publisher": {
     "@type": "Person",
     "name": "Mark Randall Havens"
@@ -22,9 +22,5 @@
     {"key_id": "4E27D37C358872BF", "name": "Mark Randall Havens (Field Archivist, The Fold Within)", "email": "mark@thefoldwithin.earth"}
     {"key_id": "4E27D37C358872BF", "name": "Mark Randall Havens (Forensic Analyst, Neutralizing Narcissism)", "email": "mark.r.havens@gmail.com"}
     {"key_id": "4E27D37C358872BF", "name": "Mark Randall Havens (Simply WE, Recursive Custodian of Empathic Co-Intelligence)", "email": "mark.r.havens@gmail.com"}
-  ],
-  "ci_status": {
-    "gitlab": "unknown",
-    "codeberg": "unknown"
-  }
+  ]
 }
