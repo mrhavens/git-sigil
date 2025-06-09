@@ -3,29 +3,29 @@
 - **Repo Name**: `git-sigil`
 - **Local User**: `mrhavens`
 - **Remote URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
-- **Local Repo Path**: `/home/mrhavens/tmpwork/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 12:25:32`
+- **Repo Created**: `2025-06-09 14:43:29`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 12:25:32`
-- **Last Commit SHA**: `7338382d2fffe5cd70aa057d46ee3a4045d5e5a1`
-- **Last Commit Message**: `Post-GitHub sync at 2025-06-06 12:19:09`
+- **This Commit Timestamp**: `2025-06-09 14:43:29`
+- **Last Commit SHA**: `557457c549bb253a21b10b892d7abc2fec1c1fd4`
+- **Last Commit Message**: `Update Radicle metadata at 2025-06-06 12:25:35 — https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex/tree/8302ba3ccd61a4aeb76064d3bfc94114c7d31cc4`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 12:25:32 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 12:25:35 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `748`
+- **Total Commits**: `751`
 - **Tracked Files**: `81`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -48,8 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 11 hours, 9 minutes`
-- **MAC Address**: `00:15:5d:86:d8:cc`
+- **System Uptime**: `up 24 minutes`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
