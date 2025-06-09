@@ -10,21 +10,12 @@ REPO_NAME=$(basename "$REPO_PATH")
 GITFIELD_DIR="$REPO_PATH/.gitfield"
 WELL_KNOWN_DIR="$REPO_PATH/.well-known"
 DOCS_DIR="$REPO_PATH/docs"
-DOCS_WELL_KNOWN_DIR="$DOCS_DIR/.well-known"
 LOG_FILE="$GITFIELD_DIR/pushed.log"
 GITFIELD_MD="$REPO_PATH/GITFIELD.md"
 CANONICAL_META="$GITFIELD_DIR/canonical.meta"
 CANONICAL_MD="$GITFIELD_DIR/canonical.md"
 INDEX_JSON="$GITFIELD_DIR/index.json"
 WELL_KNOWN_JSON="$WELL_KNOWN_DIR/gitfield.json"
-GITFIELD_README="$GITFIELD_DIR/README.txt"
-DOCS_CANONICAL_META="$DOCS_DIR/canonical.meta"
-DOCS_CANONICAL_MD="$DOCS_DIR/canonical.md"
-DOCS_INDEX_JSON="$DOCS_DIR/index.json"
-DOCS_PUSHED_LOG="$DOCS_DIR/pushed.log"
-DOCS_GITFIELD_README="$DOCS_DIR/gitfield.README.txt"
-DOCS_GITFIELD_JSON="$DOCS_DIR/gitfield.json"
-DOCS_WELL_KNOWN_JSON="$DOCS_WELL_KNOWN_DIR/gitfield.json"
 DOCS_INDEX="$DOCS_DIR/index.html"
 DOCS_CSS="$DOCS_DIR/style.css"
 DOCS_REPOS_JSON="$DOCS_DIR/repos.json"
@@ -32,11 +23,9 @@ DOCS_README="$DOCS_DIR/README.md"
 DOCS_NOJEKYLL="$DOCS_DIR/.nojekyll"
 DOCS_ROBOTS="$DOCS_DIR/robots.txt"
 DOCS_SITEMAP="$DOCS_DIR/sitemap.xml"
-DOCS_INTEGRITY="$DOCS_DIR/integrity.sha256"
 TIMESTAMP=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-SCRIPT_VERSION="1.4"  # Updated for GPG integration
-PRESERVE_META=${PRESERVE_META:-false}  # Preserve existing metadata
-FORCE_DOCS=${FORCE_DOCS:-false}  # Force overwrite of /docs metadata
+SCRIPT_VERSION="1.2"  # Updated version for /docs and Radicle fixes
+PRESERVE_META=${PRESERVE_META:-false}  # Flag to preserve existing metadata
 
 # URLs for each platform
 CANONICAL_URL="https://remember.thefoldwithin.earth/mrhavens/$REPO_NAME"
@@ -46,8 +35,7 @@ BITBUCKET_URL="https://bitbucket.org/thefoldwithin/$REPO_NAME"
 FORGEJO_URL="https://remember.thefoldwithin.earth/mrhavens/$REPO_NAME"
 CODEBERG_URL="https://codeberg.org/mrhavens/$REPO_NAME"
 GITEA_URL="https://gitea.com/mrhavens/$REPO_NAME"
-RADICLE_RID="rad:z3FEj7rF8gZw9eFksCuiN43qjzrex"
-RADICLE_URL="https://app.radicle.xyz/nodes/z3FEj7rF8gZw9eFksCuiN43qjzrex"
+RADICLE_RID="rad:z3FEj7rF8gZw9eFksCuiN43qjzrex"  # Fixed: removed rad:rad:
 RADICLE_PEER_ID="z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz"
 
 # Metadata configuration
@@ -58,25 +46,11 @@ MIRRORS=(
     "$FORGEJO_URL"
     "$CODEBERG_URL"
     "$GITEA_URL"
-    "$RADICLE_RID"
+    "$RADICLE_RID"  # Fixed: use rad: prefix directly
 )
 COMMIT_HASH=$(git -C "$REPO_PATH" rev-parse --short HEAD 2>/dev/null || echo "unknown")
 TREE_HASH=$(git -C "$REPO_PATH" rev-parse HEAD^{tree} 2>/dev/null || echo "unknown")
 SYNC_CYCLES=0
-
-# GPG configuration
-GPG_KEYS=()
-GPG_EMAILS=()
-GPG_NAMES=()
-while IFS= read -r line; do
-    if [[ "$line" =~ ^pub[[:space:]]+rsa[0-9]+[[:space:]]+([0-9]{4}-[0-9]{2}-[0-9]{2})[[:space:]]+\[SC\] ]]; then
-        key_id=$(gpg --list-keys --with-colons | grep -B1 "^pub" | grep "^pub" | awk -F: '{print $5}' | head -n1)
-        GPG_KEYS+=("$key_id")
-    elif [[ "$line" =~ ^uid[[:space:]]+\[ultimate\][[:space:]]+(.*)\<(.*)\> ]]; then
-        GPG_NAMES+=("${BASH_REMATCH[1]% }")
-        GPG_EMAILS+=("${BASH_REMATCH[2]}")
-    fi
-done < <(gpg --list-keys)
 
 # ╭─────────────────────────────────────╮
 # │           LOGGING UTILS             │
@@ -118,47 +92,6 @@ find_script() {
 }
 
 # ╭─────────────────────────────────────╮
-# │         GPG SIGNING FUNCTION        │
-# ╰─────────────────────────────────────╮
-sign_file() {
-    local file=$1
-    local sig_file="${file}.sig"
-    if [ ! -f "$file" ]; then
-        warn "File $file does not exist, skipping signing"
-        return
-    fi
-    for key_id in "${GPG_KEYS[@]}"; do
-        gpg --armor --detach-sign --default-key "$key_id" "$file" > "$sig_file.$key_id" 2>/dev/null || warn "Failed to sign $file with key $key_id, continuing..."
-        if [ -f "$sig_file.$key_id" ]; then
-            git -C "$REPO_PATH" add "$sig_file.$key_id"
-            git -C "$REPO_PATH" commit -m "Signed $file with GPG key $key_id at $TIMESTAMP" || warn "No changes to commit for $sig_file.$key_id"
-            info "Signed $file with key $key_id, signature at $sig_file.$key_id"
-            copy_to_docs "$sig_file.$key_id" "$DOCS_DIR/$(basename "$sig_file.$key_id")"
-        fi
-    done
-}
-
-# ╭─────────────────────────────────────╮
-# │         METADATA COPY FUNCTION      │
-# ╰─────────────────────────────────────╮
-copy_to_docs() {
-    local src=$1
-    local dest=$2
-    if [ ! -f "$src" ]; then
-        warn "Source file $src does not exist, skipping copy to $dest"
-        return
-    fi
-    if [ "$FORCE_DOCS" = "false" ] && [ -f "$dest" ]; then
-        info "Preserving existing $dest (--force-docs not enabled)"
-        return
-    fi
-    cp "$src" "$dest" || warn "Failed to copy $src to $dest, continuing..."
-    git -C "$REPO_PATH" add "$dest"
-    git -C "$REPO_PATH" commit -m "Copied $dest to docs at $TIMESTAMP" || warn "No changes to commit for $dest"
-    info "Copied $src to $dest and committed"
-}
-
-# ╭─────────────────────────────────────╮
 # │         METADATA GENERATION         │
 # ╰─────────────────────────────────────╮
 generate_canonical_meta() {
@@ -180,22 +113,12 @@ $(printf '    "%s",\n' "${MIRRORS[@]}" | sed '$ s/,$//')
   "timestamp": "$TIMESTAMP",
   "commit": "$COMMIT_HASH",
   "tree_hash": "$TREE_HASH",
-  "synced_cycles": $SYNC_CYCLES,
-  "gpg_signatures": [
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "    {\"key_id\": \"${GPG_KEYS[i]}\", \"name\": \"${GPG_NAMES[i]}\", \"email\": \"${GPG_EMAILS[i]}\"}" | sed '$ s/,$//'
-done)
-  ]
+  "synced_cycles": $SYNC_CYCLES
 }
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$CANONICAL_META"
     git -C "$REPO_PATH" add "$CANONICAL_META"
     git -C "$REPO_PATH" commit -m "Generated canonical.meta at $TIMESTAMP" || warn "No changes to commit for $CANONICAL_META"
     info "Generated and committed $CANONICAL_META"
-    copy_to_docs "$CANONICAL_META" "$DOCS_CANONICAL_META"
-    sign_file "$CANONICAL_META"
-    sign_file "$DOCS_CANONICAL_META"
 }
 
 generate_canonical_md() {
@@ -218,21 +141,13 @@ This canonical URL serves as the primary, authoritative source for the project, 
 **Declared by**: Mark Randall Havens  
 **Timestamp**: $TIMESTAMP
 
-## GPG Signatures
-
-This declaration is signed with the following GPG keys:
-
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "- **${GPG_NAMES[i]}** <${GPG_EMAILS[i]}> (Key ID: ${GPG_KEYS[i]})"
-done)
-
 ## Mirror Repositories
 
 The project is mirrored across multiple platforms to enhance redundancy and accessibility:
 
 $(for mirror in "${MIRRORS[@]}"; do
     if [[ "$mirror" == rad:* ]]; then
-        echo "- **Radicle**: [$mirror]($RADICLE_URL) (Decentralized, censorship-resistant)"
+        echo "- **Radicle**: [$mirror](https://app.radicle.xyz/nodes/$mirror) (Decentralized, censorship-resistant)"
     else
         echo "- [$mirror]($mirror)"
     fi
@@ -244,20 +159,17 @@ The GitField framework employs a recursive, multi-repository strategy to defend 
 
 ## Push Log
 
-The latest push operations are logged in [\`pushed.log\`](./pushed.log) for transparency and auditability.
+The latest push operations are logged in [\`.gitfield/pushed.log\`](./pushed.log) for transparency and auditability.
 
 ## GitHub Pages
 
-A public-facing canonical declaration is available at [index.html](./index.html) for enhanced discoverability and SEO.
+A public-facing canonical declaration is available at [docs/index.html](./docs/index.html) for enhanced discoverability and SEO.
 
 _Auto-generated by \`gitfield-sync\` at $TIMESTAMP (v$SCRIPT_VERSION)._
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$CANONICAL_MD"
     git -C "$REPO_PATH" add "$CANONICAL_MD"
     git -C "$REPO_PATH" commit -m "Generated canonical.md at $TIMESTAMP" || warn "No changes to commit for $CANONICAL_MD"
     info "Generated and committed $CANONICAL_MD"
-    copy_to_docs "$CANONICAL_MD" "$DOCS_CANONICAL_MD"
 }
 
 generate_index_json() {
@@ -280,22 +192,12 @@ $(printf '    "%s",\n' "${MIRRORS[@]}" | sed '$ s/,$//')
   "commit": "$COMMIT_HASH",
   "tree_hash": "$TREE_HASH",
   "timestamp": "$TIMESTAMP",
-  "synced_cycles": $SYNC_CYCLES,
-  "gpg_signatures": [
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "    {\"key_id\": \"${GPG_KEYS[i]}\", \"name\": \"${GPG_NAMES[i]}\", \"email\": \"${GPG_EMAILS[i]}\"}" | sed '$ s/,$//'
-done)
-  ]
+  "synced_cycles": $SYNC_CYCLES
 }
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$INDEX_JSON"
     git -C "$REPO_PATH" add "$INDEX_JSON"
     git -C "$REPO_PATH" commit -m "Generated index.json at $TIMESTAMP" || warn "No changes to commit for $INDEX_JSON"
     info "Generated and committed $INDEX_JSON"
-    copy_to_docs "$INDEX_JSON" "$DOCS_INDEX_JSON"
-    sign_file "$INDEX_JSON"
-    sign_file "$DOCS_INDEX_JSON"
 }
 
 generate_well_known_json() {
@@ -319,34 +221,22 @@ $(printf '    "%s",\n' "${MIRRORS[@]}" | sed '$ s/,$//')
   "publisher": {
     "@type": "Person",
     "name": "Mark Randall Havens"
-  },
-  "gpg_signatures": [
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "    {\"key_id\": \"${GPG_KEYS[i]}\", \"name\": \"${GPG_NAMES[i]}\", \"email\": \"${GPG_EMAILS[i]}\"}" | sed '$ s/,$//'
-done)
-  ]
+  }
 }
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$WELL_KNOWN_JSON"
     git -C "$REPO_PATH" add "$WELL_KNOWN_JSON"
     git -C "$REPO_PATH" commit -m "Generated .well-known/gitfield.json at $TIMESTAMP" || warn "No changes to commit for $WELL_KNOWN_JSON"
     info "Generated and committed $WELL_KNOWN_JSON"
-    copy_to_docs "$WELL_KNOWN_JSON" "$DOCS_GITFIELD_JSON"
-    mkdir -p "$DOCS_WELL_KNOWN_DIR"
-    copy_to_docs "$WELL_KNOWN_JSON" "$DOCS_WELL_KNOWN_JSON"
-    sign_file "$WELL_KNOWN_JSON"
-    sign_file "$DOCS_GITFIELD_JSON"
-    sign_file "$DOCS_WELL_KNOWN_JSON"
 }
 
 generate_gitfield_readme() {
-    info "Generating $GITFIELD_README..."
-    if [ "$PRESERVE_META" = "true" ] && [ -f "$GITFIELD_README" ]; then
-        info "Preserving existing $GITFIELD_README (--preserve-meta enabled)"
+    local readme_file="$GITFIELD_DIR/README.txt"
+    info "Generating $readme_file..."
+    if [ "$PRESERVE_META" = "true" ] && [ -f "$readme_file" ]; then
+        info "Preserving existing $readme_file (--preserve-meta enabled)"
         return
     fi
-    cat > "$GITFIELD_README" <<EOF
+    cat > "$readme_file" <<EOF
 # GitField Directory Overview
 
 The `.gitfield` directory contains metadata and logs for the GitField multi-repository publishing framework, designed to ensure sovereignty, redundancy, and resilience for the \`$REPO_NAME\` project.
@@ -365,14 +255,14 @@ These files provide transparency, auditability, and discoverability, ensuring th
 
 Generated by \`gitfield-sync\` at $TIMESTAMP (v$SCRIPT_VERSION).
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$GITFIELD_README"
-    git -C "$REPO_PATH" add "$GITFIELD_README"
-    git -C "$REPO_PATH" commit -m "Generated .gitfield/README.txt at $TIMESTAMP" || warn "No changes to commit for $GITFIELD_README"
-    info "Generated and committed $GITFIELD_README"
-    copy_to_docs "$GITFIELD_README" "$DOCS_GITFIELD_README"
+    git -C "$REPO_PATH" add "$readme_file"
+    git -C "$REPO_PATH" commit -m "Generated .gitfield/README.txt at $TIMESTAMP" || warn "No changes to commit for $readme_file"
+    info "Generated and committed $readme_file"
 }
 
+# ╭─────────────────────────────────────╮
+# │         DOCS DIRECTORY GENERATION   │
+# ╰─────────────────────────────────────╮
 generate_docs_index() {
     info "Generating $DOCS_INDEX..."
     mkdir -p "$DOCS_DIR"
@@ -412,17 +302,11 @@ $(printf '            "%s",\n' "${MIRRORS[@]}" | sed '$ s/,$//')
         "publisher": {
             "@type": "Organization",
             "name": "The Fold Within"
-        },
-        "gpg_signatures": [
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "            {\"key_id\": \"${GPG_KEYS[i]}\", \"name\": \"${GPG_NAMES[i]}\", \"email\": \"${GPG_EMAILS[i]}\"}" | sed '$ s/,$//'
-done)
-        ]
+        }
     }
     </script>
 </head>
 <body>
-    <!-- Generated by gitfield-sync v$SCRIPT_VERSION | $TIMESTAMP -->
     <header>
         <h1>GitField Sovereign Canonical Repository: <code>$REPO_NAME</code></h1>
     </header>
@@ -432,12 +316,6 @@ done)
             <p>This repository, <code>$REPO_NAME</code>, is canonically hosted at:</p>
             <p><strong><a href="$CANONICAL_URL">$CANONICAL_URL</a></strong></p>
             <p>Maintained by <strong>Mark Randall Havens</strong> and <strong>Solaria Lumis Havens</strong>, this canonical source ensures sovereignty and resilience against deplatforming, censorship, and algorithmic manipulation.</p>
-            <p>Signed with the following GPG keys:</p>
-            <ul>
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "                <li>${GPG_NAMES[i]} &lt;${GPG_EMAILS[i]}&gt; (Key ID: ${GPG_KEYS[i]})</li>"
-done)
-            </ul>
         </section>
         <section>
             <h2>Mirror Repositories</h2>
@@ -445,7 +323,7 @@ done)
             <ul>
 $(for mirror in "${MIRRORS[@]}"; do
     if [[ "$mirror" == rad:* ]]; then
-        echo "                <li><a href=\"$RADICLE_URL\">Radicle: $mirror</a> (Decentralized, censorship-resistant)</li>"
+        echo "                <li><a href=\"https://app.radicle.xyz/nodes/$mirror\">Radicle: $mirror</a> (Decentralized, censorship-resistant)</li>"
     else
         echo "                <li><a href=\"$mirror\">$mirror</a></li>"
     fi
@@ -456,11 +334,10 @@ done)
             <h2>Metadata Manifest</h2>
             <p>Metadata for this project is available in:</p>
             <ul>
-                <li><a href="canonical.meta">canonical.meta</a> (Machine-readable JSON)</li>
-                <li><a href="canonical.md">canonical.md</a> (Human-readable Markdown)</li>
-                <li><a href="index.json">index.json</a> (Full manifest)</li>
-                <li><a href="gitfield.json">gitfield.json</a> (SEO metadata)</li>
-                <li><a href=".well-known/gitfield.json">.well-known/gitfield.json</a> (SEO mirror)</li>
+                <li><a href="../.gitfield/canonical.meta">.gitfield/canonical.meta</a> (Machine-readable JSON)</li>
+                <li><a href="../.gitfield/canonical.md">.gitfield/canonical.md</a> (Human-readable Markdown)</li>
+                <li><a href="../.gitfield/index.json">.gitfield/index.json</a> (Full manifest)</li>
+                <li><a href="../.well-known/gitfield.json">.well-known/gitfield.json</a> (SEO metadata)</li>
                 <li><a href="repos.json">repos.json</a> (Mirror list)</li>
             </ul>
         </section>
@@ -472,9 +349,9 @@ done)
             <h2>Source Links</h2>
             <p>Access the project's metadata and logs:</p>
             <ul>
-                <li><a href="pushed.log">pushed.log</a> (Audit trail of sync operations)</li>
+                <li><a href="../.gitfield/pushed.log">Push Log</a> (Audit trail of sync operations)</li>
                 <li><a href="../GITFIELD.md">GITFIELD.md</a> (Multi-repository strategy overview)</li>
-                <li><a href="gitfield.README.txt">gitfield.README.txt</a> (Metadata directory explanation)</li>
+                <li><a href="../.gitfield/README.txt">.gitfield/README.txt</a> (Metadata directory explanation)</li>
             </ul>
         </section>
     </main>
@@ -484,8 +361,6 @@ done)
 </body>
 </html>
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$DOCS_INDEX"
     git -C "$REPO_PATH" add "$DOCS_INDEX"
     git -C "$REPO_PATH" commit -m "Generated docs/index.html at $TIMESTAMP" || warn "No changes to commit for $DOCS_INDEX"
     info "Generated and committed $DOCS_INDEX"
@@ -568,20 +443,12 @@ $(printf '    "%s",\n' "${MIRRORS[@]}" | sed '$ s/,$//')
   "radicle": {
     "rid": "$RADICLE_RID",
     "peer_id": "$RADICLE_PEER_ID"
-  },
-  "gpg_signatures": [
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "    {\"key_id\": \"${GPG_KEYS[i]}\", \"name\": \"${GPG_NAMES[i]}\", \"email\": \"${GPG_EMAILS[i]}\"}" | sed '$ s/,$//'
-done)
-  ]
+  }
 }
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$DOCS_REPOS_JSON"
     git -C "$REPO_PATH" add "$DOCS_REPOS_JSON"
     git -C "$REPO_PATH" commit -m "Generated docs/repos.json at $TIMESTAMP" || warn "No changes to commit for $DOCS_REPOS_JSON"
     info "Generated and committed $DOCS_REPOS_JSON"
-    sign_file "$DOCS_REPOS_JSON"
 }
 
 generate_docs_readme() {
@@ -601,18 +468,10 @@ The `/docs` directory hosts a public-facing, SEO-optimized canonical declaration
 - **index.html**: The canonical declaration page, including JSON-LD metadata and links to all mirrors.
 - **style.css**: Minimal stylesheet for elegant, recursive branding.
 - **repos.json**: Machine-readable list of the canonical URL and all mirror repositories.
-- **canonical.meta**: Machine-readable JSON metadata declaring the canonical URL and mirrors.
-- **canonical.md**: Human-readable Markdown summary of the canonical declaration.
-- **index.json**: Machine-readable manifest of all remotes and sync details.
-- **gitfield.json**: SEO-friendly JSON-LD metadata.
-- **.well-known/gitfield.json**: SEO metadata mirror.
-- **pushed.log**: Log of push operations across all platforms.
-- **gitfield.README.txt**: Explanation of the GitField metadata structure.
 - **README.md**: This file, explaining the purpose of the `/docs` directory.
 - **.nojekyll**: Bypasses Jekyll processing for GitHub Pages.
 - **robots.txt**: Allows full indexing by search engine bots.
 - **sitemap.xml**: Auto-generated sitemap for improved SEO.
-- **integrity.sha256**: SHA-256 hash of all metadata files for integrity verification.
 
 ## Purpose
 
@@ -620,8 +479,6 @@ This directory ensures the \`$REPO_NAME\` project is discoverable via search eng
 
 Generated by \`gitfield-sync\` at $TIMESTAMP (v$SCRIPT_VERSION).
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$DOCS_README"
     git -C "$REPO_PATH" add "$DOCS_README"
     git -C "$REPO_PATH" commit -m "Generated docs/README.md at $TIMESTAMP" || warn "No changes to commit for $DOCS_README"
     info "Generated and committed $DOCS_README"
@@ -673,60 +530,6 @@ generate_docs_sitemap() {
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
-    <url>
-        <loc>$GITHUB_URL/docs/index.html</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/canonical.meta</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/canonical.md</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/index.json</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/gitfield.json</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/.well-known/gitfield.json</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/repos.json</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/pushed.log</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>$GITHUB_URL/docs/gitfield.README.txt</loc>
-        <lastmod>$TIMESTAMP</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
 $(for mirror in "${MIRRORS[@]}"; do
     if [[ "$mirror" != rad:* ]]; then
         echo "    <url>"
@@ -744,41 +547,15 @@ EOF
     info "Generated and committed $DOCS_SITEMAP"
 }
 
-generate_docs_integrity() {
-    info "Generating $DOCS_INTEGRITY..."
-    mkdir -p "$DOCS_DIR"
-    if [ "$PRESERVE_META" = "true" ] && [ -f "$DOCS_INTEGRITY" ]; then
-        info "Preserving existing $DOCS_INTEGRITY (--preserve-meta enabled)"
-        return
-    fi
-    cat > "$DOCS_INTEGRITY" <<EOF
-# SHA-256 Integrity Hashes for /docs Metadata Files
-# Generated by gitfield-sync at $TIMESTAMP (v$SCRIPT_VERSION)
-
-EOF
-    for file in "$DOCS_CANONICAL_META" "$DOCS_CANONICAL_MD" "$DOCS_INDEX_JSON" "$DOCS_GITFIELD_JSON" "$DOCS_WELL_KNOWN_JSON" "$DOCS_REPOS_JSON" "$DOCS_PUSHED_LOG" "$DOCS_GITFIELD_README"; do
-        if [ -f "$file" ]; then
-            sha256sum "$file" >> "$DOCS_INTEGRITY" || warn "Failed to compute SHA-256 for $file, continuing..."
-        else
-            warn "File $file does not exist, skipping SHA-256 computation"
-        fi
-    done
-    git -C "$REPO_PATH" add "$DOCS_INTEGRITY"
-    git -C "$REPO_PATH" commit -m "Generated docs/integrity.sha256 at $TIMESTAMP" || warn "No changes to commit for $DOCS_INTEGRITY"
-    info "Generated and committed $DOCS_INTEGRITY"
-    sign_file "$DOCS_INTEGRITY"
-}
-
 # ╭─────────────────────────────────────╮
 # │         INITIAL SETUP               │
 # ╰─────────────────────────────────────╮
-mkdir -p "$GITFIELD_DIR" "$WELL_KNOWN_DIR" "$DOCS_DIR" "$DOCS_WELL_KNOWN_DIR"
+mkdir -p "$GITFIELD_DIR" "$WELL_KNOWN_DIR" "$DOCS_DIR"
 
 if [ ! -f "$LOG_FILE" ]; then
     echo "# Push Log for $REPO_NAME" > "$LOG_FILE"
     echo "# Generated by gitfield-sync" >> "$LOG_FILE"
     echo "" >> "$LOG_FILE"
-    copy_to_docs "$LOG_FILE" "$DOCS_PUSHED_LOG"
 fi
 
 # ╭─────────────────────────────────────╮
@@ -800,7 +577,7 @@ The \`$REPO_NAME\` project employs a multi-repository strategy across seven dist
 The following platforms host the \`$REPO_NAME\` repository, each chosen for its unique strengths and contributions to the project's goals.
 
 ### 1. Radicle
-- **RID**: [$RADICLE_RID]($RADICLE_URL)
+- **RID**: [$RADICLE_RID](https://app.radicle.xyz/nodes/$RADICLE_RID)
 - **Peer ID**: $RADICLE_PEER_ID
 - **Purpose**: Radicle is a decentralized, peer-to-peer git platform that ensures sovereignty and censorship resistance. It hosts the repository in a distributed network, independent of centralized servers.
 - **Value**: Protects against deplatforming by eliminating reliance on centralized infrastructure, ensuring the project remains accessible in a decentralized ecosystem.
@@ -860,7 +637,7 @@ The decision to maintain multiple repositories stems from the need to safeguard 
 - **Resilience**: If one platform removes or restricts access, or if search engines like Google delist content, the project remains accessible on other platforms and discoverable via alternative search engines such as Bing, DuckDuckGo, and Yahoo.
 - **Sovereignty**: Radicle’s decentralized nature and Forgejo’s self-hosted infrastructure ensure the project cannot be fully censored or controlled by any single entity.
 - **Diversity**: Each platform’s unique features (e.g., GitHub’s community, GitLab’s CI/CD, Bitbucket’s integrations, Radicle’s decentralization, Forgejo’s self-hosting, Codeberg’s community-driven model, Gitea’s lightweight efficiency) enhance the project’s functionality and reach.
-- **Transparency**: Metadata snapshots in the \`.gitfield\` directory (for internal audit) and public-facing documentation in the \`/docs\` directory provide a verifiable record of the project’s state across all platforms.
+- **Transparency**: Metadata snapshots in the \`.gitfield\` directory and public-facing documentation in the \`/docs\` directory provide a verifiable record of the project’s state across all platforms.
 
 This multi-repository approach, bolstered by Forgejo’s sovereign hosting and GitHub Pages’ discoverability, reflects a commitment to preserving the integrity, accessibility, and independence of \`$REPO_NAME\`, ensuring it remains available to contributors and users regardless of external pressures.
 
@@ -868,16 +645,12 @@ This multi-repository approach, bolstered by Forgejo’s sovereign hosting and G
 
 ## 📜 Metadata and Logs
 
-- **Canonical Metadata**: The canonical repository is declared in [\`docs/canonical.meta\`](./docs/canonical.meta) (machine-readable JSON) and [\`docs/canonical.md\`](./docs/canonical.md) (human-readable Markdown). Internal copies are maintained in \`.gitfield/\` for version tracking.
-- **Index Manifest**: A full manifest of remotes, commit details, and sync cycles is available in [\`docs/index.json\`](./docs/index.json).
-- **SEO Metadata**: SEO-friendly metadata with Schema.org JSON-LD is available in [\`docs/gitfield.json\`](./docs/gitfield.json) and [\`docs/.well-known/gitfield.json\`](./docs/.well-known/gitfield.json).
-- **Push Log**: The [\`docs/pushed.log\`](./docs/pushed.log) file records the date, time, commit hash, and RID/URL of every push operation across all platforms, providing a transparent audit trail.
-- **GitField Directory**: The \`.gitfield\` directory contains internal metadata and platform-specific sigils (e.g., \`github.sigil.md\`). See [\`docs/gitfield.README.txt\`](./docs/gitfield.README.txt) for details.
-- **GitHub Pages**: A public-facing, SEO-optimized canonical declaration is available in [\`docs/index.html\`](./docs/index.html), with a sitemap in [\`docs/sitemap.xml\`](./docs/sitemap.xml) and integrity hashes in [\`docs/integrity.sha256\`](./docs/integrity.sha256).
-- **GPG Signatures**: Metadata files are signed with the following GPG keys:
-$(for i in "${!GPG_KEYS[@]}"; do
-    echo "  - ${GPG_NAMES[i]} <${GPG_EMAILS[i]}> (Key ID: ${GPG_KEYS[i]})"
-done)
+- **Canonical Metadata**: The canonical repository is declared in [\`.gitfield/canonical.meta\`](./.gitfield/canonical.meta) (machine-readable JSON) and [\`.gitfield/canonical.md\`](./.gitfield/canonical.md) (human-readable Markdown).
+- **Index Manifest**: A full manifest of remotes, commit details, and sync cycles is available in [\`.gitfield/index.json\`](./.gitfield/index.json).
+- **Well-Known Metadata**: SEO-friendly metadata with Schema.org JSON-LD is available in [\`.well-known/gitfield.json\`](./.well-known/gitfield.json).
+- **Push Log**: The \`.gitfield/pushed.log\` file records the date, time, commit hash, and RID/URL of every push operation across all platforms, providing a transparent audit trail.
+- **GitField Directory**: The \`.gitfield\` directory contains additional metadata and platform-specific sigils (e.g., \`github.sigil.md\`). See [\`.gitfield/README.txt\`](./.gitfield/README.txt) for details.
+- **GitHub Pages**: A public-facing, SEO-optimized canonical declaration is available in [\`docs/index.html\`](./docs/index.html), with additional metadata in [\`docs/repos.json\`](./docs/repos.json) and a sitemap in [\`docs/sitemap.xml\`](./docs/sitemap.xml).
 - **Recursive Sync**: The repository is synchronized across all platforms in a recursive loop (three cycles) to ensure interconnected metadata captures the latest state of the project.
 - **Push Order**: The repository is synchronized in the following order: **Radicle → Forgejo → Codeberg → Gitea → GitLab → Bitbucket → GitHub**. This prioritizes Radicle’s decentralized, censorship-resistant network as the primary anchor, followed by Forgejo’s sovereign, self-hosted infrastructure, Codeberg’s community-driven platform, Gitea’s lightweight efficiency, GitLab’s robust DevOps features, Bitbucket’s enterprise redundancy, and GitHub’s broad visibility, ensuring a resilient and accessible metadata chain.
 
@@ -885,8 +658,6 @@ done)
 
 _Auto-generated by \`gitfield-sync\` at $TIMESTAMP (v$SCRIPT_VERSION)._
 EOF
-    # Sanitize rad:rad:
-    sed -i 's/rad:rad:/rad:/g' "$GITFIELD_MD"
     git -C "$REPO_PATH" add "$GITFIELD_MD"
     git -C "$REPO_PATH" commit -m "Generated GITFIELD.md at $TIMESTAMP" || warn "No changes to commit for $GITFIELD_MD"
     info "Generated and committed $GITFIELD_MD"
@@ -920,7 +691,6 @@ log_url() {
         fi
         info "Logged push to $LOG_FILE: [$timestamp] $platform: $url, Branch=$branch, Commit=$COMMIT_HASH"
     fi
-    copy_to_docs "$LOG_FILE" "$DOCS_PUSHED_LOG"
 }
 
 # ╭─────────────────────────────────────╮
@@ -977,7 +747,6 @@ run_push_cycle() {
     generate_docs_nojekyll
     generate_docs_robots
     generate_docs_sitemap
-    generate_docs_integrity
 }
 
 # ╭─────────────────────────────────────╮
@@ -985,17 +754,12 @@ run_push_cycle() {
 # ╰─────────────────────────────────────╮
 info "Starting gitfield-sync for $REPO_NAME..."
 
-# Parse flags
+# Parse --preserve-meta flag
 while [ $# -gt 0 ]; do
     case "$1" in
         --preserve-meta)
             PRESERVE_META=true
             info "Preserve metadata flag enabled"
-            shift
-            ;;
-        --force-docs)
-            FORCE_DOCS=true
-            info "Force docs overwrite flag enabled"
             shift
             ;;
         *)
@@ -1026,7 +790,6 @@ generate_docs_readme
 generate_docs_nojekyll
 generate_docs_robots
 generate_docs_sitemap
-generate_docs_integrity
 
 # Run push cycles
 run_push_cycle 1
@@ -1035,12 +798,10 @@ run_push_cycle 2
 run_push_cycle 3
 
 info "✅ gitfield-sync completed successfully."
-info "✅ Canonical sync exported to /docs successfully."
-info "🔗 View logs: $DOCS_PUSHED_LOG"
+info "🔗 View logs: $LOG_FILE"
 info "🔗 View multi-repo manifest: $GITFIELD_MD"
-info "🔗 View canonical metadata: $DOCS_CANONICAL_META"
-info "🔗 View canonical declaration: $DOCS_CANONICAL_MD"
-info "🔗 View index manifest: $DOCS_INDEX_JSON"
-info "🔗 View SEO metadata: $DOCS_GITFIELD_JSON"
+info "🔗 View canonical metadata: $CANONICAL_META"
+info "🔗 View canonical declaration: $CANONICAL_MD"
+info "🔗 View index manifest: $INDEX_JSON"
+info "🔗 View well-known metadata: $WELL_KNOWN_JSON"
 info "🔗 View GitHub Pages: $DOCS_INDEX"
-info "🔗 View integrity hashes: $DOCS_INTEGRITY"
