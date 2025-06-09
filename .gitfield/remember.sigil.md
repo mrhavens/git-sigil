@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **Forgejo User**: `mrhavens`
 - **Remote URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil](https://remember.thefoldwithin.earth/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
 - **Remote Label**: `remember`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-09 14:45:16`
+- **Repo Created**: `2025-06-09 15:31:10`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 14:45:16`
-- **Last Commit SHA**: `6040fd8befdaac35e46fe363875b421ff933249d`
-- **Last Commit Message**: `Post-Radicle sync at 2025-06-09 14:44:55`
+- **This Commit Timestamp**: `2025-06-09 15:31:10`
+- **Last Commit SHA**: `c6a47d311e0187ad6255735b6373b4d83d27f49e`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-09T20:30:45Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 14:45:14 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/6040fd8befdaac35e46fe363875b421ff933249d](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/6040fd8befdaac35e46fe363875b421ff933249d)
+- **Last Commit Date**: `Mon Jun 9 15:31:05 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/c6a47d311e0187ad6255735b6373b4d83d27f49e](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/c6a47d311e0187ad6255735b6373b4d83d27f49e)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `774`
-- **Tracked Files**: `121`
+- **Total Commits**: `785`
+- **Tracked Files**: `127`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 26 minutes`
+- **System Uptime**: `up 1 hour, 13 minutes`
 - **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
