@@ -3,27 +3,27 @@
 - **Repo Name**: `git-sigil`
 - **Forgejo User**: `mrhavens`
 - **Remote URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil](https://remember.thefoldwithin.earth/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
 - **Remote Label**: `remember`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-09 10:10:43`
+- **Repo Created**: `2025-06-09 14:43:50`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 10:10:43`
-- **Last Commit SHA**: `9ed44bfb434b2308b459e94368cef7f7e3439d1f`
-- **Last Commit Message**: `Post-Radicle sync at 2025-06-09 10:07:51`
+- **This Commit Timestamp**: `2025-06-09 14:43:50`
+- **Last Commit SHA**: `d9dd42a25fa7e790a21c9d9e1b8282061209f4fe`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-09 14:43:29`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 10:10:41 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/9ed44bfb434b2308b459e94368cef7f7e3439d1f](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/9ed44bfb434b2308b459e94368cef7f7e3439d1f)
+- **Last Commit Date**: `Mon Jun 9 14:43:47 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/d9dd42a25fa7e790a21c9d9e1b8282061209f4fe](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/d9dd42a25fa7e790a21c9d9e1b8282061209f4fe)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `936`
+- **Total Commits**: `755`
 - **Tracked Files**: `121`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
@@ -48,8 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 12 hours, 31 minutes`
-- **MAC Address**: `00:15:5d:3d:32:5b`
+- **System Uptime**: `up 24 minutes`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
