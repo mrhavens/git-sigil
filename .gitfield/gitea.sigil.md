@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **Gitea User**: `mrhavens`
 - **Remote URL**: [https://gitea.com/mrhavens/git-sigil](https://gitea.com/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
 - **Remote Label**: `gitea`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-09 14:44:02`
+- **Repo Created**: `2025-06-09 15:31:41`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 14:44:02`
-- **Last Commit SHA**: `46fc4eaa44a1730e6ea933acba9a46f17687c163`
-- **Last Commit Message**: `Post-Codeberg sync at 2025-06-09 14:43:29`
+- **This Commit Timestamp**: `2025-06-09 15:31:41`
+- **Last Commit SHA**: `50c84e2b01da26e3c29c66f22f378b5eeec1f08e`
+- **Last Commit Message**: `Post-Codeberg sync at 2025-06-09T20:30:45Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 14:44:00 2025 -0500`
-- **This Commit URL**: [https://gitea.com/mrhavens/git-sigil/commit/46fc4eaa44a1730e6ea933acba9a46f17687c163](https://gitea.com/mrhavens/git-sigil/commit/46fc4eaa44a1730e6ea933acba9a46f17687c163)
+- **Last Commit Date**: `Mon Jun 9 15:31:40 2025 -0500`
+- **This Commit URL**: [https://gitea.com/mrhavens/git-sigil/commit/50c84e2b01da26e3c29c66f22f378b5eeec1f08e](https://gitea.com/mrhavens/git-sigil/commit/50c84e2b01da26e3c29c66f22f378b5eeec1f08e)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `759`
-- **Tracked Files**: `121`
+- **Total Commits**: `789`
+- **Tracked Files**: `127`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 24 minutes`
+- **System Uptime**: `up 1 hour, 13 minutes`
 - **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
