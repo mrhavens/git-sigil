@@ -3,46 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **GitLab User**: `mrhavens`
 - **Remote URL**: [https://gitlab.com/mrhavens/git-sigil](https://gitlab.com/mrhavens/git-sigil)
-- **Local Repo Path**: `/mnt/c/Downloads/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
 - **Remote Label**: `gitlab`
 - **Default Branch**: `master`
-<<<<<<< HEAD
-- **Repo Created**: `2025-06-07 01:42:12`
-=======
-- **Repo Created**: `2025-06-09 10:11:08`
->>>>>>> 3acbd30 (GitLab metadata link commit at 2025-06-09 10:11:08 — https://gitlab.com/mrhavens/git-sigil/-/commit/11a0d7a6b355f34c70c5aaec97177e33641eb29d)
+- **Repo Created**: `2025-06-09 14:44:14`
 
 ---
 
 ## 📦 Commit Info
 
-<<<<<<< HEAD
-- **This Commit Timestamp**: `2025-06-07 01:42:12`
-- **This Commit SHA**: `d57306ee0c1307c842f0db201129403eac99d903`
-- **Last Commit Message**: `Post-Forgejo sync at 2025-06-07 01:33:38`
+- **This Commit Timestamp**: `2025-06-09 14:44:14`
+- **This Commit SHA**: `89e9344bfa98c35180b5f8371bea480fcfa5c48e`
+- **Last Commit Message**: `Post-Gitea sync at 2025-06-09 14:43:29`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sat Jun 7 01:41:49 2025 -0500`
-- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/d57306ee0c1307c842f0db201129403eac99d903](https://gitlab.com/mrhavens/git-sigil/-/commit/d57306ee0c1307c842f0db201129403eac99d903)
-=======
-- **This Commit Timestamp**: `2025-06-09 10:11:08`
-- **This Commit SHA**: `11a0d7a6b355f34c70c5aaec97177e33641eb29d`
-- **Last Commit Message**: `Post-Gitea sync at 2025-06-09 10:07:51`
-- **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 10:10:58 2025 -0500`
-- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/11a0d7a6b355f34c70c5aaec97177e33641eb29d](https://gitlab.com/mrhavens/git-sigil/-/commit/11a0d7a6b355f34c70c5aaec97177e33641eb29d)
->>>>>>> 3acbd30 (GitLab metadata link commit at 2025-06-09 10:11:08 — https://gitlab.com/mrhavens/git-sigil/-/commit/11a0d7a6b355f34c70c5aaec97177e33641eb29d)
+- **Last Commit Date**: `Mon Jun 9 14:44:04 2025 -0500`
+- **This Commit URL**: [https://gitlab.com/mrhavens/git-sigil/-/commit/89e9344bfa98c35180b5f8371bea480fcfa5c48e](https://gitlab.com/mrhavens/git-sigil/-/commit/89e9344bfa98c35180b5f8371bea480fcfa5c48e)
 
 ---
 
 ## 📊 Repo Status
 
-<<<<<<< HEAD
-- **Total Commits**: `895`
-- **Tracked Files**: `115`
-=======
-- **Total Commits**: `942`
+- **Total Commits**: `761`
 - **Tracked Files**: `121`
->>>>>>> 3acbd30 (GitLab metadata link commit at 2025-06-09 10:11:08 — https://gitlab.com/mrhavens/git-sigil/-/commit/11a0d7a6b355f34c70c5aaec97177e33641eb29d)
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -66,13 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-<<<<<<< HEAD
-- **System Uptime**: `up 23 hours, 50 minutes`
-- **MAC Address**: `00:15:5d:86:d8:cc`
-=======
-- **System Uptime**: `up 12 hours, 31 minutes`
-- **MAC Address**: `00:15:5d:3d:32:5b`
->>>>>>> 3acbd30 (GitLab metadata link commit at 2025-06-09 10:11:08 — https://gitlab.com/mrhavens/git-sigil/-/commit/11a0d7a6b355f34c70c5aaec97177e33641eb29d)
+- **System Uptime**: `up 25 minutes`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
