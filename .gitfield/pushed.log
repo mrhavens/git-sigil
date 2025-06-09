@@ -183,3 +183,4 @@
   CLI: git ls-tree -r --name-only HEAD # View file structure
 [2025-06-09 14:43:52] Forgejo: https://remember.thefoldwithin.earth/mrhavens/git-sigil
 [2025-06-09 14:44:00] Codeberg: https://codeberg.org/mrhavens/git-sigil
+[2025-06-09 14:44:04] Gitea: https://gitea.com/mrhavens/git-sigil
