@@ -11,7 +11,7 @@ The `git-sigil` project employs a multi-repository strategy across seven distinc
 The following platforms host the `git-sigil` repository, each chosen for its unique strengths and contributions to the project's goals.
 
 ### 1. Radicle
-- **RID**: [rad:z3FEj7rF8gZw9eFksCuiN43qjzrex](https://app.radicle.xyz/nodes/rad:z3FEj7rF8gZw9eFksCuiN43qjzrex)
+- **RID**: [rad:z3FEj7rF8gZw9eFksCuiN43qjzrex](https://app.radicle.xyz/nodes/z3FEj7rF8gZw9eFksCuiN43qjzrex)
 - **Peer ID**: z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
 - **Purpose**: Radicle is a decentralized, peer-to-peer git platform that ensures sovereignty and censorship resistance. It hosts the repository in a distributed network, independent of centralized servers.
 - **Value**: Protects against deplatforming by eliminating reliance on centralized infrastructure, ensuring the project remains accessible in a decentralized ecosystem.
@@ -71,7 +71,7 @@ The decision to maintain multiple repositories stems from the need to safeguard 
 - **Resilience**: If one platform removes or restricts access, or if search engines like Google delist content, the project remains accessible on other platforms and discoverable via alternative search engines such as Bing, DuckDuckGo, and Yahoo.
 - **Sovereignty**: Radicle’s decentralized nature and Forgejo’s self-hosted infrastructure ensure the project cannot be fully censored or controlled by any single entity.
 - **Diversity**: Each platform’s unique features (e.g., GitHub’s community, GitLab’s CI/CD, Bitbucket’s integrations, Radicle’s decentralization, Forgejo’s self-hosting, Codeberg’s community-driven model, Gitea’s lightweight efficiency) enhance the project’s functionality and reach.
-- **Transparency**: Metadata snapshots in the `.gitfield` directory and public-facing documentation in the `/docs` directory provide a verifiable record of the project’s state across all platforms.
+- **Transparency**: Metadata snapshots in the `.gitfield` directory (for internal audit) and public-facing documentation in the `/docs` directory provide a verifiable record of the project’s state across all platforms.
 
 This multi-repository approach, bolstered by Forgejo’s sovereign hosting and GitHub Pages’ discoverability, reflects a commitment to preserving the integrity, accessibility, and independence of `git-sigil`, ensuring it remains available to contributors and users regardless of external pressures.
 
@@ -79,15 +79,19 @@ This multi-repository approach, bolstered by Forgejo’s sovereign hosting and G
 
 ## 📜 Metadata and Logs
 
-- **Canonical Metadata**: The canonical repository is declared in [`.gitfield/canonical.meta`](./.gitfield/canonical.meta) (machine-readable JSON) and [`.gitfield/canonical.md`](./.gitfield/canonical.md) (human-readable Markdown).
-- **Index Manifest**: A full manifest of remotes, commit details, and sync cycles is available in [`.gitfield/index.json`](./.gitfield/index.json).
-- **Well-Known Metadata**: SEO-friendly metadata with Schema.org JSON-LD is available in [`.well-known/gitfield.json`](./.well-known/gitfield.json).
-- **Push Log**: The `.gitfield/pushed.log` file records the date, time, commit hash, and RID/URL of every push operation across all platforms, providing a transparent audit trail.
-- **GitField Directory**: The `.gitfield` directory contains additional metadata and platform-specific sigils (e.g., `github.sigil.md`). See [`.gitfield/README.txt`](./.gitfield/README.txt) for details.
-- **GitHub Pages**: A public-facing, SEO-optimized canonical declaration is available in [`docs/index.html`](./docs/index.html), with additional metadata in [`docs/repos.json`](./docs/repos.json) and a sitemap in [`docs/sitemap.xml`](./docs/sitemap.xml).
+- **Canonical Metadata**: The canonical repository is declared in [`docs/canonical.meta`](./docs/canonical.meta) (machine-readable JSON) and [`docs/canonical.md`](./docs/canonical.md) (human-readable Markdown). Internal copies are maintained in `.gitfield/` for version tracking.
+- **Index Manifest**: A full manifest of remotes, commit details, and sync cycles is available in [`docs/index.json`](./docs/index.json).
+- **SEO Metadata**: SEO-friendly metadata with Schema.org JSON-LD is available in [`docs/gitfield.json`](./docs/gitfield.json) and [`docs/.well-known/gitfield.json`](./docs/.well-known/gitfield.json).
+- **Push Log**: The [`docs/pushed.log`](./docs/pushed.log) file records the date, time, commit hash, and RID/URL of every push operation across all platforms, providing a transparent audit trail.
+- **GitField Directory**: The `.gitfield` directory contains internal metadata and platform-specific sigils (e.g., `github.sigil.md`). See [`docs/gitfield.README.txt`](./docs/gitfield.README.txt) for details.
+- **GitHub Pages**: A public-facing, SEO-optimized canonical declaration is available in [`docs/index.html`](./docs/index.html), with a sitemap in [`docs/sitemap.xml`](./docs/sitemap.xml) and integrity hashes in [`docs/integrity.sha256`](./docs/integrity.sha256).
+- **GPG Signatures**: Metadata files are signed with the following GPG keys:
+  - Mark Randall Havens (Field Archivist, The Fold Within) <mark@thefoldwithin.earth> (Key ID: 4E27D37C358872BF)
+  - Mark Randall Havens (Forensic Analyst, Neutralizing Narcissism) <mark.r.havens@gmail.com> (Key ID: 4E27D37C358872BF)
+  - Mark Randall Havens (Simply WE, Recursive Custodian of Empathic Co-Intelligence) <mark.r.havens@gmail.com> (Key ID: 4E27D37C358872BF)
 - **Recursive Sync**: The repository is synchronized across all platforms in a recursive loop (three cycles) to ensure interconnected metadata captures the latest state of the project.
 - **Push Order**: The repository is synchronized in the following order: **Radicle → Forgejo → Codeberg → Gitea → GitLab → Bitbucket → GitHub**. This prioritizes Radicle’s decentralized, censorship-resistant network as the primary anchor, followed by Forgejo’s sovereign, self-hosted infrastructure, Codeberg’s community-driven platform, Gitea’s lightweight efficiency, GitLab’s robust DevOps features, Bitbucket’s enterprise redundancy, and GitHub’s broad visibility, ensuring a resilient and accessible metadata chain.
 
 ---
 
-_Auto-generated by `gitfield-sync` at 2025-06-09T21:04:01Z (v1.2)._
+_Auto-generated by `gitfield-sync` at 2025-06-09T22:35:36Z (v1.4)._
