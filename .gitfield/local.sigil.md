@@ -6,26 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-09 16:07:15`
+- **Repo Created**: `2025-06-09 17:36:38`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 16:07:15`
-- **Last Commit SHA**: `4e7ae3a9a314b0914c31a9bf1b8672159602e17e`
-- **Last Commit Message**: `Generated index.json at 2025-06-09T21:04:01Z`
+- **This Commit Timestamp**: `2025-06-09 17:36:38`
+- **Last Commit SHA**: `3453c72cb0b2835ab6cd140626942b30308f1d13`
+- **Last Commit Message**: `Signed /home/mrhavens/fieldcraft/git-sigil/docs/integrity.sha256 with GPG key 4E27D37C358872BF at 2025-06-09T22:35:36Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 16:07:15 2025 -0500`
+- **Last Commit Date**: `Mon Jun 9 17:36:34 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `885`
-- **Tracked Files**: `135`
-- **Uncommitted Changes**: `No`
+- **Total Commits**: `928`
+- **Tracked Files**: `151`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 1 hour, 50 minutes`
+- **System Uptime**: `up 3 hours, 23 minutes`
 - **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
