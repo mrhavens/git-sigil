@@ -1,0 +1,20 @@
+{
+  "canonical_url": "https://remember.thefoldwithin.earth/mrhavens/git-sigil",
+  "mirrors": [
+    "https://github.com/mrhavens/git-sigil",
+    "https://gitlab.com/mrhavens/git-sigil",
+    "https://bitbucket.org/thefoldwithin/git-sigil",
+    "https://remember.thefoldwithin.earth/mrhavens/git-sigil",
+    "https://codeberg.org/mrhavens/git-sigil",
+    "https://gitea.com/mrhavens/git-sigil",
+    "rad:rad:z3FEj7rF8gZw9eFksCuiN43qjzrex"
+  ],
+  "radicle": {
+    "rid": "rad:z3FEj7rF8gZw9eFksCuiN43qjzrex",
+    "peer_id": "z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz"
+  },
+  "timestamp": "2025-06-09T20:30:45Z",
+  "commit": "89b7d20",
+  "tree_hash": "fd024d13d727d2dbff968f6e1db9ef0b04d4e555",
+  "synced_cycles": 0
+}
