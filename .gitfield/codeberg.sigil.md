@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **Codeberg User**: `mrhavens`
 - **Remote URL**: [https://codeberg.org/mrhavens/git-sigil](https://codeberg.org/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/tmp/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
 - **Remote Label**: `codeberg`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-09 14:43:57`
+- **Repo Created**: `2025-06-09 15:31:22`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 14:43:57`
-- **Last Commit SHA**: `183c0d34dc9d0c585397dfae27da863e5951ad1d`
-- **Last Commit Message**: `Post-Forgejo sync at 2025-06-09 14:43:29`
+- **This Commit Timestamp**: `2025-06-09 15:31:22`
+- **Last Commit SHA**: `a530ab6132003fbcbb898b29113914e58d3a5449`
+- **Last Commit Message**: `Post-Forgejo sync at 2025-06-09T20:30:45Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 14:43:52 2025 -0500`
-- **This Commit URL**: [https://codeberg.org/mrhavens/git-sigil/commit/183c0d34dc9d0c585397dfae27da863e5951ad1d](https://codeberg.org/mrhavens/git-sigil/commit/183c0d34dc9d0c585397dfae27da863e5951ad1d)
+- **Last Commit Date**: `Mon Jun 9 15:31:16 2025 -0500`
+- **This Commit URL**: [https://codeberg.org/mrhavens/git-sigil/commit/a530ab6132003fbcbb898b29113914e58d3a5449](https://codeberg.org/mrhavens/git-sigil/commit/a530ab6132003fbcbb898b29113914e58d3a5449)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `757`
-- **Tracked Files**: `121`
+- **Total Commits**: `787`
+- **Tracked Files**: `127`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 24 minutes`
+- **System Uptime**: `up 1 hour, 13 minutes`
 - **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
