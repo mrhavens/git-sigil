@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **GitHub User**: `mrhavens`
 - **Remote URL**: [https://github.com/mrhavens/git-sigil](https://github.com/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `github`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-06-10 03:37:26`
+- **This Commit Date**: `2025-06-11 18:31:38`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-10 03:37:26`
-- **Last Commit SHA**: `7d001323ec455d4ffb882259a6dd2657a9c7b1e7`
-- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-10T08:33:00Z`
+- **This Commit Timestamp**: `2025-06-11 18:31:38`
+- **Last Commit SHA**: `448986472b81a457c7d6aa493036f51faf4eff61`
+- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-11T23:29:59Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Tue Jun 10 03:36:51 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/7d001323ec455d4ffb882259a6dd2657a9c7b1e7](https://github.com/mrhavens/git-sigil/commit/7d001323ec455d4ffb882259a6dd2657a9c7b1e7)
+- **Last Commit Date**: `Wed Jun 11 18:31:34 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/448986472b81a457c7d6aa493036f51faf4eff61](https://github.com/mrhavens/git-sigil/commit/448986472b81a457c7d6aa493036f51faf4eff61)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1140`
-- **Tracked Files**: `163`
+- **Total Commits**: `1184`
+- **Tracked Files**: `158`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `DESKTOP-E5SGI58`
+- **Host Machine**: `samson`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 24.04.2 LTS`
-- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 22.04.5 LTS`
+- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 1 hour, 13 minutes`
-- **MAC Address**: `00:15:5d:33:04:7a`
-- **Local IP**: `172.18.207.124`
-- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
-- **Total RAM (GB)**: `3.63`
+- **System Uptime**: `up 1 day, 1 hour, 4 minutes`
+- **MAC Address**: `00:15:5d:11:35:bd`
+- **Local IP**: `172.28.107.95`
+- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
+- **Total RAM (GB)**: `23.44`
 
 ---
 
