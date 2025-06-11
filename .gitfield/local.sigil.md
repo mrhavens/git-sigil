@@ -3,27 +3,27 @@
 - **Repo Name**: `git-sigil`
 - **Local User**: `mrhavens`
 - **Remote URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-10 03:37:54`
+- **Repo Created**: `2025-06-11 18:29:48`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-10 03:37:54`
-- **Last Commit SHA**: `280d8b2870b7b7e51b1015f33b8d67ac8f30e92e`
-- **Last Commit Message**: `Generated index.json at 2025-06-10T08:33:00Z`
+- **This Commit Timestamp**: `2025-06-11 18:29:48`
+- **Last Commit SHA**: `611b5bfdc0ead2d7a7c14118117240344396f10a`
+- **Last Commit Message**: `Generated docs/integrity.sha256 at 2025-06-11T23:29:47Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Tue Jun 10 03:37:36 2025 -0500`
+- **Last Commit Date**: `Wed Jun 11 18:29:48 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1144`
+- **Total Commits**: `1159`
 - **Tracked Files**: `163`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `DESKTOP-E5SGI58`
+- **Host Machine**: `samson`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 24.04.2 LTS`
-- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 22.04.5 LTS`
+- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 1 hour, 13 minutes`
-- **MAC Address**: `00:15:5d:33:04:7a`
-- **Local IP**: `172.18.207.124`
-- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
-- **Total RAM (GB)**: `3.63`
+- **System Uptime**: `up 1 day, 1 hour, 2 minutes`
+- **MAC Address**: `00:15:5d:11:35:bd`
+- **Local IP**: `172.28.107.95`
+- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
+- **Total RAM (GB)**: `23.44`
 
 ---
 
