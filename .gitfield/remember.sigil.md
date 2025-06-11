@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **Forgejo User**: `mrhavens`
 - **Remote URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil](https://remember.thefoldwithin.earth/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldcraft/git-sigil`
+- **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `remember`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-10 03:38:17`
+- **Repo Created**: `2025-06-11 18:30:06`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-10 03:38:17`
-- **Last Commit SHA**: `187b5d006e803fd0cce6f5ecb9b585a95ad74089`
-- **Last Commit Message**: `Post-Radicle sync at 2025-06-10T08:33:00Z`
+- **This Commit Timestamp**: `2025-06-11 18:30:06`
+- **Last Commit SHA**: `f00c2c541f55211a19f7455d61dde47310eab78a`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-11T23:29:59Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Tue Jun 10 03:38:14 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/187b5d006e803fd0cce6f5ecb9b585a95ad74089](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/187b5d006e803fd0cce6f5ecb9b585a95ad74089)
+- **Last Commit Date**: `Wed Jun 11 18:30:04 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/f00c2c541f55211a19f7455d61dde47310eab78a](https://remember.thefoldwithin.earth/mrhavens/git-sigil/commit/f00c2c541f55211a19f7455d61dde47310eab78a)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1148`
-- **Tracked Files**: `163`
+- **Total Commits**: `1174`
+- **Tracked Files**: `158`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `DESKTOP-E5SGI58`
+- **Host Machine**: `samson`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 24.04.2 LTS`
-- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 22.04.5 LTS`
+- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 1 hour, 14 minutes`
-- **MAC Address**: `00:15:5d:33:04:7a`
-- **Local IP**: `172.18.207.124`
-- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
-- **Total RAM (GB)**: `3.63`
+- **System Uptime**: `up 1 day, 1 hour, 2 minutes`
+- **MAC Address**: `00:15:5d:11:35:bd`
+- **Local IP**: `172.28.107.95`
+- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
+- **Total RAM (GB)**: `23.44`
 
 ---
 
