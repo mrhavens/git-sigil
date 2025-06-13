@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `gogs`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-13 01:24:59`
+- **Repo Created**: `2025-06-13 01:25:45`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-13 01:24:59`
-- **Last Commit SHA**: `4db690d1e269ef620582ebd756efe59cf3dd705d`
-- **Last Commit Message**: `GOGS metadata link commit at 2025-06-13 01:22:15 — https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/dcf57cc4a912b4c849e08088493be7181816ee5d`
+- **This Commit Timestamp**: `2025-06-13 01:25:45`
+- **Last Commit SHA**: `92c06000786f81f603ee21f19beb479adf5a7e1f`
+- **Last Commit Message**: `GOGS metadata link commit at 2025-06-13 01:24:59 — https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/4db690d1e269ef620582ebd756efe59cf3dd705d`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 13 01:22:15 2025 -0500`
-- **This Commit URL**: [https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/4db690d1e269ef620582ebd756efe59cf3dd705d](https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/4db690d1e269ef620582ebd756efe59cf3dd705d)
+- **Last Commit Date**: `Fri Jun 13 01:24:59 2025 -0500`
+- **This Commit URL**: [https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/92c06000786f81f603ee21f19beb479adf5a7e1f](https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/92c06000786f81f603ee21f19beb479adf5a7e1f)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1309`
+- **Total Commits**: `1310`
 - **Tracked Files**: `163`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
@@ -46,7 +46,7 @@
 - **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **System Uptime**: $(uptime -p 2>/dev/null || echo "Unknown")`
-- **Local IP**: $(hostname -I 2>/dev/null | awk '{print }' 2>/dev/null || echo "Unknown")`
+- **Local IP**: $(hostname -I 2>/dev/null | awk '{print --reset-auth}' 2>/dev/null || echo "Unknown")`
 - **CPU Model**: $(grep -m1 'model name' /proc/cpuinfo 2>/dev/null | cut -d: -f2 | sed 's/^ //' 2>/dev/null || echo "Unknown")`
 - **Total RAM (GB)**: $(awk '/MemTotal/ {printf "%.2f", /1024/1024}' /proc/meminfo 2>/dev/null || echo "Unknown")`
 
