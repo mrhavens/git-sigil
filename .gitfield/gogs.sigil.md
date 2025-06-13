@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `gogs`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-13 01:03:30`
+- **Repo Created**: `2025-06-13 01:04:32`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-13 01:03:30`
-- **Last Commit SHA**: `a68d390259a7f453d11d8184b42ab4259b2e1081`
-- **Last Commit Message**: `Post-Radicle sync at 2025-06-13T05:33:24Z`
+- **This Commit Timestamp**: `2025-06-13 01:04:32`
+- **Last Commit SHA**: `bbaa13ad6f8332cfb3f904ded305feada0edd709`
+- **Last Commit Message**: `GOGS metadata link commit at 2025-06-13 01:03:30 — https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/a68d390259a7f453d11d8184b42ab4259b2e1081`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 13 00:33:27 2025 -0500`
-- **This Commit URL**: [https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/a68d390259a7f453d11d8184b42ab4259b2e1081](https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/a68d390259a7f453d11d8184b42ab4259b2e1081)
+- **Last Commit Date**: `Fri Jun 13 01:03:30 2025 -0500`
+- **This Commit URL**: [https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/bbaa13ad6f8332cfb3f904ded305feada0edd709](https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/bbaa13ad6f8332cfb3f904ded305feada0edd709)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1297`
-- **Tracked Files**: `161`
+- **Total Commits**: `1298`
+- **Tracked Files**: `162`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
