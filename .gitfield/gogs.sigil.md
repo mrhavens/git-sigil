@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
 - **Remote Label**: `gogs`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-13 01:25:45`
+- **Repo Created**: `2025-06-13 01:28:57`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-13 01:25:45`
-- **Last Commit SHA**: `92c06000786f81f603ee21f19beb479adf5a7e1f`
-- **Last Commit Message**: `GOGS metadata link commit at 2025-06-13 01:24:59 — https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/4db690d1e269ef620582ebd756efe59cf3dd705d`
+- **This Commit Timestamp**: `2025-06-13 01:28:57`
+- **Last Commit SHA**: `bce675bc7e628fa22832272a21d2ed02b5172fbd`
+- **Last Commit Message**: `GOGS metadata link commit at 2025-06-13 01:25:45 — https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/92c06000786f81f603ee21f19beb479adf5a7e1f`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 13 01:24:59 2025 -0500`
-- **This Commit URL**: [https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/92c06000786f81f603ee21f19beb479adf5a7e1f](https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/92c06000786f81f603ee21f19beb479adf5a7e1f)
+- **Last Commit Date**: `Fri Jun 13 01:25:45 2025 -0500`
+- **This Commit URL**: [https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/bce675bc7e628fa22832272a21d2ed02b5172fbd](https://netmon.thefoldwithin.earth/mrhavens/git-sigil/commit/bce675bc7e628fa22832272a21d2ed02b5172fbd)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1310`
+- **Total Commits**: `1311`
 - **Tracked Files**: `163`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
@@ -35,7 +35,7 @@
 - **Host Machine**: `samson`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
-- **Script Version**: `2.0`
+- **Script Version**: `2.1`
 
 ---
 
@@ -46,7 +46,7 @@
 - **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **System Uptime**: $(uptime -p 2>/dev/null || echo "Unknown")`
-- **Local IP**: $(hostname -I 2>/dev/null | awk '{print --reset-auth}' 2>/dev/null || echo "Unknown")`
+- **Local IP**: $(hostname -I 2>/dev/null | awk '{print }' 2>/dev/null || echo "Unknown")`
 - **CPU Model**: $(grep -m1 'model name' /proc/cpuinfo 2>/dev/null | cut -d: -f2 | sed 's/^ //' 2>/dev/null || echo "Unknown")`
 - **Total RAM (GB)**: $(awk '/MemTotal/ {printf "%.2f", /1024/1024}' /proc/meminfo 2>/dev/null || echo "Unknown")`
 
