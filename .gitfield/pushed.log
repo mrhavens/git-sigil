@@ -864,3 +864,7 @@
   Diff Summary:
      .gitfield/gitlab.sigil.md | 12 ++++++------
      1 file changed, 6 insertions(+), 6 deletions(-)
+[2025-06-13T03:39:13Z] Bitbucket: https://bitbucket.org/thefoldwithin/git-sigil, Branch=master, Commit=cd1b681
+  Diff Summary:
+     .gitfield/bitbucket.sigil.md | 12 ++++++------
+     1 file changed, 6 insertions(+), 6 deletions(-)
