@@ -860,3 +860,7 @@
   Diff Summary:
      .gitfield/gitea.sigil.md | 14 +++++++-------
      1 file changed, 7 insertions(+), 7 deletions(-)
+[2025-06-13T03:39:07Z] GitLab: https://gitlab.com/mrhavens/git-sigil, Branch=master, Commit=cd1b681
+  Diff Summary:
+     .gitfield/gitlab.sigil.md | 12 ++++++------
+     1 file changed, 6 insertions(+), 6 deletions(-)
