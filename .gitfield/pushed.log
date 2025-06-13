@@ -804,3 +804,12 @@
   Diff Summary:
      .gitfield/local.sigil.md | 16 ++++++++--------
      1 file changed, 8 insertions(+), 8 deletions(-)
+[2025-06-13T03:33:09Z] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz, Branch=master, Commit=cd1b681
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
+  Diff Summary:
+     .gitfield/push_log.json |   6 +
+     .gitfield/pushed.log    |   4 +
+     GITFIELD_PHILOSOPHY.md  | 106 ++++++++
+     bin/rad-info.sh         | 691 +++++++++++++++++++++++++++++++-----------------
+     4 files changed, 570 insertions(+), 237 deletions(-)
