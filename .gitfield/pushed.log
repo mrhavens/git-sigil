@@ -891,3 +891,7 @@
   Diff Summary:
      .gitfield/codeberg.sigil.md | 14 +++++++-------
      1 file changed, 7 insertions(+), 7 deletions(-)
+[2025-06-13T03:39:40Z] Gitea: https://gitea.com/mrhavens/git-sigil, Branch=master, Commit=cd1b681
+  Diff Summary:
+     .gitfield/gitea.sigil.md | 14 +++++++-------
+     1 file changed, 7 insertions(+), 7 deletions(-)
