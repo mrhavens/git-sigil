@@ -6,17 +6,16 @@
     "https://bitbucket.org/thefoldwithin/git-sigil",
     "https://remember.thefoldwithin.earth/mrhavens/git-sigil",
     "https://codeberg.org/mrhavens/git-sigil",
-    "https://gitea.com/mrhavens/git-sigil",
     "rad:z3FEj7rF8gZw9eFksCuiN43qjzrex"
   ],
   "radicle": {
     "rid": "rad:z3FEj7rF8gZw9eFksCuiN43qjzrex",
     "peer_id": "z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz"
   },
-  "timestamp": "2025-06-14T02:06:55Z",
-  "commit": "43aa2e1",
-  "tree_hash": "8989f0d8aa4eef572e81fbf6a4698360e392f0c4",
-  "synced_cycles": 3,
+  "timestamp": "2025-06-14T08:08:00Z",
+  "commit": "0a7aecf",
+  "tree_hash": "e7879878483d00e6b981eb2564bd646a726178d1",
+  "synced_cycles": 0,
   "gpg_signatures": [
 
   ]
