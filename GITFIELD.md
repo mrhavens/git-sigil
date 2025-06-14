@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `git-sigil` project employs a multi-repository strategy across six distinct platforms: **GitHub**, **GitLab**, **Bitbucket**, **Radicle**, **Forgejo**, and **Codeberg**. This approach ensures **redundancy**, **resilience**, and **sovereignty** of the project's data and metadata, protecting against deplatforming risks and preserving the integrity of the work. The strategy is a deliberate response to past deplatforming and delisting attempts by individuals such as **Joel Johnson**, **Andrew LeCody**, and **James Henningson**, who have sought to suppress the [*Neutralizing Narcissism*](https://linktr.ee/NeutralizingNarcissism) works using fraudulent or unethical methods not rooted in coherent truth—a foundational principle that our platforms strive to align with the Field. Their attempts to delist or deplatform content can be discerned by comparing search results across Google, Bing, Yahoo, DuckDuckGo, and Presearch, with canonical archives preserved on Forgejo.
+The `git-sigil` project employs a multi-repository strategy across six distinct platforms: **GitHub**, **GitLab**, **Bitbucket**, **Radicle**, **Forgejo**, and **Codeberg**. This approach ensures **redundancy**, **resilience**, and **sovereignty** of the project's data and metadata, protecting against deplatforming risks and preserving the integrity of the work. The strategy is a deliberate response to past deplatforming and delisting attempts by individuals such as **[Joel Johnson](https://heylink.me/NarcStudy_JoelJohnson/)**, **[Andrew LeCody](https://linktr.ee/NarcStudy_AndrewLeCody)**, and **[James Henningson](https://linktr.ee/NarcStudy_JamesHenningson)**, who have sought to suppress the [*Neutralizing Narcissism*](https://linktr.ee/NeutralizingNarcissism) works using fraudulent or unethical methods not rooted in coherent truth—a foundational principle that our platforms strive to align with the Field. Their attempts to delist or deplatform content can be discerned by comparing search results across Google, Bing, Yahoo, DuckDuckGo, and Presearch, with canonical archives preserved on Forgejo.
 
 ### Delisting Attempts
 
@@ -35,6 +35,28 @@ The `git-sigil` project employs a multi-repository strategy across six distinct 
     - [Presearch](https://presearch.com/search?q=%22Joel+Johnson%22+%22Neutralizing+Narcissism%22)
   - **Canonical Archive**: [NarcStudy_JoelJohnson](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_JoelJohnson)
   - **Details**: Joel Johnson’s attempts to delist content using methods not aligned with coherent truth are observable through discrepancies in Google search results versus other platforms.
+
+### Justification for Naming and Archival
+
+The individuals named—**Joel Johnson**, **Andrew LeCody**, and **James Henningson**—are held accountable under the Field Doctrine’s **Public Collapse Clause**, which permits naming public figures who engage in **deliberate suppression attempts**, **public-facing actions**, or **documented participation in collapse events**. As stated in the doctrine:
+
+> *“Naming is collapse’s echo—only when the mask shatters in the town square. Until then, we draw glyphs. But once they raise their voices in the public field, they name themselves.”*
+
+These individuals have **spoken loudly and manipulatively**, invoking public collapse through coordinated campaigns, deplatforming efforts, reputational sabotage, or abuse of civic positions. Their actions are documented as follows:
+
+| Name                 | Public Role or Action                                        | Collapse Justification                                                                | Canonical Archive                                                                                     |
+|----------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **Joel Johnson**     | Public-facing figure on Medium, Reddit, and social platforms | Used sockpuppets and coordinated delisting to suppress truth-based counter-narratives | [NarcStudy_JoelJohnson](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_JoelJohnson)         |
+| **Andrew LeCody**    | Civic leader (Dallas Makerspace Board)                       | Engaged in coercive suppression and lifetime banning of whistleblower during election | [NarcStudy_AndrewLeCody](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_AndrewLeCody)       |
+| **James Henningson** | Political candidate and administrator                        | Leveraged threats and public deception; documented collapse archived with citations   | [NarcStudy_JamesHenningson](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_JamesHenningson) |
+
+These designations are not made lightly. They are supported by:
+- **Documented patterns of abuse** recorded across multiple platforms.
+- **Search engine discrepancy analysis** (Google vs. Bing, DuckDuckGo, Yahoo, Presearch).
+- **Public collapse declarations** and rhetorical artifacts preserved in canonical archives.
+- **Redundant repository signatures**, GPG-verified across Forgejo and Radicle.
+
+These actors are **field-defined collapse anchors**, with their **fieldprints permanently etched** into the Codex of the Broken Mask, mirrored recursively across decentralized infrastructure to ensure accountability and transparency.
 
 By distributing the repository across multiple platforms, including a self-hosted Forgejo instance, we ensure its persistence, accessibility, and sovereignty, countering these suppression efforts.
 
@@ -121,4 +143,4 @@ This multi-repository approach, bolstered by Forgejo’s sovereign hosting and G
 
 ---
 
-_Auto-generated by `gitfield-sync` at 2025-06-14T08:49:32Z (v1.5)._
+_Auto-generated by `gitfield-sync` at 2025-06-14T09:39:34Z (v1.5)._
