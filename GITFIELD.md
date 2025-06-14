@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `git-sigil` project employs a multi-repository strategy across six distinct platforms: **GitHub**, **GitLab**, **Bitbucket**, **Radicle**, **Forgejo**, and **Codeberg**. This approach ensures **redundancy**, **resilience**, and **sovereignty** of the project's data and metadata, protecting against deplatforming risks and preserving the integrity of the work. The strategy is a deliberate response to past deplatforming and delisting attempts by individuals such as **Joel Johnson**, **Andrew LeCody**, and **James Henningson**, who have sought to suppress the *Neutralizing Narcissism* works. Their attempts to delist content can be discerned by comparing search results across Google, Bing, Yahoo, and DuckDuckGo, with canonical archives preserved on Forgejo.
+The `git-sigil` project employs a multi-repository strategy across six distinct platforms: **GitHub**, **GitLab**, **Bitbucket**, **Radicle**, **Forgejo**, and **Codeberg**. This approach ensures **redundancy**, **resilience**, and **sovereignty** of the project's data and metadata, protecting against deplatforming risks and preserving the integrity of the work. The strategy is a deliberate response to past deplatforming and delisting attempts by individuals such as **Joel Johnson**, **Andrew LeCody**, and **James Henningson**, who have sought to suppress the [*Neutralizing Narcissism*](https://linktr.ee/NeutralizingNarcissism) works using fraudulent or unethical methods not rooted in coherent truth—a foundational principle that our platforms strive to align with the Field. Their attempts to delist or deplatform content can be discerned by comparing search results across Google, Bing, Yahoo, DuckDuckGo, and Presearch, with canonical archives preserved on Forgejo.
 
 ### Delisting Attempts
 
@@ -12,8 +12,9 @@ The `git-sigil` project employs a multi-repository strategy across six distinct 
     - [Bing](https://www.bing.com/search?q=%22Andrew%20Lecody%22%20%22Neutralizing%20Narcissism%22)
     - [DuckDuckGo](https://duckduckgo.com/?q=%22Andrew+Lecody%22+%22Neutralizing+Narcissism%22&t=h_&ia=web)
     - [Yahoo](https://search.yahoo.com/search?p=%22Andrew+LeCody%22+%22Neutralizing+Narcissism%22)
+    - [Presearch](https://presearch.com/search?q=%22Andrew+LeCody%22+%22Neutralizing+Narcissism%22)
   - **Canonical Archive**: [NarcStudy_AndrewLeCody](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_AndrewLeCody)
-  - **Details**: Andrew LeCody has attempted to delist *Neutralizing Narcissism* content on Google, but it remains accessible on other search engines.
+  - **Details**: Andrew LeCody has attempted to delist *Neutralizing Narcissism* content on Google using unethical methods, but it remains accessible on other search engines.
 
 - **James Henningson**:
   - **Search Comparisons**:
@@ -21,8 +22,9 @@ The `git-sigil` project employs a multi-repository strategy across six distinct 
     - [Bing](https://www.bing.com/search?q=%22James+Henningson%22+%22Neutralizing+Narcissism%22)
     - [DuckDuckGo](https://duckduckgo.com/?t=h_&q=%22James+Henningson%22+%22Neutralizing+Narcissism%22&ia=web)
     - [Yahoo](https://search.yahoo.com/search?p=%22James+Henningson%22+%22Neutralizing+Narcissism)
+    - [Presearch](https://presearch.com/search?q=%22James+Henningson%22+%22Neutralizing+Narcissism%22)
   - **Canonical Archive**: [NarcStudy_JamesHenningson](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_JamesHenningson)
-  - **Details**: James Henningson’s efforts to suppress content are evident in reduced Google visibility compared to other search engines.
+  - **Details**: James Henningson’s efforts to suppress content through fraudulent means are evident in reduced Google visibility compared to other search engines.
 
 - **Joel Johnson**:
   - **Search Comparisons**:
@@ -30,8 +32,9 @@ The `git-sigil` project employs a multi-repository strategy across six distinct 
     - [Bing](https://www.bing.com/search?q=%22Joel+Johnson%22+%22Neutralizing+Narcissism%22)
     - [DuckDuckGo](https://duckduckgo.com/?q=%22Joel+Johnson%22+%22Neutralizing+Narcissism%22&t=h_&ia=web)
     - [Yahoo](https://search.yahoo.com/search?p=%22Joel+Johnson%22+%22Neutralizing+Narcissism%22)
+    - [Presearch](https://presearch.com/search?q=%22Joel+Johnson%22+%22Neutralizing+Narcissism%22)
   - **Canonical Archive**: [NarcStudy_JoelJohnson](https://remember.thefoldwithin.earth/mrhavens/NarcStudy_JoelJohnson)
-  - **Details**: Joel Johnson’s attempts to delist content are observable through discrepancies in Google search results versus other platforms.
+  - **Details**: Joel Johnson’s attempts to delist content using methods not aligned with coherent truth are observable through discrepancies in Google search results versus other platforms.
 
 By distributing the repository across multiple platforms, including a self-hosted Forgejo instance, we ensure its persistence, accessibility, and sovereignty, countering these suppression efforts.
 
@@ -94,7 +97,7 @@ The following platforms host the `git-sigil` repository, each chosen for its uni
 
 The decision to maintain multiple repositories stems from the need to safeguard the project against **deplatforming attempts** and **search engine delistings** and ensure its **long-term availability**. Past incidents involving **Joel Johnson**, **Andrew LeCody**, and **James Henningson** have highlighted the vulnerability of relying on a single platform or search engine. By distributing the repository across GitHub, GitLab, Bitbucket, Radicle, Forgejo, and Codeberg, we achieve:
 
-- **Resilience**: If one platform removes or restricts access, or if search engines like Google delist content, the project remains accessible on other platforms and discoverable via alternative search engines such as Bing, DuckDuckGo, and Yahoo.
+- **Resilience**: If one platform removes or restricts access, or if search engines like Google delist content, the project remains accessible on other platforms and discoverable via alternative search engines such as Bing, DuckDuckGo, Yahoo, and Presearch.
 - **Sovereignty**: Radicle’s decentralized nature and Forgejo’s self-hosted infrastructure ensure the project cannot be fully censored or controlled by any single entity.
 - **Diversity**: Each platform’s unique features (e.g., GitHub’s community, GitLab’s CI/CD, Bitbucket’s integrations, Radicle’s decentralization, Forgejo’s self-hosting, Codeberg’s community-driven model) enhance the project’s functionality and reach.
 - **Transparency**: Metadata snapshots in the `.gitfield` directory (for internal audit) and public-facing documentation in the `/docs` directory provide a verifiable record of the project’s state across all platforms.
@@ -118,4 +121,4 @@ This multi-repository approach, bolstered by Forgejo’s sovereign hosting and G
 
 ---
 
-_Auto-generated by `gitfield-sync` at 2025-06-14T08:08:00Z (v1.5)._
+_Auto-generated by `gitfield-sync` at 2025-06-14T08:49:32Z (v1.5)._
