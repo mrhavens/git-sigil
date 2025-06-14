@@ -5,9 +5,7 @@ IFS=$'\n\t'
 # Configuration
 GIT_REMOTE_NAME="gogs"
 GOGS_DOMAIN="netmon.thefoldwithin.earth"
-GOGS_SSH="git@$GOGS_DOMAIN"
 GOGS_API="https://$GOGS_DOMAIN/api/v1"
-GOGS_SSH_PORT="22"
 USERNAME="mrhavens"
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "[ERROR] Not inside a git repository." >&2; exit 1; }
 REPO_NAME=$(basename "$REPO_ROOT") || { echo "[ERROR] Failed to get repository name" >&2; exit 1; }
@@ -15,10 +13,7 @@ MARKDOWN_FILE="$REPO_ROOT/.gitfield/gogs.sigil.md"
 DEFAULT_NAME="Mark Randall Havens"
 DEFAULT_EMAIL="mark.r.havens@gmail.com"
 TOKEN_FILE="$HOME/.gitfield_token_gogs"
-CLOUDFLARED_TOKEN_FILE="$HOME/.cloudflared/gogs_tunnel_token"
-SSH_KEY="$HOME/.ssh/id_ed25519"
-SSH_CONFIG_FILE="$HOME/.ssh/config"
-SCRIPT_VERSION="1.5"
+SCRIPT_VERSION="2.3"
 
 # Logging functions
 info()  { echo -e "\e[1;34m[INFO]\e[0m ${*:-}"; }
@@ -27,136 +22,98 @@ error() { echo -e "\e[1;31m[ERROR]\e[0m ${*:-}" >&2; exit 1; }
 
 # Check for required tools
 info "Checking for required tools..."
-for cmd in git curl jq ssh timeout; do
+for cmd in git curl jq; do
   command -v "$cmd" >/dev/null || {
     sudo apt update -qq || warn "Failed to update package lists, continuing..."
-    sudo apt install -y git curl jq openssh-client timeout || error "Failed to install $cmd"
+    sudo apt install -y git curl jq || error "Failed to install $cmd"
   }
 done
 
-# Install cloudflared if not present
-if ! command -v cloudflared >/dev/null; then
-  info "Installing cloudflared..."
-  sudo apt update -qq || warn "Failed to update package lists, continuing..."
-  sudo apt install -y wget || error "Failed to install wget"
-  ARCH=$(uname -m)
-  case "$ARCH" in
-    x86_64) CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" ;;
-    arm*)   CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm" ;;
-    *)      error "Unsupported architecture: $ARCH" ;;
-  esac
-  wget -q "$CLOUDFLARED_URL" -O /tmp/cloudflared || error "Failed to download cloudflared"
-  sudo mv /tmp/cloudflared /usr/local/bin/cloudflared || error "Failed to install cloudflared"
-  sudo chmod +x /usr/local/bin/cloudflared || error "Failed to set cloudflared permissions"
-  info "cloudflared installed successfully."
-fi
+# Function to prompt for GOGS token or password
+prompt_for_credentials() {
+  info "Credentials required."
+  echo "🔐 Generate a token at https://$GOGS_DOMAIN/user/settings/applications (Recommended)"
+  echo "   - REQUIRED: Select the 'write:repository' scope"
+  echo "🔐 Alternatively, use your GOGS password"
+  echo "🔐 Paste your GOGS Personal Access Token or Password (will not be echoed):"
+  read -rsp "Token/Password: " CRED
+  echo
+  [[ -z "$CRED" ]] && error "Credentials cannot be empty"
+  echo "$CRED" > "$TOKEN_FILE" || error "Failed to write credentials to $TOKEN_FILE"
+  chmod 600 "$TOKEN_FILE" || error "Failed to set permissions on $TOKEN_FILE"
+  info "Credentials saved at $TOKEN_FILE"
+}
 
-# Handle GOGS token
+# Handle credentials
 RESET_AUTH=false
 if [[ "${1:-}" == "--reset-auth" ]]; then
   RESET_AUTH=true
-  rm -f "$TOKEN_FILE" "$CLOUDFLARED_TOKEN_FILE" 2>/dev/null || warn "Failed to remove auth files"
+  rm -f "$TOKEN_FILE" "$HOME/.git-credentials" 2>/dev/null || warn "Failed to remove credential files"
   info "Authentication reset requested."
 fi
 
 if [[ -f "$TOKEN_FILE" && "$RESET_AUTH" == false ]]; then
-  TOKEN=$(cat "$TOKEN_FILE" 2>/dev/null) || error "Failed to read token from $TOKEN_FILE"
-  info "Using cached GOGS token from $TOKEN_FILE"
+  CRED=$(cat "$TOKEN_FILE" 2>/dev/null) || error "Failed to read credentials from $TOKEN_FILE"
+  info "Using cached credentials from $TOKEN_FILE"
 else
-  info "GOGS token required."
-  echo "🔐 Generate a token at https://$GOGS_DOMAIN/user/settings/applications (scopes: write:repository, write:ssh_key)"
-  echo "🔐 Paste your GOGS Personal Access Token (will not be echoed):"
-  read -rsp "Token: " TOKEN
-  echo
-  [[ -z "$TOKEN" ]] && error "GOGS token cannot be empty"
-  echo "$TOKEN" > "$TOKEN_FILE" || error "Failed to write token to $TOKEN_FILE"
-  chmod 600 "$TOKEN_FILE" || error "Failed to set permissions on $TOKEN_FILE"
-  info "GOGS token saved at $TOKEN_FILE"
+  prompt_for_credentials
 fi
 
 # Verify GOGS token
-info "Verifying GOGS token..."
-TOKEN_TEST=$(curl -k -s -H "Authorization: token $TOKEN" "$GOGS_API/user" | jq -r .login 2>/dev/null || echo "")
+info "Verifying GOGS credentials (read access)..."
+TOKEN_TEST=$(curl -k -s -H "Authorization: token $CRED" "$GOGS_API/user" | jq -r .login 2>/dev/null || echo "")
 if [[ "$TOKEN_TEST" != "$USERNAME" ]]; then
-  warn "GOGS token verification failed. Please generate a new token at https://$GOGS_DOMAIN/user/settings/applications"
-  rm -f "$TOKEN_FILE"
-  echo "🔐 Paste your GOGS Personal Access Token (will not be echoed):"
-  read -rsp "Token: " TOKEN
-  echo
-  [[ -z "$TOKEN" ]] && error "GOGS token cannot be empty"
-  echo "$TOKEN" > "$TOKEN_FILE" || error "Failed to write token to $TOKEN_FILE"
-  chmod 600 "$TOKEN_FILE" || error "Failed to set permissions on $TOKEN_FILE"
-  info "GOGS token saved at $TOKEN_FILE"
-fi
-
-# Handle Cloudflare Tunnel token
-if [[ -f "$CLOUDFLARED_TOKEN_FILE" && "$RESET_AUTH" == false ]]; then
-  CLOUDFLARED_TOKEN=$(cat "$CLOUDFLARED_TOKEN_FILE" 2>/dev/null) || error "Failed to read Cloudflare Tunnel token from $CLOUDFLARED_TOKEN_FILE"
-  info "Using cached Cloudflare Tunnel token from $CLOUDFLARED_TOKEN_FILE"
+  warn "Token verification failed. Credentials may be a password or invalid token."
+  # Retry with credentials as password if token fails
+  PASSWORD_TEST=$(curl -k -s -u "$USERNAME:$CRED" "$GOGS_API/user" | jq -r .login 2>/dev/null || echo "")
+  if [[ "$PASSWORD_TEST" != "$USERNAME" ]]; then
+    warn "Password verification also failed. Please provide valid credentials."
+    rm -f "$TOKEN_FILE"
+    prompt_for_credentials
+    TOKEN_TEST=$(curl -k -s -H "Authorization: token $CRED" "$GOGS_API/user" | jq -r .login 2>/dev/null || echo "")
+    PASSWORD_TEST=$(curl -k -s -u "$USERNAME:$CRED" "$GOGS_API/user" | jq -r .login 2>/dev/null || echo "")
+    [[ "$TOKEN_TEST" != "$USERNAME" && "$PASSWORD_TEST" != "$USERNAME" ]] && error "New credentials verification failed. Ensure they are valid."
+  fi
+  info "Credentials verified as password: $PASSWORD_TEST"
 else
-  info "Cloudflare Tunnel token required."
-  echo "🔐 Follow these steps to generate a Cloudflare Tunnel token:"
-  echo "   1. Log into Cloudflare Zero Trust: https://dash.teams.cloudflare.com"
-  echo "   2. Navigate to Access > Tunnels."
-  echo "   3. Click 'Create a tunnel', select 'Cloudflared' connector, and name it (e.g., 'gogs-ssh-tunnel')."
-  echo "   4. Copy the token (starts with 'eyJ') from the 'Connect an application' step."
-  echo "   5. In Public Hostnames, add 'netmon.thefoldwithin.earth' (or a subdomain), set Service to 'SSH', and URL to 'localhost:22'."
-  echo "   6. Ensure the tunnel is running on your Raspberry Pi (see: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/)"
-  echo "🔐 Paste your Cloudflare Tunnel token (will not be echoed):"
-  read -rsp "Token: " CLOUDFLARED_TOKEN
-  echo
-  [[ -z "$CLOUDFLARED_TOKEN" ]] && error "Cloudflare Tunnel token cannot be empty"
-  [[ ! "$CLOUDFLARED_TOKEN" =~ ^eyJ ]] && warn "Cloudflare Tunnel token does not start with 'eyJ'. It may be invalid."
-  mkdir -p "$(dirname "$CLOUDFLARED_TOKEN_FILE")" || error "Failed to create .cloudflared directory"
-  echo "$CLOUDFLARED_TOKEN" > "$CLOUDFLARED_TOKEN_FILE" || error "Failed to write token to $CLOUDFLARED_TOKEN_FILE"
-  chmod 600 "$CLOUDFLARED_TOKEN_FILE" || error "Failed to set permissions on $CLOUDFLARED_TOKEN_FILE"
-  info "Cloudflare Tunnel token saved at $CLOUDFLARED_TOKEN_FILE"
+  info "Credentials verified as token: $TOKEN_TEST"
 fi
 
-# Validate Cloudflare Tunnel token
-info "Validating Cloudflare Tunnel token..."
-CLOUDFLARED_TEST=$(timeout 10s cloudflared tunnel --no-autoupdate info --token "$CLOUDFLARED_TOKEN" 2>&1 || echo "Timeout or error")
-if echo "$CLOUDFLARED_TEST" | grep -qi "error"; then
-  warn "Cloudflare Tunnel token validation failed: $CLOUDFLARED_TEST"
-  rm -f "$CLOUDFLARED_TOKEN_FILE"
-  echo "🔐 Follow the steps above or visit https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/install-and-setup/tunnel-guide/"
-  echo "🔐 Paste your Cloudflare Tunnel token (will not be echoed):"
-  read -rsp "Token: " CLOUDFLARED_TOKEN
-  echo
-  [[ -z "$CLOUDFLARED_TOKEN" ]] && error "Cloudflare Tunnel token cannot be empty"
-  [[ ! "$CLOUDFLARED_TOKEN" =~ ^eyJ ]] && warn "Cloudflare Tunnel token does not start with 'eyJ'. It may be invalid."
-  echo "$CLOUDFLARED_TOKEN" > "$CLOUDFLARED_TOKEN_FILE" || error "Failed to write token to $CLOUDFLARED_TOKEN_FILE"
-  chmod 600 "$CLOUDFLARED_TOKEN_FILE" || error "Failed to set permissions on $CLOUDFLARED_TOKEN_FILE"
-  info "Cloudflare Tunnel token saved at $CLOUDFLARED_TOKEN_FILE"
-fi
-
-# Configure Cloudflare Tunnel
-info "Configuring Cloudflare Tunnel for SSH..."
-killall cloudflared 2>/dev/null || true
-timeout 10s cloudflared tunnel --no-autoupdate run --token "$CLOUDFLARED_TOKEN" --loglevel error >/dev/null 2>&1 & sleep 2
-if ! pgrep -f "cloudflared.*$CLOUDFLARED_TOKEN" >/dev/null; then
-  warn "Failed to start Cloudflare Tunnel. Falling back to HTTPS..."
-  USE_HTTPS=true
+# Test write access via API
+info "Testing write access via API..."
+TEST_REPO="test-repo-$(date +%s)"
+WRITE_TEST=$(curl -k -v -H "Authorization: token $CRED" -X POST "$GOGS_API/user/repos" -H "Content-Type: application/json" -d "{\"name\": \"$TEST_REPO\", \"description\": \"Test\", \"private\": false, \"auto_init\": false}" 2>&1)
+if [[ $? -ne 0 || $(echo "$WRITE_TEST" | grep -i "401" 2>/dev/null) ]]; then
+  warn "Write access test failed with token: $WRITE_TEST"
+  WRITE_TEST=$(curl -k -v -u "$USERNAME:$CRED" -X POST "$GOGS_API/user/repos" -H "Content-Type: application/json" -d "{\"name\": \"$TEST_REPO\", \"description\": \"Test\", \"private\": false, \"auto_init\": false}" 2>&1)
+  if [[ $? -ne 0 || $(echo "$WRITE_TEST" | grep -i "401" 2>/dev/null) ]]; then
+    error "Write access failed with both token and password. Check GOGS configuration."
+  fi
+  info "Write access test passed with password: $WRITE_TEST"
 else
-  info "Cloudflare Tunnel running."
+  info "Write access test passed with token: $WRITE_TEST"
 fi
 
-# Configure SSH with Cloudflare Tunnel
-if ! grep -q "Host $GOGS_DOMAIN" "$SSH_CONFIG_FILE" 2>/dev/null; then
-  info "Configuring SSH with Cloudflare Tunnel..."
-  mkdir -p "$(dirname "$SSH_CONFIG_FILE")" && chmod 700 "$(dirname "$SSH_CONFIG_FILE")"
-  cat >> "$SSH_CONFIG_FILE" <<EOF
-Host $GOGS_DOMAIN
-  HostName $GOGS_DOMAIN
-  User git
-  Port $GOGS_SSH_PORT
-  IdentityFile $SSH_KEY
-  ProxyCommand cloudflared access ssh --hostname %h
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-EOF
-  chmod 600 "$SSH_CONFIG_FILE" || warn "Failed to set permissions on SSH config file"
-  info "Added SSH config for $GOGS_DOMAIN with Cloudflare Tunnel"
+# Test Git push with credentials
+info "Testing Git push with credentials..."
+GIT_TEST=$(git ls-remote --heads "https://$USERNAME:$CRED@$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git" 2>&1)
+if [[ $? -ne 0 || $(echo "$GIT_TEST" | grep -i "401" 2>/dev/null) ]]; then
+  warn "Git push test failed with token: $GIT_TEST"
+  GIT_TEST=$(git ls-remote --heads "https://$USERNAME:$CRED@$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git" 2>&1)
+  if [[ $? -ne 0 || $(echo "$GIT_TEST" | grep -i "401" 2>/dev/null) ]]; then
+    warn "Git push test also failed with password. This suggests a GOGS Git-over-HTTP issue."
+    warn "1. Edit /home/git/gogs/custom/conf/app.ini and ensure:"
+    warn "   [auth] ENABLE_ACCESS_TOKEN = true"
+    warn "   [git] DISABLE_HTTP_GIT = false"
+    warn "2. Restart GOGS: sudo systemctl restart gogs"
+    warn "3. Try manual push with token: git push https://$USERNAME:$CRED@$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git $DEFAULT_BRANCH"
+    warn "4. Try manual push with password: git push https://$USERNAME:$CRED@$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git $DEFAULT_BRANCH"
+    warn "5. Check GOGS logs: sudo tail -f /home/git/gogs/log/gogs.log"
+    error "Git push test failed. Adjust GOGS configuration or use manual workaround."
+  fi
+  info "Git push test passed with password: $GIT_TEST"
+else
+  info "Git push test passed with token: $GIT_TEST"
 fi
 
 # Set git user info
@@ -169,78 +126,38 @@ if ! git rev-parse HEAD &>/dev/null; then
   error "No commits found. Please add and commit files first."
 fi
 
-# SSH setup
-if [[ ! -f "$SSH_KEY" ]]; then
-  info "Generating SSH key..."
-  ssh-keygen -t ed25519 -C "$DEFAULT_EMAIL" -f "$SSH_KEY" -N "" || error "Failed to generate SSH key"
-fi
-
-eval "$(ssh-agent -s)" >/dev/null 2>&1 || error "Failed to start ssh-agent"
-ssh-add "$SSH_KEY" >/dev/null 2>&1 || warn "SSH key already added or could not be added"
-
-# Upload SSH key to GOGS
-if [[ "$USE_HTTPS" != true ]]; then
-  info "Testing SSH connection..."
-  SSH_TEST_OUTPUT=$(timeout 10s ssh -T -p "$GOGS_SSH_PORT" "$GOGS_SSH" 2>&1 || echo "Timeout or error")
-  if ! echo "$SSH_TEST_OUTPUT" | grep -q "success"; then
-    warn "SSH test failed: $SSH_TEST_OUTPUT"
-    info "Uploading SSH key to GOGS..."
-    PUBKEY=$(cat "${SSH_KEY}.pub" 2>/dev/null) || error "Failed to read SSH public key"
-    TITLE="AutoKey-$(hostname)-$(date +%s)"
-    CURL_OUTPUT=$(curl -k -s --fail -X POST "$GOGS_API/user/keys" \
-      -H "Authorization: token $TOKEN" \
-      -H "Content-Type: application/json" \
-      -d "{\"title\": \"$TITLE\", \"key\": \"$PUBKEY\"}" 2>&1)
-    if [[ $? -ne 0 ]]; then
-      warn "SSH key upload failed: $CURL_OUTPUT"
-      USE_HTTPS=true
-    else
-      info "SSH key uploaded successfully."
-      sleep 2
-      SSH_TEST_OUTPUT=$(timeout 10s ssh -T -p "$GOGS_SSH_PORT" "$GOGS_SSH" 2>&1 || echo "Timeout or error")
-      if ! echo "$SSH_TEST_OUTPUT" | grep -q "success"; then
-        warn "SSH test still failing: $SSH_TEST_OUTPUT"
-        USE_HTTPS=true
-      else
-        info "SSH test passed: $SSH_TEST_OUTPUT"
-      fi
-    fi
-  else
-    info "SSH test passed: $SSH_TEST_OUTPUT"
-  fi
+# Configure git credentials for HTTPS
+info "Configuring git credentials for HTTPS..."
+if [[ "$TOKEN_TEST" == "$USERNAME" ]]; then
+  echo "https://$USERNAME:$CRED@$GOGS_DOMAIN" > "$HOME/.git-credentials" || error "Failed to write git credentials"
 else
-  warn "Skipping SSH test due to HTTPS fallback."
+  echo "https://$USERNAME:$CRED@$GOGS_DOMAIN" > "$HOME/.git-credentials" || error "Failed to write git credentials"
 fi
-
-# Fallback to HTTPS if SSH fails
-if [[ "$USE_HTTPS" == true ]]; then
-  warn "Using HTTPS due to SSH failure."
-  git config --global credential.helper store
-  echo "https://$USERNAME:$TOKEN@$GOGS_DOMAIN" > "$HOME/.git-credentials" || error "Failed to write git credentials"
-  chmod 600 "$HOME/.git-credentials" || error "Failed to set permissions on git credentials"
-fi
+chmod 600 "$HOME/.git-credentials" || error "Failed to set permissions on git credentials"
 
 # Check and create GOGS repository
 info "Checking if repository exists..."
-EXISTS=$(curl -k -s -H "Authorization: token $TOKEN" "$GOGS_API/repos/$USERNAME/$REPO_NAME" | jq -r .name 2>/dev/null || echo "")
+EXISTS=$(curl -k -s -H "Authorization: token $CRED" "$GOGS_API/repos/$USERNAME/$REPO_NAME" | jq -r .name 2>/dev/null || echo "")
 if [[ "$EXISTS" != "$REPO_NAME" ]]; then
   info "Creating repository $REPO_NAME on GOGS..."
   CURL_OUTPUT=$(curl -k -s --fail -X POST "$GOGS_API/user/repos" \
-    -H "Authorization: token $TOKEN" \
+    -H "Authorization: token $CRED" \
     -H "Content-Type: application/json" \
     -d "{\"name\": \"$REPO_NAME\", \"description\": \"Created via gitfield-gogs\", \"private\": false, \"auto_init\": false}" 2>&1) || {
-    warn "Failed to create repository: $CURL_OUTPUT"
-    error "Repository creation failed. Check token permissions or network."
+    warn "Failed to create repository with token: $CURL_OUTPUT"
+    CURL_OUTPUT=$(curl -k -s --fail -u "$USERNAME:$CRED" -X POST "$GOGS_API/user/repos" \
+      -H "Content-Type: application/json" \
+      -d "{\"name\": \"$REPO_NAME\", \"description\": \"Created via gitfield-gogs\", \"private\": false, \"auto_init\": false}" 2>&1)
+    if [[ $? -ne 0 ]]; then
+      error "Repository creation failed with both token and password. Check GOGS configuration."
+    fi
+    info "Repository created successfully with password."
   }
-  info "Repository created successfully."
+  info "Repository created successfully with token."
 fi
 
 # Set up git remote
-if [[ "$USE_HTTPS" == true ]]; then
-  REMOTE_URL="https://$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git"
-else
-  REMOTE_URL="$GOGS_SSH:$USERNAME/$REPO_NAME.git"
-fi
+REMOTE_URL="https://$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git"
 if ! git remote get-url "$GIT_REMOTE_NAME" &>/dev/null; then
   info "Adding remote $GIT_REMOTE_NAME..."
   git remote add "$GIT_REMOTE_NAME" "$REMOTE_URL" || error "Failed to add remote $GIT_REMOTE_NAME"
@@ -338,23 +255,39 @@ git commit -m "GOGS metadata link commit at $TIMESTAMP — $WEB_LINK/commit/$LAT
 
 info "Pushing to GOGS..."
 if ! git config --get branch."$DEFAULT_BRANCH".remote &>/dev/null; then
-  git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" || {
-    warn "Push to GOGS failed."
-    if [[ "$USE_HTTPS" == false ]]; then
-      warn "Retrying with HTTPS..."
-      git remote set-url "$GIT_REMOTE_NAME" "https://$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git"
-      git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" || error "Push failed with both SSH and HTTPS."
+  if ! git push -u "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" 2>&1 | tee /tmp/git-push.log; then
+    warn "Push to GOGS failed. Check /tmp/git-push.log for details."
+    if grep -q "401" /tmp/git-push.log; then
+      warn "HTTP 401 error detected. Token or password failed for Git push."
+      warn "This suggests a GOGS Git-over-HTTP configuration issue."
+      warn "1. Edit /home/git/gogs/custom/conf/app.ini and ensure:"
+      warn "   [auth] ENABLE_ACCESS_TOKEN = true"
+      warn "   [git] DISABLE_HTTP_GIT = false"
+      warn "2. Restart GOGS: sudo systemctl restart gogs"
+      warn "3. Try manual push with current credentials: git push https://$USERNAME:$CRED@$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git $DEFAULT_BRANCH"
+      warn "4. Check GOGS logs: sudo tail -f /home/git/gogs/log/gogs.log"
+      error "Push failed. Adjust GOGS configuration or verify credentials."
+    else
+      error "Failed to push to $REMOTE_URL. Check network or GOGS server."
     fi
-  }
+  fi
 else
-  git push "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" || {
-    warn "Push to GOGS failed."
-    if [[ "$USE_HTTPS" == false ]]; then
-      warn "Retrying with HTTPS..."
-      git remote set-url "$GIT_REMOTE_NAME" "https://$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git"
-      git push "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" || error "Push failed with both SSH and HTTPS."
+  if ! git push "$GIT_REMOTE_NAME" "$DEFAULT_BRANCH" 2>&1 | tee /tmp/git-push.log; then
+    warn "Push to GOGS failed. Check /tmp/git-push.log for details."
+    if grep -q "401" /tmp/git-push.log; then
+      warn "HTTP 401 error detected. Token or password failed for Git push."
+      warn "This suggests a GOGS Git-over-HTTP configuration issue."
+      warn "1. Edit /home/git/gogs/custom/conf/app.ini and ensure:"
+      warn "   [auth] ENABLE_ACCESS_TOKEN = true"
+      warn "   [git] DISABLE_HTTP_GIT = false"
+      warn "2. Restart GOGS: sudo systemctl restart gogs"
+      warn "3. Try manual push with current credentials: git push https://$USERNAME:$CRED@$GOGS_DOMAIN/$USERNAME/$REPO_NAME.git $DEFAULT_BRANCH"
+      warn "4. Check GOGS logs: sudo tail -f /home/git/gogs/log/gogs.log"
+      error "Push failed. Adjust GOGS configuration or verify credentials."
+    else
+      error "Failed to push to $REMOTE_URL. Check network or GOGS server."
     fi
-  }
+  fi
 fi
 set -e
 
