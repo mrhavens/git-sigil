@@ -986,3 +986,7 @@
   Diff Summary:
      .gitfield/bitbucket.sigil.md | 17 ++++++++---------
      1 file changed, 8 insertions(+), 9 deletions(-)
+[2025-06-14T01:32:16Z] GitHub: https://github.com/mrhavens/git-sigil, Branch=master, Commit=03c37e1
+  Diff Summary:
+     .gitfield/github.sigil.md | 14 +++++++-------
+     1 file changed, 7 insertions(+), 7 deletions(-)
