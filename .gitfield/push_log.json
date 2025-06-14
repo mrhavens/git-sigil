@@ -398,6 +398,12 @@
       "branch": "master",
       "commit": "574328465f3d921211b5ed032178ae110858818b",
       "message": "Copied /mnt/h/fieldcraft/git-sigil/docs/GITFIELD.md to docs at 2025-06-14T08:08:00Z"
+    },
+    {
+      "timestamp": "2025-06-14 03:49:40",
+      "branch": "master",
+      "commit": "e687c33ea2b3e0bd28920aa09ec22996875f8213",
+      "message": "Generated docs/integrity.sha256 at 2025-06-14T08:49:32Z"
     }
   ]
 }
