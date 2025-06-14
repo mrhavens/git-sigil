@@ -3,28 +3,28 @@
 - **Repo Name**: `git-sigil`
 - **GitHub User**: `mrhavens`
 - **Remote URL**: [https://github.com/mrhavens/git-sigil](https://github.com/mrhavens/git-sigil)
-- **Local Repo Path**: `/home/mrhavens/fieldwork/git-sigil`
+- **Local Repo Path**: `/mnt/h/fieldcraft/git-sigil`
 - **Remote Label**: `github`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-06-13 21:08:30`
+- **This Commit Date**: `2025-06-14 03:09:14`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-13 21:08:30`
-- **Last Commit SHA**: `016d7d169528270480ca2d4676cee0c295e2164d`
-- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-14T02:06:55Z`
+- **This Commit Timestamp**: `2025-06-14 03:09:14`
+- **Last Commit SHA**: `83b0e485ae98d6254a34f9cb8a59942910419dda`
+- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-14T08:08:00Z`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 13 21:08:27 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/016d7d169528270480ca2d4676cee0c295e2164d](https://github.com/mrhavens/git-sigil/commit/016d7d169528270480ca2d4676cee0c295e2164d)
+- **Last Commit Date**: `Sat Jun 14 03:09:10 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/git-sigil/commit/83b0e485ae98d6254a34f9cb8a59942910419dda](https://github.com/mrhavens/git-sigil/commit/83b0e485ae98d6254a34f9cb8a59942910419dda)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1444`
-- **Tracked Files**: `163`
+- **Total Commits**: `1472`
+- **Tracked Files**: `164`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 3 days, 3 hours, 41 minutes`
+- **System Uptime**: `up 3 days, 9 hours, 41 minutes`
 - **MAC Address**: `00:15:5d:11:35:bd`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
